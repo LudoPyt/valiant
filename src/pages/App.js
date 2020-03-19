@@ -10,13 +10,13 @@ import '../scss/basic.scss';
 
 const App = () => (
   <Router>
-      <Switch>
-        <Route path="/story1" component={Alaska1} />
-        <Route path="/story2" component={Alaska2} />
-        <Route path="/story" component={Story} />
-        <Route path="/" component={Home} />
-        <Route path="*" component={NoMatch} />
-      </Switch>
+    <Switch>
+      <Route path="/story1" component={Alaska1} />
+      <Route path="/story2" component={Alaska2} />
+      <Route path="/story" component={Story} />
+      <Route path="/" component={Home} />
+      <Route path="*" component={NoMatch} />
+    </Switch>
   </Router>
 );
 

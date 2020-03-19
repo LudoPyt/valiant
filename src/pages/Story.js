@@ -1,13 +1,16 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 const Story = () => (
-    <main>
-        <div>
-            <h1>STORY PAGE</h1>
-            <Link to='/story1'><button>Commencer l'histoire</button></Link>
-        </div>
-    </main>
-)
+  <main>
+    <div>
+      <h1>STORY PAGE</h1>
+      <Link to="/story1">
+        <button>Commencer l'histoire</button>
+      </Link>
+      <Link to="/story/2">link to alaska 2</Link>
+    </div>
+  </main>
+);
 
 export default Story;
