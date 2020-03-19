@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Story = () => (
     <div>
         <h1>STORY PAGE</h1>
-        <Link to='/'>link to homepage</Link>
+        <Link to='/story/1'>link to alaska 1</Link>
     </div>
 )
 
