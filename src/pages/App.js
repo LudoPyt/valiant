@@ -1,15 +1,19 @@
 import React from 'react';
-import logo from '../assets/logo.svg';
-import '../scss/App.scss';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Home from './Home';
+import Story from './Story';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Hello Momo</h1>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <Router>
+      <Switch>
+        <Route path="/">
+          <Home />
+        </Route>
+        <Route path="/story">
+          <Story />
+        </Route>
+      </Switch>
+  </Router>
+);
 
 export default App;
