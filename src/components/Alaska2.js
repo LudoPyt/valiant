@@ -43,7 +43,7 @@ class Alaska2 extends React.Component {
     var cylinderGeometry = new THREE.CylinderGeometry(5, 5, 50, 12);
     var cylinderMaterial = new THREE.MeshNormalMaterial();
     var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-    cylinder.position.set(0, 0, -100);
+    cylinder.position.set(0, -50, -100);
 
     //floor
     var floorGeometry = new THREE.PlaneGeometry(20, 20);
@@ -53,8 +53,7 @@ class Alaska2 extends React.Component {
     });
     var floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x += Math.PI / 2;
-    floor.position.y = -25;
-    floor.position.z = cylinder.position.z;
+    floor.position.set(0, -75, cylinder.position.z);
 
     var camHolder = new THREE.Group();
     camHolder.add(camera);
@@ -84,21 +83,16 @@ class Alaska2 extends React.Component {
     cam.open();
 
     var ground = gui.addFolder('Ground');
-
     ground
-      .add(floor.position, 'y', 0, 100)
+      .add(floor.scale, 'x', 0, 10)
       .name('Width')
       .listen();
     ground
-      .add(floor.scale, 'x', 0, 100)
-      .name('Width')
-      .listen();
-    ground
-      .add(floor.scale, 'y', 0, 100)
+      .add(floor.scale, 'y', 0, 10)
       .name('Height')
       .listen();
     ground
-      .add(floor.scale, 'z', 0, 100)
+      .add(floor.scale, 'z', 0, 10)
       .name('Length')
       .listen();
     ground.open();
@@ -109,8 +103,6 @@ class Alaska2 extends React.Component {
 
     function render() {
       if (arrow.directions.forward) {
-        console.log(floor.position.z);
-        console.log(cylinder.position.z);
         camera.rotation.x += speedRot * delta;
       }
       if (arrow.directions.backward) {

@@ -8,7 +8,6 @@ const Story = () => (
       <Link to="/story1">
         <button>Commencer l'histoire</button>
       </Link>
-      <Link to="/story/2">link to alaska 2</Link>
     </div>
   </main>
 );
