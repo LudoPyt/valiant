@@ -2,11 +2,14 @@ import React from 'react';
 import * as THREE from 'three';
 import * as dat from 'dat.gui';
 import ArrowMove from './animationComponents/arrowMove';
+import { Howl, Howler } from 'howler';
 
 class Alaska2 extends React.Component {
   componentDidMount() {
     let speedRot = THREE.Math.degToRad(45);
     let newCameraPosition = new THREE.Vector3();
+    let maxRotation = 0.5;
+    let soundRead = false;
 
     let clock = new THREE.Clock();
     let delta = 0;
@@ -34,6 +37,13 @@ class Alaska2 extends React.Component {
 
     let lightPoint = new THREE.PointLight(0xffffff, 0.5);
     scene.add(lightPoint);
+
+    //son
+    const sound = new Howl({
+      src: 'test-voix.mp3'
+    });
+
+    console.log(sound);
 
     //walls
     let wallLeftGeometry = new THREE.PlaneGeometry(50, 50);
@@ -117,18 +127,30 @@ class Alaska2 extends React.Component {
     requestAnimationFrame(render);
 
     function render() {
+      if (
+        (camera.rotation.y <= -0.3 && !soundRead) ||
+        (camera.rotation.y >= 0.3 && !soundRead)
+      ) {
+        sound.play();
+        soundRead = true;
+      }
+
+      if (camera.rotation.y >= -0.3 && camera.rotation.y <= 0.3) {
+        soundRead = false;
+        sound.stop();
+      }
       if (arrow.directions.forward) {
         camera.rotation.x += speedRot * delta;
       }
       if (arrow.directions.backward) {
         camera.rotation.x += -speedRot * delta;
       }
-      if (arrow.directions.left) {
+      if (arrow.directions.left && camera.rotation.y < maxRotation) {
         camera.rotateY(speedRot * delta);
         // cylinder.rotateZ((speedRot * delta) / 2);
         cylinder.rotateZ(speedRot * delta);
       }
-      if (arrow.directions.right) {
+      if (arrow.directions.right && camera.rotation.y > -maxRotation) {
         camera.rotateY(-speedRot * delta);
         // cylinder.rotateZ((-speedRot * delta) / 2);
         cylinder.rotateZ(-speedRot * delta);
