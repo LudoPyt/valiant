@@ -39,12 +39,12 @@ const Alaska3 = () => {
 
 
 
-        var mouse = new THREE.Vector2();
-        var raycaster = new THREE.Raycaster();
+        let mouse = new THREE.Vector2();
+        let raycaster = new THREE.Raycaster();
 
-        var timerID;
-        var counter = 0;
-        var pressHoldDuration = 100;
+        let timerID;
+        let counter = 0;
+        let pressHoldDuration = 100;
 
         document.addEventListener("mousedown", pressingDown, false);
         document.addEventListener("mouseup", notPressingDown, false);
@@ -53,56 +53,53 @@ const Alaska3 = () => {
         document.addEventListener("touchstart", pressingDown, false);
         document.addEventListener("touchend", notPressingDown, false);
 
-        var intersect;
+        let intersect;
+        let disappear = [];
 
         function pressingDown(event) {
-        // Start the timer
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
             raycaster.setFromCamera(mouse, camera);
             intersect = raycaster.intersectObjects(scene1.children , true);
             if (intersect.length > 0) {
                 requestAnimationFrame(timer);
-                event.preventDefault();
-                console.log("Pressing!");
             }
         }
 
-        function notPressingDown(e) {
-            // Stop the timer
+        function notPressingDown() {
             cancelAnimationFrame(timerID);
             counter = 0;
-            console.log("Not pressing!");
         }
 
         function timer() {
             if (counter < pressHoldDuration && intersect[0].object.material.opacity > 0.05) {
-                // console.log("DISAPPEAR", counter, intersect);
-                    switch(intersect[0].object.name) {
-                        case 'cube0':
-                            intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
-                            break;
-                        case 'cube1':
-                            intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
-                            break;
-                        case 'cube2':
-                            intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
-                            break;
-                        default:
-                            break;
-                    }
+                switch(intersect[0].object.name) {
+                    case 'cube0':
+                        intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
+                        break;
+                    case 'cube1':
+                        intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
+                        break;
+                    case 'cube2':
+                        intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
+                        break;
+                    default:
+                        break;
+                }
                 console.log(intersect[0].object.material.opacity)
                 timerID = requestAnimationFrame(timer);
                 counter++;
+            } else if (intersect[0].object.material.opacity <= 0.06) {
+                if (disappear.length >= 3) {
+                    history.push('/story2');
+                } else {
+                    disappear.push(intersect[0].object.name)
+                }
             }
         }
 
-        // history.push('/story2');
-
         function renderScene() {
-
             renderer.render(scene1, camera);
-
             requestAnimationFrame(renderScene);
         };
 
