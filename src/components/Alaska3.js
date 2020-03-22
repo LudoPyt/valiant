@@ -75,18 +75,17 @@ const Alaska3 = () => {
             if (counter < pressHoldDuration && intersect[0].object.material.opacity > 0.05) {
                 switch(intersect[0].object.name) {
                     case 'cube0':
-                        intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
                         break;
                     case 'cube1':
-                        intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
                         break;
                     case 'cube2':
-                        intersect[0].object.material.opacity = 1 + Math.sin(new Date().getTime() * .001);
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
                         break;
                     default:
                         break;
                 }
-                console.log(intersect[0].object.material.opacity)
                 timerID = requestAnimationFrame(timer);
                 counter++;
             } else if (intersect[0].object.material.opacity <= 0.06) {
