@@ -10,7 +10,7 @@ const Home = () => (
                 <br />
                 <Link to=''><button>Ile de la Réunion</button></Link>
                 <br />
-                <Link to=''><button>Ile Kergueken</button></Link>
+                <Link to=''><button>Ile Kerguelen</button></Link>
             </div>
         </div>
     </main>

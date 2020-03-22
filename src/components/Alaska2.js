@@ -125,11 +125,13 @@ class Alaska2 extends React.Component {
       }
       if (arrow.directions.left) {
         camera.rotateY(speedRot * delta);
-        cylinder.rotateZ((speedRot * delta) / 2);
+        // cylinder.rotateZ((speedRot * delta) / 2);
+        cylinder.rotateZ(speedRot * delta);
       }
       if (arrow.directions.right) {
         camera.rotateY(-speedRot * delta);
-        cylinder.rotateZ((-speedRot * delta) / 2);
+        // cylinder.rotateZ((-speedRot * delta) / 2);
+        cylinder.rotateZ(-speedRot * delta);
       }
 
       //avancé
