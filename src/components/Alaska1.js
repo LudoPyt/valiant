@@ -10,7 +10,7 @@ const Alaska1 = () => {
     useEffect(() => {
         let renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true, alpha: true });
         renderer.setSize( window.innerWidth, window.innerHeight );
-        renderer.setClearColor( 0x000000, 0 );
+        renderer.setClearColor(0x000000);
         renderer.setPixelRatio(window.devicePixelRatio);
 
         let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
@@ -19,7 +19,7 @@ const Alaska1 = () => {
         let scene1 = new THREE.Scene();
 
         let geometry1 = new THREE.BoxGeometry( 1, 1, 1 );
-        let material1 = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
+        let material1 = new THREE.MeshNormalMaterial();
         let cube1 = new THREE.Mesh( geometry1, material1 );
         cube1.castShadow = true;
         cube1.receiveShadow = true;
@@ -32,14 +32,17 @@ const Alaska1 = () => {
         let light = new THREE.AmbientLight(0xffffff, 0.5);
         scene1.add(light);
 
+        let lightPoint = new THREE.PointLight(0xffffff, 0.5);
+        scene1.add(lightPoint);
+
         var controls = new DragControls(objects, camera, renderer.domElement);
 
         controls.addEventListener( 'dragstart', function(event) {
-            event.object.material.emissive.set( 0xaaaaaa );
+            // event.object.material.emissive.set( 0xaaaaaa );
         });
 
         controls.addEventListener( 'dragend', function(event) {
-            event.object.material.emissive.set( 0xff0000 );
+            // event.object.material.emissive.set( 0xff0000 );
             history.push('/story3');
         });
 

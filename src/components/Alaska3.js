@@ -9,7 +9,7 @@ const Alaska3 = () => {
     useEffect(() => {
         let renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true, alpha: true });
         renderer.setSize( window.innerWidth, window.innerHeight );
-        renderer.setClearColor( 0x000000, 0 );
+        renderer.setClearColor(0x000000);
         renderer.setPixelRatio(window.devicePixelRatio);
 
         let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
@@ -17,17 +17,24 @@ const Alaska3 = () => {
 
         let scene1 = new THREE.Scene();
 
-        let geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        let material1 = new THREE.MeshLambertMaterial( { color: 0xff0000 } );
-        let material2 = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
-        let material3 = new THREE.MeshLambertMaterial( { color: 0x0000ff } );
+        let geometry = new THREE.BoxGeometry(1, 1, 1);
+        let material1 = new THREE.MeshNormalMaterial();
+        let material2 = new THREE.MeshNormalMaterial();
+        let material3 = new THREE.MeshNormalMaterial();
+
         let materials = [material1, material2, material3];
 
         var objects = [];
 
         for(let i = 0; i < 3; i++) {
             let cube = new THREE.Mesh(geometry, materials[i]);
-            cube.position.x = i;
+            if (i === 0) {
+                cube.position.x = -2;
+            } else if (i === 1) {
+                cube.position.x = 0;
+            } else {
+                cube.position.x = 2;
+            }
             cube.name = "cube" + i.toString();
             cube.material.transparent = true;
             objects.push(cube);
@@ -36,6 +43,9 @@ const Alaska3 = () => {
 
         let light = new THREE.AmbientLight(0xffffff, 0.5);
         scene1.add(light);
+
+        let lightPoint = new THREE.PointLight(0xffffff, 0.5);
+        scene1.add(lightPoint);
 
 
 
