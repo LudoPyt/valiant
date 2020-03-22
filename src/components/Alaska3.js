@@ -117,7 +117,10 @@ const Alaska3 = () => {
     }, [history]);
 
     return (
-        <canvas id='canvas'></canvas>
+        <>
+            <canvas id='canvas'></canvas>
+            <h2>Hold the cubes until their gone</h2>
+        </>
     )
 }
 

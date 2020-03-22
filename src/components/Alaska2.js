@@ -171,7 +171,12 @@ class Alaska2 extends React.Component {
   }
 
   render() {
-    return <canvas id="myCanvas"></canvas>;
+    return (
+      <>
+        <canvas id='myCanvas'></canvas>
+        <h2>Use arrows</h2>
+      </>
+  )
   }
 }
 
