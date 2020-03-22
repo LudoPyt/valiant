@@ -1,127 +1,183 @@
-import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
 import * as THREE from 'three';
+import * as dat from 'dat.gui';
+import ArrowMove from './animationComponents/arrowMove';
+import { Howl } from 'howler';
 
-const Alaska3 = () => {
+class Alaska3 extends React.Component {
+  componentDidMount() {
+    let speedRot = THREE.Math.degToRad(45);
+    let newCameraPosition = new THREE.Vector3();
+    let maxRotation = 0.5;
+    let soundRead = false;
 
-    const history = useHistory();
+    let clock = new THREE.Clock();
+    let delta = 0;
+    let arrow = new ArrowMove();
 
-    useEffect(() => {
-        let renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true, alpha: true });
-        renderer.setSize( window.innerWidth, window.innerHeight );
-        renderer.setClearColor(0x000000);
-        renderer.setPixelRatio(window.devicePixelRatio);
+    let renderer = new THREE.WebGLRenderer({
+      canvas: document.getElementById('canvas'),
+      antialias: true
+    });
+    renderer.setClearColor(0x000000);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-        let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
-        camera.position.z = 5;
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(
+      35,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    camera.lookAt(scene.position);
 
-        let scene1 = new THREE.Scene();
+    let light = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(light);
 
-        let geometry = new THREE.BoxGeometry(1, 1, 1);
-        let material1 = new THREE.MeshNormalMaterial();
-        let material2 = new THREE.MeshNormalMaterial();
-        let material3 = new THREE.MeshNormalMaterial();
+    let lightPoint = new THREE.PointLight(0xffffff, 0.5);
+    scene.add(lightPoint);
 
-        let materials = [material1, material2, material3];
+    //son
+    const sound = new Howl({
+      src: 'test-voix.mp3'
+    });
 
-        var objects = [];
+    console.log(sound);
 
-        for(let i = 0; i < 3; i++) {
-            let cube = new THREE.Mesh(geometry, materials[i]);
-            if (i === 0) {
-                cube.position.x = -2;
-            } else if (i === 1) {
-                cube.position.x = 0;
-            } else {
-                cube.position.x = 2;
-            }
-            cube.name = "cube" + i.toString();
-            cube.material.transparent = true;
-            objects.push(cube);
-            scene1.add(cube);
-        }
+    //walls
+    let wallLeftGeometry = new THREE.PlaneGeometry(50, 50);
+    let wallLeftMaterial = new THREE.MeshNormalMaterial();
+    let wallLeft = new THREE.Mesh(wallLeftGeometry, wallLeftMaterial);
+    wallLeft.position.set(-91, -12, -93);
+    wallLeft.rotation.set(0, 0.4, 0);
 
-        let light = new THREE.AmbientLight(0xffffff, 0.5);
-        scene1.add(light);
+    let wallRightGeometry = new THREE.PlaneGeometry(50, 50);
+    let wallRightMaterial = new THREE.MeshNormalMaterial();
+    let wallRight = new THREE.Mesh(wallRightGeometry, wallRightMaterial);
+    wallRight.position.set(91, -12, -93);
+    wallRight.rotation.set(0, -0.4, 0);
 
-        let lightPoint = new THREE.PointLight(0xffffff, 0.5);
-        scene1.add(lightPoint);
+    //cylindre
+    let cylinderGeometry = new THREE.CylinderGeometry(5, 5, 50, 12);
+    cylinderGeometry.applyMatrix(
+      new THREE.Matrix4().makeTranslation(0, 50 / 2, 0)
+    );
+    let cylinderMaterial = new THREE.MeshNormalMaterial();
+    let cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+    camera.position.set(0, 100, 150);
+    camera.rotation.set(-0.3, 0, 0);
+    cylinder.add(camera);
+    cylinder.position.set(0, -75, -100);
+    newCameraPosition.y = cylinder.position.y;
+    newCameraPosition.z = cylinder.position.z;
 
+    //floor
+    let floorGeometry = new THREE.PlaneGeometry(50, 1000, 5, 32);
+    let floorMaterial = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      wireframe: true
+    });
+    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    floor.rotation.x += Math.PI / 2;
+    floor.position.set(0, -75, cylinder.position.z - 500);
 
+    scene.add(cylinder, floor, wallLeft, wallRight);
 
-        let mouse = new THREE.Vector2();
-        let raycaster = new THREE.Raycaster();
+    let options = {
+      camera: {
+        speed: 0.0001
+      },
+      reset: function() {
+        camera.position.z = 20;
+        camera.position.x = 0;
+        camera.position.y = 0;
+        floor.scale.x = 10;
+        floor.scale.y = 10000;
+      }
+    };
+    let gui = new dat.GUI();
 
-        let timerID;
-        let counter = 0;
-        let pressHoldDuration = 100;
+    let cam = gui.addFolder('camera');
+    cam.add(camera.position, 'y', -20, 20).listen();
+    cam.add(camera.position, 'x', -150, 0).listen();
+    cam.add(camera.position, 'z', -150, 0).listen();
+    cam.add(camera.rotation, 'y', -5, 5).listen();
+    cam.add(camera.rotation, 'x', -5, 5).listen();
+    cam.add(camera.rotation, 'z', -5, 5).listen();
+    cam.open();
 
-        document.addEventListener("mousedown", pressingDown, false);
-        document.addEventListener("mouseup", notPressingDown, false);
-        document.addEventListener("mouseleave", notPressingDown, false);
+    let ground = gui.addFolder('Ground');
+    ground
+      .add(floor.scale, 'x', 0, 10)
+      .name('Width')
+      .listen();
+    ground
+      .add(floor.scale, 'y', 0, 10)
+      .name('Height')
+      .listen();
+    ground
+      .add(floor.scale, 'z', 0, 10)
+      .name('Length')
+      .listen();
+    ground.open();
 
-        document.addEventListener("touchstart", pressingDown, false);
-        document.addEventListener("touchend", notPressingDown, false);
+    gui.add(options, 'reset');
 
-        let intersect;
-        let disappear = [];
+    requestAnimationFrame(render);
 
-        function pressingDown(event) {
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-            raycaster.setFromCamera(mouse, camera);
-            intersect = raycaster.intersectObjects(scene1.children , true);
-            if (intersect.length > 0) {
-                requestAnimationFrame(timer);
-            }
-        }
+    function render() {
+      if (
+        (camera.rotation.y <= -0.3 && !soundRead) ||
+        (camera.rotation.y >= 0.3 && !soundRead)
+      ) {
+        sound.play();
+        soundRead = true;
+      }
 
-        function notPressingDown() {
-            cancelAnimationFrame(timerID);
-            counter = 0;
-        }
+      if (camera.rotation.y >= -0.3 && camera.rotation.y <= 0.3) {
+        soundRead = false;
+        sound.stop();
+      }
+      if (arrow.directions.forward) {
+        camera.rotation.x += speedRot * delta;
+      }
+      if (arrow.directions.backward) {
+        camera.rotation.x += -speedRot * delta;
+      }
+      if (arrow.directions.left && camera.rotation.y < maxRotation) {
+        camera.rotateY(speedRot * delta);
+        // cylinder.rotateZ((speedRot * delta) / 2);
+        cylinder.rotateZ(speedRot * delta);
+      }
+      if (arrow.directions.right && camera.rotation.y > -maxRotation) {
+        camera.rotateY(-speedRot * delta);
+        // cylinder.rotateZ((-speedRot * delta) / 2);
+        cylinder.rotateZ(-speedRot * delta);
+      }
 
-        function timer() {
-            if (counter < pressHoldDuration && intersect[0].object.material.opacity > 0.05) {
-                switch(intersect[0].object.name) {
-                    case 'cube0':
-                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
-                        break;
-                    case 'cube1':
-                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
-                        break;
-                    case 'cube2':
-                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
-                        break;
-                    default:
-                        break;
-                }
-                timerID = requestAnimationFrame(timer);
-                counter++;
-            } else if (intersect[0].object.material.opacity <= 0.06) {
-                if (disappear.length >= 3) {
-                    history.push('/story2');
-                } else {
-                    disappear.push(intersect[0].object.name)
-                }
-            }
-        }
+      //avancé
+      newCameraPosition.z -= 0.5;
 
-        function renderScene() {
-            renderer.render(scene1, camera);
-            requestAnimationFrame(renderScene);
-        };
+      cylinder.position.copy(newCameraPosition);
 
-        requestAnimationFrame(renderScene);
+      wallLeft.position.z -= 0.5;
+      wallRight.position.z -= 0.5;
 
-    }, [history]);
+      requestAnimationFrame(render);
+      renderer.render(scene, camera);
+      delta = clock.getDelta();
+    }
+  }
 
+  render() {
     return (
-        <>
-            <canvas id='canvas'></canvas>
-            <h2>Hold the cubes until their gone</h2>
-        </>
-    )
+      <>
+        <canvas id='canvas'></canvas>
+        <h2>Use arrows</h2>
+      </>
+  )
+  }
 }
 
 export default Alaska3;
