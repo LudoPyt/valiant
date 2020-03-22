@@ -6,12 +6,13 @@ import ArrowMove from './animationComponents/arrowMove';
 class Alaska2 extends React.Component {
   componentDidMount() {
     let speedRot = THREE.Math.degToRad(45);
+    let newCameraPosition = new THREE.Vector3();
 
-    var clock = new THREE.Clock();
-    var delta = 0;
+    let clock = new THREE.Clock();
+    let delta = 0;
     let arrow = new ArrowMove();
 
-    var renderer = new THREE.WebGLRenderer({
+    let renderer = new THREE.WebGLRenderer({
       canvas: document.getElementById('myCanvas'),
       antialias: true
     });
@@ -19,49 +20,61 @@ class Alaska2 extends React.Component {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(
       35,
       window.innerWidth / window.innerHeight,
       0.1,
       1000
     );
+    camera.lookAt(scene.position);
 
-    var light = new THREE.AmbientLight(0xffffff, 0.5);
+    let light = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(light);
 
-    var lightPoint = new THREE.PointLight(0xffffff, 0.5);
+    let lightPoint = new THREE.PointLight(0xffffff, 0.5);
     scene.add(lightPoint);
 
-    //sphere
-    // var sphereGeometry = new THREE.SphereGeometry(20, 6, 6);
-    // var sphereMaterial = new THREE.MeshNormalMaterial({ color: 0xffff00 });
-    // var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    // sphere.position.set(0, -120, -1000);
+    //walls
+    let wallLeftGeometry = new THREE.PlaneGeometry(50, 50);
+    let wallLeftMaterial = new THREE.MeshNormalMaterial();
+    let wallLeft = new THREE.Mesh(wallLeftGeometry, wallLeftMaterial);
+    wallLeft.position.set(-91, -12, -93);
+    wallLeft.rotation.set(0, 0.4, 0);
+
+    let wallRightGeometry = new THREE.PlaneGeometry(50, 50);
+    let wallRightMaterial = new THREE.MeshNormalMaterial();
+    let wallRight = new THREE.Mesh(wallRightGeometry, wallRightMaterial);
+    wallRight.position.set(91, -12, -93);
+    wallRight.rotation.set(0, -0.4, 0);
 
     //cylindre
-    var cylinderGeometry = new THREE.CylinderGeometry(5, 5, 50, 12);
-    var cylinderMaterial = new THREE.MeshNormalMaterial();
-    var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-    cylinder.position.set(0, -50, -100);
+    let cylinderGeometry = new THREE.CylinderGeometry(5, 5, 50, 12);
+    cylinderGeometry.applyMatrix(
+      new THREE.Matrix4().makeTranslation(0, 50 / 2, 0)
+    );
+    let cylinderMaterial = new THREE.MeshNormalMaterial();
+    let cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
+    camera.position.set(0, 100, 150);
+    camera.rotation.set(-0.3, 0, 0);
+    cylinder.add(camera);
+    cylinder.position.set(0, -75, -100);
+    newCameraPosition.y = cylinder.position.y;
+    newCameraPosition.z = cylinder.position.z;
 
     //floor
-    var floorGeometry = new THREE.PlaneGeometry(20, 20);
-    var floorMaterial = new THREE.MeshBasicMaterial({
+    let floorGeometry = new THREE.PlaneGeometry(50, 1000, 5, 32);
+    let floorMaterial = new THREE.MeshBasicMaterial({
       color: 0xffffff,
       wireframe: true
     });
-    var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    let floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.rotation.x += Math.PI / 2;
-    floor.position.set(0, -75, cylinder.position.z);
+    floor.position.set(0, -75, cylinder.position.z - 500);
 
-    var camHolder = new THREE.Group();
-    camHolder.add(camera);
-    camHolder.position.set(0, 10, 20);
+    scene.add(cylinder, floor, wallLeft, wallRight);
 
-    scene.add(cylinder, floor, camHolder);
-
-    var options = {
+    let options = {
       camera: {
         speed: 0.0001
       },
@@ -70,19 +83,21 @@ class Alaska2 extends React.Component {
         camera.position.x = 0;
         camera.position.y = 0;
         floor.scale.x = 10;
-        floor.scale.y = 10;
-        floor.scale.z = 10;
+        floor.scale.y = 10000;
       }
     };
-    var gui = new dat.GUI();
+    let gui = new dat.GUI();
 
-    var cam = gui.addFolder('Camera');
-    cam.add(camera.position, 'y', -200, 200).listen();
-    cam.add(camera.position, 'x', -200, 200).listen();
-    cam.add(camera.position, 'z', -200, 200).listen();
+    let cam = gui.addFolder('camera');
+    cam.add(camera.position, 'y', -20, 20).listen();
+    cam.add(camera.position, 'x', -150, 0).listen();
+    cam.add(camera.position, 'z', -150, 0).listen();
+    cam.add(camera.rotation, 'y', -5, 5).listen();
+    cam.add(camera.rotation, 'x', -5, 5).listen();
+    cam.add(camera.rotation, 'z', -5, 5).listen();
     cam.open();
 
-    var ground = gui.addFolder('Ground');
+    let ground = gui.addFolder('Ground');
     ground
       .add(floor.scale, 'x', 0, 10)
       .name('Width')
@@ -109,11 +124,22 @@ class Alaska2 extends React.Component {
         camera.rotation.x += -speedRot * delta;
       }
       if (arrow.directions.left) {
-        camHolder.rotateY(speedRot * delta);
+        camera.rotateY(speedRot * delta);
+        cylinder.rotateZ((speedRot * delta) / 2);
       }
       if (arrow.directions.right) {
-        camHolder.rotateY(-speedRot * delta);
+        camera.rotateY(-speedRot * delta);
+        cylinder.rotateZ((-speedRot * delta) / 2);
       }
+
+      //avancé
+      newCameraPosition.z -= 0.5;
+
+      cylinder.position.copy(newCameraPosition);
+
+      wallLeft.position.z -= 0.5;
+      wallRight.position.z -= 0.5;
+
       requestAnimationFrame(render);
       renderer.render(scene, camera);
       delta = clock.getDelta();
