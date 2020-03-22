@@ -36,12 +36,12 @@ const Alaska1 = () => {
 
         controls.addEventListener( 'dragstart', function(event) {
             event.object.material.emissive.set( 0xaaaaaa );
-        } );
+        });
 
         controls.addEventListener( 'dragend', function(event) {
             event.object.material.emissive.set( 0xff0000 );
-            history.push('/story2');
-        } );
+            history.push('/story3');
+        });
 
         function renderScene() {
 
