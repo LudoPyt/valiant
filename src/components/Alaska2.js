@@ -85,13 +85,13 @@ const Alaska2 = () => {
             if (counter < pressHoldDuration && intersect[0].object.material.opacity > 0.05) {
                 switch(intersect[0].object.name) {
                     case 'cube0':
-                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .002));
                         break;
                     case 'cube1':
-                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .002));
                         break;
                     case 'cube2':
-                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .002));
                         break;
                     default:
                         break;
@@ -108,6 +108,12 @@ const Alaska2 = () => {
         }
 
         function renderScene() {
+            objects[0].rotation.x += 0.01;
+            objects[0].rotation.y += 0.01;
+            objects[1].rotation.x -= 0.01;
+            objects[1].rotation.y -= 0.01;
+            objects[2].rotation.x += 0.01;
+            objects[2].rotation.y += 0.01;
             renderer.render(scene, camera);
             requestAnimationFrame(renderScene);
         };
