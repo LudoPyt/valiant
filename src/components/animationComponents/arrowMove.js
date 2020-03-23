@@ -35,6 +35,8 @@ class ArrowMove {
       case 83: // S
         this.directions.backward = true;
         break;
+      default:
+        break;
     }
   }
 
@@ -58,6 +60,8 @@ class ArrowMove {
       case 40: // Down
       case 83: // S
         this.directions.backward = false;
+        break;
+      default:
         break;
     }
   }

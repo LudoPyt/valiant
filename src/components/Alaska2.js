@@ -1,136 +1,127 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as THREE from 'three';
-import * as dat from 'dat.gui';
-import ArrowMove from './animationComponents/arrowMove';
 
-class Alaska2 extends React.Component {
-  componentDidMount() {
-    let speedRot = THREE.Math.degToRad(45);
+const Alaska2 = () => {
 
-    var clock = new THREE.Clock();
-    var delta = 0;
-    let arrow = new ArrowMove();
+    const history = useHistory();
 
-    var renderer = new THREE.WebGLRenderer({
-      canvas: document.getElementById('myCanvas'),
-      antialias: true
-    });
-    renderer.setClearColor(0x000000);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    useEffect(() => {
+        let renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('canvas'), antialias: true, alpha: true });
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        renderer.setClearColor(0x000000);
+        renderer.setPixelRatio(window.devicePixelRatio);
 
-    var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera(
-      35,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
+        let camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+        camera.position.z = 5;
 
-    var light = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(light);
+        let scene = new THREE.Scene();
 
-    var lightPoint = new THREE.PointLight(0xffffff, 0.5);
-    scene.add(lightPoint);
+        let geometry = new THREE.BoxGeometry(1, 1, 1);
+        let material1 = new THREE.MeshNormalMaterial();
+        let material2 = new THREE.MeshNormalMaterial();
+        let material3 = new THREE.MeshNormalMaterial();
 
-    //sphere
-    // var sphereGeometry = new THREE.SphereGeometry(20, 6, 6);
-    // var sphereMaterial = new THREE.MeshNormalMaterial({ color: 0xffff00 });
-    // var sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    // sphere.position.set(0, -120, -1000);
+        let materials = [material1, material2, material3];
 
-    //cylindre
-    var cylinderGeometry = new THREE.CylinderGeometry(5, 5, 50, 12);
-    var cylinderMaterial = new THREE.MeshNormalMaterial();
-    var cylinder = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-    cylinder.position.set(0, 0, -100);
+        var objects = [];
 
-    //floor
-    var floorGeometry = new THREE.PlaneGeometry(20, 20);
-    var floorMaterial = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true
-    });
-    var floor = new THREE.Mesh(floorGeometry, floorMaterial);
-    floor.rotation.x += Math.PI / 2;
-    floor.position.y = -25;
-    floor.position.z = cylinder.position.z;
+        for(let i = 0; i < 3; i++) {
+            let cube = new THREE.Mesh(geometry, materials[i]);
+            if (i === 0) {
+                cube.position.x = -2;
+            } else if (i === 1) {
+                cube.position.x = 0;
+            } else {
+                cube.position.x = 2;
+            }
+            cube.name = "cube" + i.toString();
+            cube.material.transparent = true;
+            objects.push(cube);
+            scene.add(cube);
+        }
 
-    var camHolder = new THREE.Group();
-    camHolder.add(camera);
-    camHolder.position.set(0, 10, 20);
+        let light = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(light);
 
-    scene.add(cylinder, floor, camHolder);
+        let lightPoint = new THREE.PointLight(0xffffff, 0.5);
+        scene.add(lightPoint);
 
-    var options = {
-      camera: {
-        speed: 0.0001
-      },
-      reset: function() {
-        camera.position.z = 20;
-        camera.position.x = 0;
-        camera.position.y = 0;
-        floor.scale.x = 10;
-        floor.scale.y = 10;
-        floor.scale.z = 10;
-      }
-    };
-    var gui = new dat.GUI();
 
-    var cam = gui.addFolder('Camera');
-    cam.add(camera.position, 'y', -200, 200).listen();
-    cam.add(camera.position, 'x', -200, 200).listen();
-    cam.add(camera.position, 'z', -200, 200).listen();
-    cam.open();
 
-    var ground = gui.addFolder('Ground');
+        let mouse = new THREE.Vector2();
+        let raycaster = new THREE.Raycaster();
 
-    ground
-      .add(floor.position, 'y', 0, 100)
-      .name('Width')
-      .listen();
-    ground
-      .add(floor.scale, 'x', 0, 100)
-      .name('Width')
-      .listen();
-    ground
-      .add(floor.scale, 'y', 0, 100)
-      .name('Height')
-      .listen();
-    ground
-      .add(floor.scale, 'z', 0, 100)
-      .name('Length')
-      .listen();
-    ground.open();
+        let timerID;
+        let counter = 0;
+        let pressHoldDuration = 100;
 
-    gui.add(options, 'reset');
+        document.addEventListener("mousedown", pressingDown, false);
+        document.addEventListener("mouseup", notPressingDown, false);
+        document.addEventListener("mouseleave", notPressingDown, false);
 
-    requestAnimationFrame(render);
+        document.addEventListener("touchstart", pressingDown, false);
+        document.addEventListener("touchend", notPressingDown, false);
 
-    function render() {
-      if (arrow.directions.forward) {
-        console.log(floor.position.z);
-        console.log(cylinder.position.z);
-        camera.rotation.x += speedRot * delta;
-      }
-      if (arrow.directions.backward) {
-        camera.rotation.x += -speedRot * delta;
-      }
-      if (arrow.directions.left) {
-        camHolder.rotateY(speedRot * delta);
-      }
-      if (arrow.directions.right) {
-        camHolder.rotateY(-speedRot * delta);
-      }
-      requestAnimationFrame(render);
-      renderer.render(scene, camera);
-      delta = clock.getDelta();
-    }
-  }
+        let intersect;
+        let disappear = [];
 
-  render() {
-    return <canvas id="myCanvas"></canvas>;
-  }
+        function pressingDown(event) {
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            intersect = raycaster.intersectObjects(scene.children , true);
+            if (intersect.length > 0) {
+                requestAnimationFrame(timer);
+            }
+        }
+
+        function notPressingDown() {
+            cancelAnimationFrame(timerID);
+            counter = 0;
+        }
+
+        function timer() {
+            if (counter < pressHoldDuration && intersect[0].object.material.opacity > 0.05) {
+                switch(intersect[0].object.name) {
+                    case 'cube0':
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
+                        break;
+                    case 'cube1':
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
+                        break;
+                    case 'cube2':
+                        intersect[0].object.material.opacity -= Math.abs(Math.sin(new Date().getSeconds() * .001));
+                        break;
+                    default:
+                        break;
+                }
+                timerID = requestAnimationFrame(timer);
+                counter++;
+            } else if (intersect[0].object.material.opacity <= 0.06) {
+                if (disappear.length >= 3) {
+                    history.push('/story3');
+                } else {
+                    disappear.push(intersect[0].object.name)
+                }
+            }
+        }
+
+        function renderScene() {
+            renderer.render(scene, camera);
+            requestAnimationFrame(renderScene);
+        };
+
+        requestAnimationFrame(renderScene);
+
+    }, [history]);
+
+    return (
+        <>
+            <canvas id='canvas'></canvas>
+            <h2>Hold the cubes until their gone</h2>
+        </>
+    )
 }
 
 export default Alaska2;
