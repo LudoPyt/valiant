@@ -54,7 +54,6 @@ const Alaska = () => {
             moves = []
             moves.push(intersect[0].object.name)
         }
-
     }
 
     useEffect(() => {

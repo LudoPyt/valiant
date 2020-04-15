@@ -18,15 +18,27 @@ const Alaska1 = () => {
 
         let scene = new THREE.Scene();
 
-        let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        let path = new THREE.Path();
+        path.moveTo(-3, -2);
+        path.bezierCurveTo(0, -2, 0, 2, 3, 2);
+        let points = path.getPoints(100);
+
+        let geometry1 = new THREE.BufferGeometry().setFromPoints(points);
+        let material1 = new THREE.LineBasicMaterial({color: 0xffffff});
+        let line = new THREE.Line(geometry1, material1);
+        scene.add(line);
+
+        let geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
         let material = new THREE.MeshNormalMaterial();
         let cube = new THREE.Mesh( geometry, material );
         cube.castShadow = true;
         cube.receiveShadow = true;
 
-        var objects = [];
+        let objects = [];
         objects.push(cube);
 
+        cube.position.x = -3;
+        cube.position.y = -2;
         scene.add(cube);
 
         let light = new THREE.AmbientLight(0xffffff, 0.5);
@@ -35,24 +47,31 @@ const Alaska1 = () => {
         let lightPoint = new THREE.PointLight(0xffffff, 0.5);
         scene.add(lightPoint);
 
-        var controls = new DragControls(objects, camera, renderer.domElement);
+        let mouseX;
 
-        controls.addEventListener( 'dragstart', function(event) {
-            // event.object.material.emissive.set( 0xaaaaaa );
-        });
+        window.addEventListener('mousemove', (event) => {
+            mouseX = event.x
+        })
 
-        controls.addEventListener( 'dragend', function(event) {
-            // event.object.material.emissive.set( 0xff0000 );
-            history.push('/story2');
+        let dragControls = new DragControls(objects, camera, renderer.domElement);
+
+        dragControls.addEventListener('drag', function() {
+            let screenPercent = mouseX*100/window.innerWidth
+            let curvePercent = points.length*screenPercent/100
+
+            if (Math.round(curvePercent) === points.length) {
+                history.push('/story2');
+            } else if (curvePercent < 0.5) {
+                cube.position.x = -3;
+                cube.position.y = -2;
+            } else {
+                cube.position.x = points[Math.round(curvePercent-1)].x
+                cube.position.y = points[Math.round(curvePercent-1)].y
+            }
         });
 
         function renderScene() {
-
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
-
             renderer.render(scene, camera);
-
             requestAnimationFrame(renderScene);
         };
 
@@ -63,7 +82,7 @@ const Alaska1 = () => {
     return (
         <>
             <canvas id='canvas'></canvas>
-            <h2>Drag the cube</h2>
+            <h2>Drag the cube to the sky</h2>
         </>
     )
 }
