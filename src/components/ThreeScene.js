@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import * as dat from 'dat.gui';
+// import * as dat from 'dat.gui';
 import ArrowMove from './animationComponents/arrowMove';
 import { Howl } from 'howler';
 
@@ -13,6 +13,7 @@ class ThreeScene{
 
     _init() {
         this.needDestroy = false
+        this.isStarted = false
         this.raf = 0;
         this.speedRot = THREE.Math.degToRad(45);
         this.newCameraPosition = new THREE.Vector3();
@@ -22,28 +23,33 @@ class ThreeScene{
         this.delta = 0;
         this.arrow = new ArrowMove();
 
-        this._setScene();
-        //son
-        this._addSound();
         //video
         this._setVideo();
-        //cylindre
-        this._addStick();
-        //floor
-        this._addFloor();
+        //son
+        this._addSound();
+
+
 
         this._setupEventListerner();
-        this.scene.add(this.stick, this.floor, this.wallLeft, this.wallRight);
-        this._render();
-
     }
 
     _setupEventListerner() {
-        this.video.addEventListener('load', () => {
-            this._setTextureVideo();
-            this._addWallLeft(this.textureVideo);
-            this._addWallRight(this.textureVideo);
-        })
+        this.video.addEventListener('canplaythrough', () => {
+            if (!this.isStarted){
+                this.isStarted = true
+                this._setScene();
+                //cylindre
+                this._addStick();
+                //floor
+                this._addFloor();
+                this._setTextureVideo();
+                this._addWallLeft(this.textureVideo);
+                this._addWallRight(this.textureVideo);
+                this.scene.add(this.stick, this.floor);
+                this.scene.add(this.wallLeft, this.wallRight)
+                this._render();
+            }
+            })
     }
     _setScene() {
         this.renderer = new THREE.WebGLRenderer({
@@ -68,6 +74,7 @@ class ThreeScene{
 
         let lightPoint = new THREE.PointLight(0xffffff, 0.5);
         this.scene.add(lightPoint)
+        
     }
 
     _addSound(){
@@ -96,6 +103,8 @@ class ThreeScene{
         if (this.camera.rotation.y >= -0.3 && this.camera.rotation.y <= 0.3) {
             this.soundRead = false;
             this.sound.stop();
+            this.video.pause();
+            this.video.currentTime = 0;
         }
         if (this.arrow.directions.forward) {
             this.camera.rotation.x += this.speedRot * this.delta;
@@ -125,13 +134,13 @@ class ThreeScene{
         }
         
 
-        // if (!this.needDestroy) {
-        requestAnimationFrame(this._render.bind(this));
-        // }
+        if (!this.needDestroy) {
+            requestAnimationFrame(this._render.bind(this));
+        }
 
         this.renderer.render(this.scene, this.camera);
         this.delta = this.clock.getDelta();
-        }
+    }
 
     _addWallRight(texture) {
         let wallRightGeometry = new THREE.PlaneGeometry(50, 50);
@@ -144,8 +153,8 @@ class ThreeScene{
         let wallLeftGeometry = new THREE.PlaneGeometry(50, 50);
         let wallLeftMaterial = new THREE.MeshBasicMaterial({map: texture});
         this.wallLeft = new THREE.Mesh(wallLeftGeometry, wallLeftMaterial);
-        this.wallLeft.position.set(91, -12, -93);
-        this.wallLeft.rotation.set(0, -0.4, 0);
+        this.wallLeft.position.set(-91, -12, -93);
+        this.wallLeft.rotation.set(0, 0.4, 0);
     }
 
     _addStick() {
@@ -175,6 +184,8 @@ class ThreeScene{
     _setVideo() {
         this.video.src = "video_test.mp4";
         this.video.crossOrigin = 'anonymous';
+        this.video.preload = 'auto'; 
+        this.video.autoload = true;
         this.video.load();
     }
 

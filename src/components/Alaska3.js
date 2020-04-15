@@ -17,7 +17,7 @@ class Alaska3 extends React.Component {
   }
 
   componentWillUnmount() {
-    // this.threeScene.destroyRaf()
+    this.threeScene.destroyRaf()
   }
 
   handleLoad() {
