@@ -1,5 +1,5 @@
 import React from 'react';
-import ThreeScene from './ThreeScene'
+import CockpitScene from './CockpitScene'
 
 
 class Alaska3 extends React.Component {
@@ -23,14 +23,14 @@ class Alaska3 extends React.Component {
   handleLoad() {
     const canvas = this.refs.canvas
     const video = this.refs.video
-    this.threeScene = new ThreeScene(canvas, video)
+    this.threeScene = new CockpitScene(canvas, video)
   }
 
   render() {
     return (
       <>
-        <video id="video" ref="video"></video>
-        <canvas id='canvas' ref="canvas"></canvas>
+        <video  className="video" ref="video"></video>
+        <canvas ref="canvas"></canvas>
         <h2>Use arrows</h2>
       </>
   )

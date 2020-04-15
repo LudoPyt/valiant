@@ -1,9 +1,11 @@
 import * as THREE from 'three';
-// import * as dat from 'dat.gui';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import * as dat from 'dat.gui';
 import ArrowMove from './animationComponents/arrowMove';
 import { Howl } from 'howler';
 
-class ThreeScene{
+class CockpitScene{
     constructor(canvas, video){
         this.canvas = canvas;
         this.video = video;
@@ -16,12 +18,12 @@ class ThreeScene{
         this.isStarted = false
         this.raf = 0;
         this.speedRot = THREE.Math.degToRad(45);
-        this.newCameraPosition = new THREE.Vector3();
         this.maxRotation = 0.5;
         this.soundRead = false;
         this.clock = new THREE.Clock();
         this.delta = 0;
         this.arrow = new ArrowMove();
+        this.loader = new GLTFLoader();
 
         //video
         this._setVideo();
@@ -31,6 +33,40 @@ class ThreeScene{
 
 
         this._setupEventListerner();
+        
+    }
+
+    _setGUI(object){
+        let options = {
+            
+            reset: () => {
+              this.camera.position.z = 0;
+              this.camera.position.x = 0;
+              this.camera.position.y = 0;
+            }
+          };
+          let gui = new dat.GUI();
+      
+          let cock = gui.addFolder('cockpit');
+          cock.add(object.position, 'y', -400, -100).listen();
+          cock.add(object.position, 'x', -100, 100).listen();
+          cock.add(object.position, 'z', -100, 100).listen();
+          cock.add(object.rotation, 'y', -2, 2).listen();
+          cock.add(object.rotation, 'x', -180, 180).listen();
+          cock.add(object.rotation, 'z', -180, 180).listen();
+          cock.open();
+      
+          
+          let cam = gui.addFolder('camera');
+          cam.add(this.camera.position, 'y', -100, 200).listen();
+          cam.add(this.camera.position, 'x', -100, 100).listen();
+          cam.add(this.camera.position, 'z', -100, 200).listen();
+          cam.add(this.camera.rotation, 'y', -2, 2).listen();
+          cam.add(this.camera.rotation, 'x', -10, 10).listen();
+          cam.add(this.camera.rotation, 'z', -10, 10).listen();
+          cam.open();
+      
+          gui.add(options, 'reset');
     }
 
     _setupEventListerner() {
@@ -38,19 +74,28 @@ class ThreeScene{
             if (!this.isStarted){
                 this.isStarted = true
                 this._setScene();
-                //cylindre
+                this.controls = new OrbitControls( this.camera, this.renderer.domElement)
+                //manche
                 this._addStick();
+
                 //floor
                 this._addFloor();
+
+                //cokcpit
+                this._addCockpit();
+
                 this._setTextureVideo();
                 this._addWallLeft(this.textureVideo);
                 this._addWallRight(this.textureVideo);
                 this.scene.add(this.stick, this.floor);
                 this.scene.add(this.wallLeft, this.wallRight)
                 this._render();
+
+        
             }
             })
     }
+
     _setScene() {
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -62,14 +107,14 @@ class ThreeScene{
 
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(
-            35,
+            60,
             window.innerWidth / window.innerHeight,
             0.1,
             1000
         );
         this.camera.lookAt(this.scene.position);
 
-        let light = new THREE.AmbientLight(0xffffff, 0.5);
+        let light = new THREE.AmbientLight(0xffffff, .5);
         this.scene.add(light);
 
         let lightPoint = new THREE.PointLight(0xffffff, 0.5);
@@ -124,14 +169,8 @@ class ThreeScene{
         }
 
         //avancé
-        this.newCameraPosition.z -= 0.5;
 
-        this.stick.position.copy(this.newCameraPosition);
-
-        if (this.wallLeft && this.wallRight){
-            this.wallLeft.position.z -= 0.5;
-            this.wallRight.position.z -= 0.5;
-        }
+        this.floor.position.z += 0.5;
         
 
         if (!this.needDestroy) {
@@ -142,6 +181,17 @@ class ThreeScene{
         this.delta = this.clock.getDelta();
     }
 
+    _addCockpit(){
+        this.loader.load('Cockpit3D/scene.gltf', (object) => { 
+            
+            object.scene.scale.set(.04, .04, .04);
+            console.log(this)
+            object.scene.position.set(64, -300, -50);
+            this._setGUI(object.scene);
+          
+            this.scene.add(object.scene)
+        })
+    }
     _addWallRight(texture) {
         let wallRightGeometry = new THREE.PlaneGeometry(50, 50);
         let wallRightMaterial = new THREE.MeshBasicMaterial({map: texture});
@@ -162,12 +212,10 @@ class ThreeScene{
         stickGeometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, 50 / 2, 0));
         let stickMaterial = new THREE.MeshNormalMaterial();
         this.stick = new THREE.Mesh(stickGeometry, stickMaterial);
-        this.camera.position.set(0, 100, 150);
+        this.camera.position.set(0, 100, 100);
         this.camera.rotation.set(-0.3, 0, 0);
         this.stick.add(this.camera);
         this.stick.position.set(0, -75, -100);
-        this.newCameraPosition.y = this.stick.position.y;
-        this.newCameraPosition.z = this.stick.position.z;
 
     }
     _addFloor() {
@@ -194,4 +242,4 @@ class ThreeScene{
         window.cancelAnimationFrame(this.raf)
     }
 }
-export default ThreeScene;
+export default CockpitScene;
