@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
-import DecollageScene from './DecollageScene';
+import SimonScene from './SimonScene';
 
-const Alaska1 = () => {
+const AlaskaSimon = () => {
 
     const history = useHistory();
     const canvas = useRef(null);
 
     useEffect(() => {
-        const threeScene = new DecollageScene(history, canvas.current);
+        const threeScene = new SimonScene(history, canvas.current);
 
         return () => {
             threeScene.destroyRaf();
@@ -18,9 +18,9 @@ const Alaska1 = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <h2>Drag the cube to the sky</h2>
+            <h2>SIMON GAME: find the right combinaison</h2>
         </>
     )
 }
 
-export default Alaska1;
+export default AlaskaSimon;

@@ -32,7 +32,7 @@ class DecollageScene {
             let curvePercent = this.pathPoints.length*screenPercent/100
 
             if (Math.round(curvePercent) === this.pathPoints.length) {
-                this.history.push('/story2');
+                this.history.push('/story3');
             } else if (curvePercent < 0.5) {
                 this.plane.position.x = -3;
                 this.plane.position.y = -2;

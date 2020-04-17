@@ -60,7 +60,7 @@ class SimonScene {
         this.moves.map((value, key) => {
             if (value === this.solution[key]) {
                 console.log('GOOD JOOOB');
-                return this.history.push('/story1');
+                return this.history.push('/takeoff');
             } else {
                 console.log('WROOONG')
                 return this._reset();
