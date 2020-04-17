@@ -24,37 +24,3 @@ const Alaska1 = () => {
 }
 
 export default Alaska1;
-
-// class Alaska1 extends React.Component {
-
-//     constructor(props) {
-//         super(props);
-//         this.handleLoad = this.handleLoad.bind(this);
-//     }
-
-//     componentDidMount() {
-//         this.handleLoad();
-//     }
-
-//     componentDidUpdate() {
-//         this.handleLoad();
-//     }
-
-//     componentWillUnmount() {
-//         this.threeScene.destroyRaf()
-//     }
-
-//     handleLoad() {
-//         const canvas = this.refs.canvas
-//         this.threeScene = new DecollageScene(canvas)
-//     }
-
-//     render() {
-//         return (
-//             <>
-//                 <canvas ref='canvas'></canvas>
-//                 <h2>Drag the cube to the sky</h2>
-//             </>
-//         )
-//     }
-// }

@@ -70,7 +70,6 @@ class DecollageScene {
     }
 
     _setScene() {
-        console.log(this.canvas)
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
             antialias: true,
