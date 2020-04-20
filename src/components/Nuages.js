@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import * as THREE from 'three';
 
-const Alaska2 = () => {
+const Nuages = () => {
 
     const history = useHistory();
 
@@ -100,7 +100,7 @@ const Alaska2 = () => {
                 counter++;
             } else if (intersect[0].object.material.opacity <= 0.06) {
                 if (disappear.length >= 3) {
-                    history.push('/story3');
+                    // history.push('/story3');
                 } else {
                     disappear.push(intersect[0].object.name)
                 }
@@ -130,4 +130,4 @@ const Alaska2 = () => {
     )
 }
 
-export default Alaska2;
+export default Nuages;
