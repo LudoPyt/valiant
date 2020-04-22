@@ -28,34 +28,32 @@ class DecollageScene {
             if (event.x > this.pathScreenStart && event.x < this.pathScreenEnd) {
                 this.mouseX = event.x
             } else if (event.x < this.pathScreenStart) {
-                this.mouseX = this.pathScreenStart - this.beaverHalfWidth
+                this.mouseX = this.pathScreenStart
             } else if (event.x > this.pathScreenEnd) {
-                this.mouseX = this.pathScreenEnd - this.beaverHalfWidth
+                this.mouseX = this.pathScreenEnd
             }
         });
 
-        console.log('window:', window.innerWidth)
-        console.log('pathstart:', this.pathScreenStart)
-        console.log('pathend:', this.pathScreenEnd)
-        console.log('beaverwidth:', this.beaverWidth, this.beaverHalfWidth)
-
         this.dragControls.addEventListener('drag', () => {
-            let screenPercent = this.mouseX*100/(this.pathScreenEnd - this.pathScreenStart - this.beaverHalfWidth)
-            let curvePercent = (this.pathPoints.length*(screenPercent)/100) - (this.pathScreenEnd*100/this.renderer.domElement.offsetWidth)
-            console.log('screenpercent:', screenPercent, '         curvepercent:', curvePercent)
+            let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart)
 
-            if (curvePercent > 95) {
+            if (percentOfCurve > 99) {
                 this.beaver.position.x = 3;
                 this.beaver.position.y = 2;
                 this.history.push('/flight');
-            } else if (curvePercent < 5) {
+            } else if (percentOfCurve < 1) {
                 this.beaver.position.x = -3;
                 this.beaver.position.y = -2;
             } else {
-                this.beaver.position.x = this.pathPoints[Math.round(curvePercent)].x
-                this.beaver.position.y = this.pathPoints[Math.round(curvePercent)].y
+                this.beaver.position.x = this.pathPoints[Math.round(percentOfCurve)].x
+                this.beaver.position.y = this.pathPoints[Math.round(percentOfCurve)].y
             }
         });
+
+        this.dragControls.addEventListener('dragend', () => {
+            this.beaver.position.x = -3;
+            this.beaver.position.y = -2;
+        } );
     }
 
     _toScreenPosition(obj, camera) {
@@ -92,7 +90,7 @@ class DecollageScene {
         let geometry = new THREE.BufferGeometry().setFromPoints(this.pathPoints);
         let material = new THREE.LineBasicMaterial({
             color: 0xf76263,
-            linewidth: 100
+            linewidth: 10
         });
         let line = new THREE.Line(geometry, material);
         line.position.z = 0.1
