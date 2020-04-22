@@ -4,6 +4,7 @@ import Home from './Home';
 import Story from './Story';
 import AlaskaSimon from '../components/AlaskaSimon';
 import AlaskaTakeOff from '../components/AlaskaTakeOff';
+import AlaskaFlight from '../components/AlaskaFlight';
 import Alaska3 from '../components/Alaska3';
 import NoMatch from './404';
 // import Nuages from '../components/Nuages';
@@ -15,6 +16,7 @@ const App = () => (
     <Switch>
       <Route path="/simon" component={AlaskaSimon} />
       <Route path="/takeoff" component={AlaskaTakeOff} />
+      <Route path="/flight" component={AlaskaFlight} />
       <Route path="/story3" component={Alaska3} />
       <Route path="/story" component={Story} />
       <Route path="/" component={Home} />

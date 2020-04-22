@@ -35,18 +35,19 @@ class DecollageScene {
         });
 
         console.log('window:', window.innerWidth)
-        console.log('start:', this.pathScreenStart)
-        console.log('end:', this.pathScreenEnd)
+        console.log('pathstart:', this.pathScreenStart)
+        console.log('pathend:', this.pathScreenEnd)
+        console.log('beaverwidth:', this.beaverWidth, this.beaverHalfWidth)
 
         this.dragControls.addEventListener('drag', () => {
             let screenPercent = this.mouseX*100/(this.pathScreenEnd - this.pathScreenStart - this.beaverHalfWidth)
             let curvePercent = (this.pathPoints.length*(screenPercent)/100) - (this.pathScreenEnd*100/this.renderer.domElement.offsetWidth)
-            console.log(screenPercent, curvePercent)
+            console.log('screenpercent:', screenPercent, '         curvepercent:', curvePercent)
 
             if (curvePercent > 95) {
                 this.beaver.position.x = 3;
                 this.beaver.position.y = 2;
-                this.history.push('/story3');
+                this.history.push('/flight');
             } else if (curvePercent < 5) {
                 this.beaver.position.x = -3;
                 this.beaver.position.y = -2;
@@ -130,7 +131,6 @@ class DecollageScene {
     _addBackground() {
         let sky = new THREE.TextureLoader().load('/takeoff/sky.png');
         this.scene.background = sky;
-        console.log(sky)
 
         let loader3 = new THREE.TextureLoader();
         let material3 = new THREE.MeshLambertMaterial({
