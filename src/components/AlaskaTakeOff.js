@@ -18,6 +18,7 @@ const AlaskaTakeOff = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
+            <img className="take-off-plants" src="/takeoff/plants.png" alt="plants"></img>
             <h2>Drag the beaver to the sky</h2>
         </>
     )

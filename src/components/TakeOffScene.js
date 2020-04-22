@@ -129,30 +129,29 @@ class DecollageScene {
     }
 
     _addBackground() {
-        let sky = new THREE.TextureLoader().load('/takeoff/sky.png');
-        this.scene.background = sky;
+        let background = new THREE.TextureLoader().load('/takeoff/background.png');
+        this.scene.background = background;
 
-        let loader3 = new THREE.TextureLoader();
-        let material3 = new THREE.MeshLambertMaterial({
-            map: loader3.load('/takeoff/3rd-plan.png'),
-            transparent: true
-        });
-        let geometry3 = new THREE.PlaneGeometry(13.8, 2.1);
-        this.thirdPlan = new THREE.Mesh(geometry3, material3);
-        this.thirdPlan.position.y = -0.7;
-
-
-        let loader2 = new THREE.TextureLoader();
-        let material2 = new THREE.MeshLambertMaterial({
-            map: loader2.load('/takeoff/2nd-plan.png'),
-            transparent: true
-        });
-        let geometry2 = new THREE.PlaneGeometry(13.8, 2.14);
-        this.secondPlan = new THREE.Mesh(geometry2, material2);
-        this.secondPlan.position.y = -2.8;
+        // let loader3 = new THREE.TextureLoader();
+        // let material3 = new THREE.MeshLambertMaterial({
+        //     map: loader3.load('/takeoff/3rd-plan.png'),
+        //     transparent: true
+        // });
+        // let geometry3 = new THREE.PlaneGeometry(13.8, 2.1);
+        // this.thirdPlan = new THREE.Mesh(geometry3, material3);
+        // this.thirdPlan.position.y = -0.7;
 
 
-        this.scene.add(this.thirdPlan, this.secondPlan);
+        // let loader2 = new THREE.TextureLoader();
+        // let material2 = new THREE.MeshLambertMaterial({
+        //     map: loader2.load('/takeoff/2nd-plan.png'),
+        //     transparent: true
+        // });
+        // let geometry2 = new THREE.PlaneGeometry(13.8, 2.14);
+        // this.secondPlan = new THREE.Mesh(geometry2, material2);
+        // this.secondPlan.position.y = -2.8;
+
+        // this.scene.add(this.thirdPlan, this.secondPlan);
     }
 
     _setScene() {
