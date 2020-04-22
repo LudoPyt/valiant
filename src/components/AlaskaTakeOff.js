@@ -18,7 +18,7 @@ const AlaskaTakeOff = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <h2>Drag the cube to the sky</h2>
+            <h2>Drag the beaver to the sky</h2>
         </>
     )
 }
