@@ -2,18 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import TakeOffAndLandingScene from './TakeOffAndLandingScene';
 
-const AlaskaTakeOff = () => {
+const AlaskaLanding = () => {
 
     const history = useHistory();
     const canvas = useRef(null);
     const bezierCurvePoints = {
-        start: {x: -4, y: -2},
-        firstControl: {x: 0, y: -2},
-        secondControl: {x: 0, y: 2},
-        end:{x: 4, y: 2}
+        start: {x: -4, y: 2},
+        firstControl: {x: 0, y: 2},
+        secondControl: {x: 0, y: -2},
+        end:{x: 4, y: -2}
     };
-    const pathToAssets = '/takeoff/';
-    const pathToNextPage = '/flight-feelings';
+    const pathToAssets = '/landing/';
+    const pathToNextPage = '/';
 
     useEffect(() => {
         const threeScene = new TakeOffAndLandingScene(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage);
@@ -26,10 +26,9 @@ const AlaskaTakeOff = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <img className="take-off-plants" src="/takeoff/plants.png" alt="plants"></img>
-            <h2>Drag the beaver to the sky</h2>
+            <h2>Drag the beaver to the lake</h2>
         </>
     )
 }
 
-export default AlaskaTakeOff;
+export default AlaskaLanding;

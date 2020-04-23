@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-const AlaskaFlight = () => {
+const AlaskaFlightFeelings = () => {
 
     const history = useHistory();
 
@@ -20,4 +20,4 @@ const AlaskaFlight = () => {
     )
 }
 
-export default AlaskaFlight;
+export default AlaskaFlightFeelings;

@@ -1,10 +1,13 @@
 import * as THREE from 'three';
 import { DragControls } from '../lib/DragControls';
 
-class DecollageScene {
-    constructor(history, canvas){
+class TakeOffAndLandingScene {
+    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage){
         this.history = history;
         this.canvas = canvas;
+        this.bezierCurvePoints = bezierCurvePoints;
+        this.pathToAssets = pathToAssets;
+        this.nextPage = pathToNextPage;
         this._init();
     }
 
@@ -13,6 +16,11 @@ class DecollageScene {
         this.raf = 0;
         this.mouseX = 0;
         this.dragArray = [];
+
+        this.startPoint = this.bezierCurvePoints.start;
+        this.firstControlPoint = this.bezierCurvePoints.firstControl;
+        this.secondControlPoint = this.bezierCurvePoints.secondControl;
+        this.endPoint = this.bezierCurvePoints.end;
 
         this._setScene();
         this._addBackground();
@@ -38,12 +46,12 @@ class DecollageScene {
             let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart)
 
             if (percentOfCurve > 99) {
-                this.beaver.position.x = 3;
-                this.beaver.position.y = 2;
-                this.history.push('/flight');
+                this.beaver.position.x = this.endPoint.x;
+                this.beaver.position.y = this.endPoint.y;
+                this.history.push(this.nextPage);
             } else if (percentOfCurve < 1) {
-                this.beaver.position.x = -3;
-                this.beaver.position.y = -2;
+                this.beaver.position.x = this.startPoint.x;
+                this.beaver.position.y = this.startPoint.y;
             } else {
                 this.beaver.position.x = this.pathPoints[Math.round(percentOfCurve)].x
                 this.beaver.position.y = this.pathPoints[Math.round(percentOfCurve)].y
@@ -51,8 +59,8 @@ class DecollageScene {
         });
 
         this.dragControls.addEventListener('dragend', () => {
-            this.beaver.position.x = -3;
-            this.beaver.position.y = -2;
+            this.beaver.position.x = this.startPoint.x;
+            this.beaver.position.y = this.startPoint.y;
         } );
     }
 
@@ -74,17 +82,17 @@ class DecollageScene {
     _addPath() {
         let pointGeometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
         let startPoint = new THREE.Mesh(pointGeometry);
-        startPoint.position.x = -3;
-        startPoint.position.y = -2;
+        startPoint.position.x = this.startPoint.x;
+        startPoint.position.y = this.startPoint.y;
         let endPoint = new THREE.Mesh(pointGeometry);
-        endPoint.position.x = 3;
-        endPoint.position.y = 2;
+        endPoint.position.x = this.endPoint.x;
+        endPoint.position.y = this.endPoint.y;
         this.pathScreenStart = this._toScreenPosition(startPoint, this.camera)
         this.pathScreenEnd = this._toScreenPosition(endPoint, this.camera)
 
         let path = new THREE.Path();
-        path.moveTo(-3, -2);
-        path.bezierCurveTo(0, -2, 0, 2, 3, 2);
+        path.moveTo(this.startPoint.x, this.startPoint.y);
+        path.bezierCurveTo(this.firstControlPoint.x, this.firstControlPoint.y, this.secondControlPoint.x, this.secondControlPoint.y, this.endPoint.x, this.endPoint.y);
         this.pathPoints = path.getPoints(100);
 
         let geometry = new THREE.BufferGeometry().setFromPoints(this.pathPoints);
@@ -100,7 +108,7 @@ class DecollageScene {
     _addBeaver() {
         let loader = new THREE.TextureLoader();
         let material = new THREE.MeshLambertMaterial({
-            map: loader.load('/takeoff/beaver.png'),
+            map: loader.load(this.pathToAssets + 'beaver.png'),
             transparent: true
         });
         let geometry = new THREE.PlaneGeometry(2, 0.75);
@@ -108,48 +116,17 @@ class DecollageScene {
         this.beaver.castShadow = true;
         this.beaver.receiveShadow = true;
 
-        let pointGeometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
-        let startPoint = new THREE.Mesh(pointGeometry);
-        startPoint.position.x = -4;
-        let endPoint = new THREE.Mesh(pointGeometry);
-        endPoint.position.x = -2;
-        this.beaverScreenStart = this._toScreenPosition(startPoint, this.camera)
-        this.beaverScreenEnd = this._toScreenPosition(endPoint, this.camera)
-        this.beaverWidth = this.beaverScreenEnd - this.beaverScreenStart;
-        this.beaverHalfWidth = this.beaverWidth/2;
-
         this.dragArray.push(this.beaver);
 
-        this.beaver.position.x = -3;
-        this.beaver.position.y = -2;
+        this.beaver.position.x = this.startPoint.x;
+        this.beaver.position.y = this.startPoint.y;
         this.beaver.position.z = 0.2;
         this.scene.add(this.beaver);
     }
 
     _addBackground() {
-        let background = new THREE.TextureLoader().load('/takeoff/background.png');
+        let background = new THREE.TextureLoader().load(this.pathToAssets + 'background.png');
         this.scene.background = background;
-
-        // let loader3 = new THREE.TextureLoader();
-        // let material3 = new THREE.MeshLambertMaterial({
-        //     map: loader3.load('/takeoff/3rd-plan.png'),
-        //     transparent: true
-        // });
-        // let geometry3 = new THREE.PlaneGeometry(13.8, 2.1);
-        // this.thirdPlan = new THREE.Mesh(geometry3, material3);
-        // this.thirdPlan.position.y = -0.7;
-
-
-        // let loader2 = new THREE.TextureLoader();
-        // let material2 = new THREE.MeshLambertMaterial({
-        //     map: loader2.load('/takeoff/2nd-plan.png'),
-        //     transparent: true
-        // });
-        // let geometry2 = new THREE.PlaneGeometry(13.8, 2.14);
-        // this.secondPlan = new THREE.Mesh(geometry2, material2);
-        // this.secondPlan.position.y = -2.8;
-
-        // this.scene.add(this.thirdPlan, this.secondPlan);
     }
 
     _setScene() {
@@ -157,8 +134,8 @@ class DecollageScene {
             canvas: this.canvas,
             antialias: true,
             alpha: true
-            });
-        this.renderer.setClearColor(0xffffff);
+        });
+        this.renderer.setClearColor(0x000000);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
 
@@ -190,4 +167,4 @@ class DecollageScene {
 
 }
 
-export default DecollageScene;
+export default TakeOffAndLandingScene;
