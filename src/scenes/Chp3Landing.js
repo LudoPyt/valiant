@@ -13,7 +13,7 @@ const Chp3Landing = () => {
         end:{x: 4, y: -2}
     };
     const pathToAssets = '/landing/';
-    const pathToNextPage = '/';
+    const pathToNextPage = '/bear';
 
     useEffect(() => {
         const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage);
