@@ -96,11 +96,14 @@ class TakeOffAndLandingDrag {
         this.pathPoints = path.getPoints(100);
 
         let geometry = new THREE.BufferGeometry().setFromPoints(this.pathPoints);
-        let material = new THREE.LineBasicMaterial({
-            color: 0xf76263,
-            linewidth: 10
+        let material = new THREE.LineDashedMaterial({
+            color: 0xffffff,
+            scale: .1,
+            dashSize: .001,
+            gapSize: .001
         });
         let line = new THREE.Line(geometry, material);
+        line.computeLineDistances();
         line.position.z = 0.1
         this.scene.add(line);
     }
