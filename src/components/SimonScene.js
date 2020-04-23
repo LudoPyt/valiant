@@ -50,22 +50,29 @@ class SimonScene {
 
     _reset() {
         console.log('reseeet')
-        this.moves = []
+        this.intersect = [];
+        this.moves = [];
         for (let i = 0; i < this.objects.length; i++) {
             this.objects[i].material.opacity = 1;
         }
     }
 
     _isRight() {
+        let isRight = [];
+
         this.moves.map((value, key) => {
-            if (value === this.solution[key]) {
-                console.log('GOOD JOOOB');
-                return this.history.push('/takeoff');
+            if (value !== this.solution[key]) {
+                return isRight.push(false);
             } else {
-                console.log('WROOONG')
-                return this._reset();
+                return isRight.push(true)
             }
         });
+
+        if (isRight[0] === true && isRight[1] === true && isRight[2] === true) {
+            return this.history.push('/takeoff');
+        } else {
+            this._reset();
+        }
     }
 
     _pressingDown(event) {
