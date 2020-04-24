@@ -48,14 +48,14 @@ class CockpitScene{
           };
           let gui = new dat.GUI();
           
-          let pivotY = gui.addFolder('cockpit');
-          pivotY.add(this.pivot.position, 'x', -100, 100).listen();
-          pivotY.add(this.pivot.position, 'y', -100, 100).listen();
-          pivotY.add(this.pivot.position, 'z', -100, 100).listen();
-          pivotY.add(this.pivot.rotation, 'x', -1, 1).listen();
-          pivotY.add(this.pivot.rotation, 'y', -2, 2).listen();
-          pivotY.add(this.pivot.rotation, 'z', -1, 1).listen();
-          pivotY.open();
+          let wall = gui.addFolder('cockpit');
+          wall.add(this.wallLeft.position, 'x', -100, 100).listen();
+          wall.add(this.wallLeft.position, 'y', -100, 100).listen();
+          wall.add(this.wallLeft.position, 'z', -100, 100).listen();
+          wall.add(this.wallLeft.rotation, 'x', -1, 1).listen();
+          wall.add(this.wallLeft.rotation, 'y', -2, 2).listen();
+          wall.add(this.wallLeft.rotation, 'z', -1, 1).listen();
+          wall.open();
       
           
           let cam = gui.addFolder('camera');
@@ -78,7 +78,7 @@ class CockpitScene{
                 this._setScene();
                 // this.controls = new OrbitControls( this.camera, this.renderer.domElement)
                 // this.scene.add( this.axesHelper );
-
+                this._addSky();
                 this._addFloor();
 
                 this._addCameraPivot();
@@ -192,27 +192,43 @@ class CockpitScene{
                 }
                 if (child.name === 'Manche'){
                     this._addStick(child)
-                    console.log(this.stick)
                 }
             })
         })
     }
     _addWallRight(texture) {
-        let wallRightGeometry = new THREE.PlaneGeometry(50, 50);
+        let wallPivot = new THREE.Object3D()
+        wallPivot.position.set(40, -32, -10);
+        wallPivot.rotation.set(0, -1.5, 0);
+        let wallRightGeometry = new THREE.PlaneGeometry(30,25);
         let wallRightMaterial = new THREE.MeshBasicMaterial({map: texture});
         this.wallRight = new THREE.Mesh(wallRightGeometry, wallRightMaterial);
-        this.wallRight.position.set(91, 0, -93);
-        this.wallRight.rotation.set(0, -0.4, 0);
-        this.scene.add(this.wallRight)
+        wallPivot.add(this.wallRight)
+        this.wallRight.rotation.set(-.8, .2, 0);
+        this.wallRight.position.set(0,2,-13)
+        this.scene.add(wallPivot)
 
     }
     _addWallLeft(texture) {
-        let wallLeftGeometry = new THREE.PlaneGeometry(50, 50);
+        let wallPivot = new THREE.Object3D()
+        wallPivot.position.set(-40, -32, -10);
+        wallPivot.rotation.set(0, 1.5, 0);
+        let wallLeftGeometry = new THREE.PlaneGeometry(30, 25);
         let wallLeftMaterial = new THREE.MeshBasicMaterial({map: texture});
         this.wallLeft = new THREE.Mesh(wallLeftGeometry, wallLeftMaterial);
-        this.wallLeft.position.set(-91, 0, -93);
-        this.wallLeft.rotation.set(0, 0.4, 0);
-        this.scene.add(this.wallLeft)
+        wallPivot.add(this.wallLeft)
+        this.wallLeft.rotation.set(-1, -.2, 0);
+        this.wallLeft.position.set(0,2,-13)
+        this.scene.add(wallPivot)
+
+    }
+    _addSky() {
+        var texture = new THREE.TextureLoader().load( "images/ciel-cockpit.png" );
+        let skyGeometry = new THREE.PlaneGeometry(2000, 2000);
+        let skyMaterial = new THREE.MeshBasicMaterial({map: texture});
+        this.sky = new THREE.Mesh(skyGeometry, skyMaterial);
+        this.sky.position.set(0,0,-500)
+        this.scene.add(this.sky)
 
     }
 
@@ -265,8 +281,6 @@ class CockpitScene{
             this.camera.rotateZ(-this.speedRot * this.delta)
             this.cockpit.rotateZ(-this.speedRot * this.delta)
             this.stick.rotateZ(-this.speedRot * this.delta);
-
-            
         }
     }
     _leftCameraPivot() {
