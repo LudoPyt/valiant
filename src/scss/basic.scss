@@ -34,6 +34,14 @@ button {
     &:hover {
         cursor: pointer;
     }
+    &.skip {
+        position: absolute;
+        bottom: 30px;
+        right: 30px;
+        background-color: white;
+        border: initial;
+        padding: 5px 10px;
+    }
 }
 
 .choice {
@@ -45,4 +53,20 @@ button {
 
 .video {
     display: none;
+}
+
+.flight {
+    width: 100%;
+    height: 100%;
+}
+
+img {
+    width: 100%;
+}
+
+.take-off-plants {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
 }
