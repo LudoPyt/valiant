@@ -6,7 +6,7 @@ const Chp2FlightFeelings = () => {
     const history = useHistory();
 
     useEffect(() => {
-        document.getElementById('flight').addEventListener("ended", () => {history.push('/story3');});
+        document.getElementById('flight').addEventListener("ended", () => {history.push('/cockpit');});
     }, [history])
 
     return (
