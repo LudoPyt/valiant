@@ -1,9 +1,11 @@
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 class SimonGame {
     constructor(history, canvas){
         this.history = history;
         this.canvas = canvas;
+
         this._init();
     }
 
@@ -11,12 +13,18 @@ class SimonGame {
         this.needDestroy = false
         this.raf = 0;
 
+        this.loader = new GLTFLoader();
+
+        this.clock = new THREE.Clock();
+        this.delta = 0;
+
         this.intersect = [];
         this.objects = [];
         this.moves = [];
         this.solution = ["cube0", "cube1", "cube2"];
 
         this._setScene();
+        this._addCockpit();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
         this._createCubes();
@@ -124,19 +132,34 @@ class SimonGame {
         this.scene.add(lightPoint)
     }
 
-    _render() {
+    _addCockpit(){
+        this.loader.load('Cockpit3D/scene.gltf', (object) => {
+            this.gltf = object.scene
+            console.log(this.gltf)
+            this.gltf.traverse((child) => {
+                if (child.name === 'Hydravion' ){
+                    this.cockpit = child
+                    this.cockpit.scale.set(.04, .04, .04);
+                    this.cockpit.position.set(0, 0, 0);
+                    this.scene.add(this.cockpit)
+                }
+                if (child.name === 'Helices' ){
+                    this.helices = child
+                }
+            })
+        })
+    }
 
-        this.objects[0].rotation.x += 0.01;
-        this.objects[0].rotation.y += 0.01;
-        this.objects[1].rotation.x -= 0.01;
-        this.objects[1].rotation.y -= 0.01;
-        this.objects[2].rotation.x += 0.01;
-        this.objects[2].rotation.y += 0.01;
+    _render() {
+        if (this.helices){
+            this.helices.rotation.z += 10 * this.delta
+        }
 
         if (!this.needDestroy) {
             requestAnimationFrame(this._render.bind(this));
         }
         this.renderer.render(this.scene, this.camera);
+        this.delta = this.clock.getDelta();
     }
 
     destroyRaf() {
