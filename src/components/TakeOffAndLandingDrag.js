@@ -2,12 +2,13 @@ import * as THREE from 'three';
 import { DragControls } from '../lib/DragControls';
 
 class TakeOffAndLandingDrag {
-    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage){
+    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, scaling){
         this.history = history;
         this.canvas = canvas;
         this.bezierCurvePoints = bezierCurvePoints;
         this.pathToAssets = pathToAssets;
         this.nextPage = pathToNextPage;
+        this.scaling = scaling;
         this._init();
     }
 
@@ -55,12 +56,16 @@ class TakeOffAndLandingDrag {
             } else {
                 this.beaver.position.x = this.pathPoints[Math.round(percentOfCurve)].x
                 this.beaver.position.y = this.pathPoints[Math.round(percentOfCurve)].y
+                this.beaver.scale.x = 1 - (percentOfCurve*0.005);
+                this.beaver.scale.y = 1 - (percentOfCurve*0.005);
             }
         });
 
         this.dragControls.addEventListener('dragend', () => {
             this.beaver.position.x = this.startPoint.x;
             this.beaver.position.y = this.startPoint.y;
+            this.beaver.scale.x = 1;
+            this.beaver.scale.y = 1;
         } );
     }
 
@@ -89,6 +94,8 @@ class TakeOffAndLandingDrag {
         endPoint.position.y = this.endPoint.y;
         this.pathScreenStart = this._toScreenPosition(startPoint, this.camera)
         this.pathScreenEnd = this._toScreenPosition(endPoint, this.camera)
+        console.log('pathStart :', this.pathScreenStart)
+        console.log('pathEnd :', this.pathScreenEnd)
 
         let path = new THREE.Path();
         path.moveTo(this.startPoint.x, this.startPoint.y);
