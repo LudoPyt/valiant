@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 class SimonGame {
     constructor(history, canvas){
@@ -133,19 +133,39 @@ class SimonGame {
     }
 
     _addCockpit(){
-        this.loader.load('Cockpit3D/scene.gltf', (object) => {
+        this.loader.load('before-take-off/scene.gltf', (object) => {
             this.gltf = object.scene
-            console.log(this.gltf)
             this.gltf.traverse((child) => {
-                if (child.name === 'Hydravion' ){
-                    this.cockpit = child
-                    this.cockpit.scale.set(.04, .04, .04);
-                    this.cockpit.position.set(0, 0, 0);
-                    this.scene.add(this.cockpit)
-                }
-                if (child.name === 'Helices' ){
-                    this.helices = child
-                }
+                switch (child.name) {
+                    case 'Hydravion':
+                        this.cockpit = child
+                        this.cockpit.scale.set(.04, .04, .04);
+                        this.cockpit.position.set(0, 0, 0);
+                        this.scene.add(this.cockpit)
+                        break;
+                    case 'Helices':
+                        this.helices = child
+                        break;
+                    case 'btn_interrupteur_haut':
+                        console.log('founded')
+                        break;
+                    case 'btn_interrupteur_bas':
+                        console.log('founded')
+                        break;
+                    case 'btn_pull':
+                        console.log('founded')
+                        break;
+                    case 'btn_rotatif_haut':
+                        console.log('founded')
+                        break;
+                    case 'btn_rotatif_bas':
+                        console.log('founded')
+                        break;
+                    case 'btn_press':
+                        console.log('founded')
+                        break;
+                    default:
+                  }
             })
         })
     }
