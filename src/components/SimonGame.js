@@ -18,12 +18,16 @@ class SimonGame {
         this.clock = new THREE.Clock();
         this.delta = 0;
 
+        this.isOkey = [];
+    
         this.intersect = [];
         this.btnTab = [];
         this.moves = [];
         this.solution = ["btn_interrupteur_haut", "btn_interrupteur_bas", "btn_pull", "btn_rotatif_haut", "btn_press"];
 
         this.helSpeed = 0;
+        this.needleLSpeed = 0;
+        this.needlesSpeed = 0;
 
         this._setScene();
         this._addBackground();
@@ -36,9 +40,12 @@ class SimonGame {
 
     _reset() {
         console.log('reseeet')
+        this.isOkey = [];
         this.intersect = [];
         this.moves = [];
         this.helSpeed = 0;
+        this.needleLSpeed = 0;
+        this.needlesSpeed = 0;
         this.btnTab.map(e => {
             switch (e.name) {
                 case 'btn_interrupteur_haut':
@@ -58,16 +65,23 @@ class SimonGame {
                     break;
                 default:
             }
+            return e;
         })
     }
 
     _isRight() {
-        for(let i = 0; i < this.solution.length; i++) {
+        for (let i = 0; i < this.solution.length; i++) {
             if (this.solution[i] === this.moves[i]) {
-                return this.history.push('/takeoff');
+                this.isOkey.push(true)
             } else {
-                this._reset();
+                this.isOkey.push(false)
             }
+        }
+
+        if (this.isOkey.every(value => value === true)) {
+            return this.history.push('/takeoff');
+        } else {
+            this._reset();
         }
     }
 
@@ -76,7 +90,7 @@ class SimonGame {
         this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
         this.raycaster.setFromCamera(this.mouse, this.camera);
         this.intersect = this.raycaster.intersectObjects(this.scene.children , true);
-        // console.log(this.intersect)
+        console.log(this.intersect)
 
         this.intersect.map(elem => {
             return this.btnTab.map(e => {
@@ -85,9 +99,11 @@ class SimonGame {
                 switch (elem.object.parent.name) {
                     case 'btn_interrupteur_haut':
                         elem.object.parent.rotation.x = elem.object.parent.rotation.x - 1.5
+                        this.needlesSpeed = 1;
                         break;
                     case 'btn_interrupteur_bas':
                         elem.object.parent.rotation.x = elem.object.parent.rotation.x - 1.5
+                        this.needleLSpeed = 1;
                         break;
                     case 'btn_pull':
                         elem.object.parent.children[0].material.color = {r:3, g:1, b:1}
@@ -178,9 +194,15 @@ class SimonGame {
                     case 'btn_press':
                         this._createTab(child)
                         break;
-                    // case 'needle007_White_0':
-                    //     this.test = child
-                    //     break;
+                    case 'aiguille_left':
+                        this.needleL = child
+                        break;
+                    case 'aiguille_top_l':
+                        this.needleTopL = child
+                        break;
+                    case 'aiguille_top_r':
+                        this.needleTopR = child
+                        break;
                     default:
                 }
             })
@@ -198,9 +220,14 @@ class SimonGame {
             this.helices.rotation.z += this.helSpeed * this.delta
         }
 
-        // if (this.test) {
-        //     this.test.rotation.z += 10 * this.delta
-        // }
+        if (this.needleL) {
+            this.needleL.rotation.z += this.needleLSpeed * this.delta
+        }
+
+        if (this.needleTopL && this.needleTopR) {
+            this.needleTopL.rotation.z -= this.needlesSpeed * this.delta
+            this.needleTopR.rotation.z -= this.needlesSpeed * this.delta
+        }
 
         if (!this.needDestroy) {
             requestAnimationFrame(this._render.bind(this));
