@@ -38,7 +38,7 @@ class SimonGame {
         console.log('reseeet')
         this.intersect = [];
         this.moves = [];
-
+        this.helSpeed = 0;
         this.btnTab.map(e => {
             switch (e.name) {
                 case 'btn_interrupteur_haut':
