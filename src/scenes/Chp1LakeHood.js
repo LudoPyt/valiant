@@ -11,11 +11,8 @@ const Chp1LakeHood = () => {
 
     return (
         <>
-            <img src="/lakehood/background.png" alt="" />
-            <img class="lakehood-plants" src="/lakehood/plants.png" alt="" />
-            <img id="beaver" class="lakehood-beaver" src="/lakehood/yellow-beaver.png" alt="" />
-            <img class="lakehood-beaver-x2" src="/lakehood/beaver-x2.png" alt="" />
-            <button id="btn" className="skip">Skip ></button>
+            <div id="beaver" class="lakehood-beaver"></div>
+            <img src="/lakehood/lakehood.png" alt="" />
         </>
     )
 }

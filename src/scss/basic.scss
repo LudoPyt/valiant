@@ -71,10 +71,12 @@ img {
     width: 100%;
 }
 
-
-.lakehood-beaver, .lakehood-beaver-x2, .lakehood-plants {
+.lakehood-beaver {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    // width: 100%;
+    bottom: 22%;
+    right: 2%;
+    width: 37%;
+    height: 22%;
+    cursor: pointer;
+    // background-color: rgba(255, 0, 0, 0.4);
 }
