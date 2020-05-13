@@ -18,6 +18,7 @@ const Chp1Simon = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
+            <img src="/before-take-off/background.png" alt="" />
             <h2>SIMON GAME: find the right combinaison</h2>
         </>
     )
