@@ -19,7 +19,7 @@ class SimonGame {
         this.delta = 0;
 
         this.isOkey = [];
-    
+
         this.intersect = [];
         this.btnTab = [];
         this.moves = [];
@@ -28,6 +28,12 @@ class SimonGame {
         this.helSpeed = 0;
         this.needleLSpeed = 0;
         this.needlesSpeed = 0;
+        this.crackle = false;
+
+        this.int = 0;
+        this.interval = setInterval(() => {
+            this.crackle = !this.crackle
+        }, this.int)
 
         this._setScene();
         this._addBackground();
@@ -43,9 +49,10 @@ class SimonGame {
         this.isOkey = [];
         this.intersect = [];
         this.moves = [];
-        this.helSpeed = 0;
-        this.needleLSpeed = 0;
-        this.needlesSpeed = 0;
+        this.needleTopL.rotation.z = -0.6953570287343984
+        this.needleTopR.rotation.z = -0.7890085819315339
+        this.needleL.rotation.z = -1.585403998531092
+        this.helices.rotation.z = 0
         this.btnTab.map(e => {
             switch (e.name) {
                 case 'btn_interrupteur_haut':
@@ -79,7 +86,9 @@ class SimonGame {
         }
 
         if (this.isOkey.every(value => value === true)) {
-            return this.history.push('/takeoff');
+            setTimeout(() => {
+                return this.history.push('/takeoff');
+            }, 1000)
         } else {
             this._reset();
         }
@@ -98,23 +107,19 @@ class SimonGame {
 
                 switch (elem.object.parent.name) {
                     case 'btn_interrupteur_haut':
-                        elem.object.parent.rotation.x = elem.object.parent.rotation.x - 1.5
-                        this.needlesSpeed = 1;
+                        elem.object.parent.rotation.x = elem.object.parent.rotation.y - 3
                         break;
                     case 'btn_interrupteur_bas':
-                        elem.object.parent.rotation.x = elem.object.parent.rotation.x - 1.5
-                        this.needleLSpeed = 1;
+                        elem.object.parent.rotation.x = elem.object.parent.rotation.y - 3
                         break;
                     case 'btn_pull':
                         elem.object.parent.children[0].material.color = {r:3, g:1, b:1}
-                        this.helSpeed = 3
                         break;
                     case 'btn_rotatif_haut':
-                        elem.object.parent.rotation.x = elem.object.parent.rotation.x - 2
-                        this.helSpeed = 10
+                        if (elem.object.parent.rotation.x !== -31.39620073873673) elem.object.parent.rotation.x = elem.object.parent.rotation.x - 2
                         break;
                     case 'btn_press':
-                        elem.object.parent.position.z = elem.object.parent.position.z - 6
+                        if (elem.object.parent.position.z !== -1426.0050048828125) elem.object.parent.position.z = elem.object.parent.position.z - 6
                         break;
                     default:
                 }
@@ -193,6 +198,7 @@ class SimonGame {
                         break;
                     case 'btn_press':
                         this._createTab(child)
+                        console.log(child)
                         break;
                     case 'aiguille_left':
                         this.needleL = child
@@ -215,18 +221,35 @@ class SimonGame {
         this.btnTab.push(elem);
     }
 
+
     _render() {
-        if (this.helices){
-            this.helices.rotation.z += this.helSpeed * this.delta
+
+        this.int = Math.round(Math.random() * 3000)
+
+        if (this.moves.length >= 1 && this.needleTopL && this.needleTopR) {
+            if (this.crackle) {
+                this.needleTopL.rotation.z -= 1 * this.delta
+                this.needleTopR.rotation.z -= 1 * this.delta
+            } else {
+                this.needleTopL.rotation.z += 1 * this.delta
+                this.needleTopR.rotation.z += 1 * this.delta
+            }
         }
 
-        if (this.needleL) {
-            this.needleL.rotation.z += this.needleLSpeed * this.delta
+        if (this.moves.length >= 2 && this.needleL) {
+            if (this.crackle) {
+                this.needleL.rotation.z += 1 * this.delta
+            } else {
+                this.needleL.rotation.z -= 1 * this.delta
+            }
         }
 
-        if (this.needleTopL && this.needleTopR) {
-            this.needleTopL.rotation.z -= this.needlesSpeed * this.delta
-            this.needleTopR.rotation.z -= this.needlesSpeed * this.delta
+        if (this.moves.length >= 3 && this.helices) {
+            this.helices.rotation.z += 3 * this.delta
+        }
+
+        if (this.moves.length >= 4 && this.helices) {
+            this.helices.rotation.z += 10 * this.delta
         }
 
         if (!this.needDestroy) {
@@ -237,7 +260,8 @@ class SimonGame {
     }
 
     destroyRaf() {
-        this.needDestroy = true;
+        clearInterval(this.interval)
+        this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }
 
