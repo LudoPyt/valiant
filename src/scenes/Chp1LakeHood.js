@@ -6,13 +6,13 @@ const Chp1LakeHood = () => {
     const history = useHistory();
 
     useEffect(() => {
-        document.getElementById('btn').addEventListener('click', () => {history.push('/simon');});
+        document.getElementById('beaver').addEventListener('click', () => {history.push('/simon');});
     }, [history])
 
     return (
         <>
+            <div id="beaver" class="lakehood-beaver"></div>
             <img src="/lakehood/lakehood.png" alt="" />
-            <button id="btn" className="skip">Skip ></button>
         </>
     )
 }
