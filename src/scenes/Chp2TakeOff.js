@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Context } from '../components/Provider';
 import TakeOffAndLandingDrag from '../components/TakeOffAndLandingDrag';
 
-const Chp1TakeOff = () => {
+const Chp2TakeOff = () => {
 
     const history = useHistory();
     const canvas = useRef(null);
@@ -14,6 +15,17 @@ const Chp1TakeOff = () => {
     };
     const pathToAssets = '/takeoff/';
     const pathToNextPage = '/flight-feelings';
+
+    const context = React.useContext(Context);
+    const chapter = 2;
+    const scene = 1;
+
+    useEffect(() => {
+        if (context.state.currentChapter !== chapter || context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentChapter', chapter});
+            context.dispatch({type: 'setCurrentScene', scene});
+        }
+    }, [context]);
 
     useEffect(() => {
         const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage);
@@ -32,4 +44,4 @@ const Chp1TakeOff = () => {
     )
 }
 
-export default Chp1TakeOff;
+export default Chp2TakeOff;

@@ -14,6 +14,29 @@ main {
     }
 }
 
+main + .timeline {
+    display: none;;
+}
+
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+    z-index: 1;
+}
+
+.timeline {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: red;
+    color: white;
+}
+
 h1 {
     font-size: 2em;
 }

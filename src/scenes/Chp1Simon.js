@@ -1,11 +1,23 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Context } from '../components/Provider';
 import SimonGame from '../components/SimonGame';
 
 const Chp1Simon = () => {
 
     const history = useHistory();
     const canvas = useRef(null);
+
+    const context = React.useContext(Context);
+    const chapter = 1;
+    const scene = 3;
+
+    useEffect(() => {
+        if (context.state.currentChapter !== chapter || context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentChapter', chapter});
+            context.dispatch({type: 'setCurrentScene', scene});
+        }
+    }, [context]);
 
     useEffect(() => {
         const threeScene = new SimonGame(history, canvas.current);
