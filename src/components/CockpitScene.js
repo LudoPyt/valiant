@@ -27,6 +27,7 @@ class CockpitScene{
         this.arrow = new ArrowMove();
         this.loader = new GLTFLoader();
         this.axesHelper = new THREE.AxesHelper( 5 );
+        this.lerpEasing = 0.1
 
         //video
         this._setVideo();
@@ -48,16 +49,25 @@ class CockpitScene{
           };
           let gui = new dat.GUI();
           
-          let wall = gui.addFolder('cockpit');
-          wall.add(this.wallLeft.position, 'x', -100, 100).listen();
-          wall.add(this.wallLeft.position, 'y', -100, 100).listen();
-          wall.add(this.wallLeft.position, 'z', -100, 100).listen();
-          wall.add(this.wallLeft.rotation, 'x', -1, 1).listen();
-          wall.add(this.wallLeft.rotation, 'y', -2, 2).listen();
-          wall.add(this.wallLeft.rotation, 'z', -1, 1).listen();
-          wall.open();
+          let pX = gui.addFolder('pivotX');
+          pX.add(this.pivotX.position, 'x', -100, 100).listen();
+          pX.add(this.pivotX.position, 'y', -100, 100).listen();
+          pX.add(this.pivotX.position, 'z', -100, 100).listen();
+          pX.add(this.pivotX.rotation, 'x', -1, 1).listen();
+          pX.add(this.pivotX.rotation, 'y', -2, 2).listen();
+          pX.add(this.pivotX.rotation, 'z', -1, 1).listen();
+          pX.open();
       
           
+          let pY = gui.addFolder('pivotY');
+          pY.add(this.pivotY.position, 'x', -100, 100).listen();
+          pY.add(this.pivotY.position, 'y', -100, 100).listen();
+          pY.add(this.pivotY.position, 'z', -100, 100).listen();
+          pY.add(this.pivotY.rotation, 'x', -2, 2).listen();
+          pY.add(this.pivotY.rotation, 'y', -2, 2).listen();
+          pY.add(this.pivotY.rotation, 'z', -2, 2).listen();
+          pY.open();
+
           let cam = gui.addFolder('camera');
           cam.add(this.camera.position, 'x', -100, 100).listen();
           cam.add(this.camera.position, 'y', -100, 100).listen();
@@ -76,18 +86,17 @@ class CockpitScene{
                 this.isStarted = true
 
                 this._setScene();
-                // this.controls = new OrbitControls( this.camera, this.renderer.domElement)
-                // this.scene.add( this.axesHelper );
                 this._addSky();
                 this._addFloor();
 
-                this._addCameraPivot();
+                this._addCameraPivotY();
+                this._addCameraPivotX();
 
                 this._addCockpit();
 
-                this._setTextureVideo();
-                this._addWallLeft(this.textureVideo);
-                this._addWallRight(this.textureVideo);
+                // this._setTextureVideo();
+                // this._addWallLeft(this.textureVideo);
+                // this._addWallRight(this.textureVideo);
 
                 this._render();
             }
@@ -138,22 +147,22 @@ class CockpitScene{
         }
 
         if (
-            (this.pivot.rotation.y <= -0.3 && !this.soundRead) ||
-            (this.pivot.rotation.y >= 0.3 && !this.soundRead)
+            (this.pivotY.rotation.y <= -0.3 && !this.soundRead) ||
+            (this.pivotY.rotation.y >= 0.3 && !this.soundRead)
         ) {
             this.sound.play();
-            this.video.play();
+            // this.video.play();
             this.soundRead = true;
         }
 
-        if (this.pivot.rotation.y >= -0.3 && this.pivot.rotation.y <= 0.3) {
+        if (this.pivotY.rotation.y >= -0.3 && this.pivotY.rotation.y <= 0.3) {
             this.soundRead = false;
             this.sound.stop();
-            this.video.pause();
-            this.video.currentTime = 0;
+            // this.video.pause();
+            // this.video.currentTime = 0;
         }
 
-        if (this.arrow.directions.forward) {
+        if (this.arrow.directions.forward && this.camera.rotation.x <= 0) {
             this.cockpit.rotation.x += this.speedRot * this.delta;
             this.camera.rotation.x += this.speedRot * this.delta;
         }
@@ -162,11 +171,22 @@ class CockpitScene{
             this.camera.rotation.x += -this.speedRot * this.delta;
         }
 
+        if (this.pivotY.position.x > -10 && this.pivotY.position.x < 10 && this.stick){
+            let pivotYPosX = lerp(this.pivotY.position.x, 0 , this.lerpEasing )
+            let pivotYRotY = lerp( this.pivotY.rotation.y , 0 , this.lerpEasing )
+            let pivotXRotZ = lerp( this.pivotX.rotation.z , 0 , this.lerpEasing )
+    
+            this.pivotY.position.x = pivotYPosX 
+            this.pivotY.rotation.y = pivotYRotY
+            this.pivotX.rotation.z = pivotXRotZ
+
+            let stickRotZ = lerp( this.stick.rotation.z , 0 , this.lerpEasing )
+            this.stick.rotation.z = stickRotZ
+
+        }
+
         this._moveLeft()
         this._moveRight()
-        
-        //avancé
-        this.floor.position.z += 0.5;
 
         if (!this.needDestroy) {
             this.raf = requestAnimationFrame(this._render.bind(this));
@@ -210,16 +230,16 @@ class CockpitScene{
 
     }
     _addWallLeft(texture) {
-        let wallPivot = new THREE.Object3D()
-        wallPivot.position.set(-40, -32, -10);
-        wallPivot.rotation.set(0, 1.5, 0);
-        let wallLeftGeometry = new THREE.PlaneGeometry(30, 25);
+        this.wallPivot = new THREE.Object3D()
+        this.wallPivot.position.set(-40, -32, -10);
+        this.wallPivot.rotation.set(0, 1.5, 0);
+        let wallLeftGeometry = new THREE.PlaneGeometry(40, 30);
         let wallLeftMaterial = new THREE.MeshBasicMaterial({map: texture});
         this.wallLeft = new THREE.Mesh(wallLeftGeometry, wallLeftMaterial);
-        wallPivot.add(this.wallLeft)
-        this.wallLeft.rotation.set(-1, -.2, 0);
+        this.wallPivot.add(this.wallLeft)
+        this.wallLeft.rotation.set(0, 0, 0);
         this.wallLeft.position.set(0,2,-13)
-        this.scene.add(wallPivot)
+        this.scene.add(this.wallPivot)
 
     }
     _addSky() {
@@ -234,14 +254,17 @@ class CockpitScene{
 
     _addStick(child) {
         this.stick = child
-
-
     }
 
-    _addCameraPivot(){
-        this.pivot = new THREE.Object3D()
-        this.pivot.add(this.camera)
-        this.scene.add(this.pivot)
+    _addCameraPivotY(){
+        this.pivotY = new THREE.Object3D()
+        this.pivotY.add(this.camera)
+        this.scene.add(this.pivotY)
+    }
+    _addCameraPivotX(){
+        this.pivotX = new THREE.Object3D()
+        this.pivotX.add(this.pivotY)
+        this.scene.add(this.pivotX)
     }
 
     _addFloor() {
@@ -266,60 +289,42 @@ class CockpitScene{
     }
 
     _moveLeft() {
-        if (this.arrow.directions.left && this.cockpit.rotation.z < this.maxRotation) {
+        if (this.arrow.directions.left && this.stick.rotation.z < this.maxRotation) {
             this._leftCameraPivot()
-            this.cockpit.rotateZ(this.speedRot * this.delta)
-            this.camera.rotateZ(this.speedRot * this.delta)
+            // this.cockpit.rotateZ(this.speedRot * this.delta)
+            // this.camera.rotateZ(this.speedRot * this.delta)
             this.stick.rotateZ(this.speedRot * this.delta);
-
-           
         }
+        
     }
     _moveRight() {
-        if (this.arrow.directions.right && this.cockpit.rotation.z> -this.maxRotation) {
+        if (this.arrow.directions.right && this.stick.rotation.z> -this.maxRotation) {
             this._rightCameraPivot()
-            this.camera.rotateZ(-this.speedRot * this.delta)
-            this.cockpit.rotateZ(-this.speedRot * this.delta)
+            // this.camera.rotateZ(-this.speedRot * this.delta)
+            // this.cockpit.rotateZ(-this.speedRot * this.delta)
             this.stick.rotateZ(-this.speedRot * this.delta);
         }
     }
     _leftCameraPivot() {
-        let pivotPosX = lerp(this.pivot.position.x, -24 , 0.05 )
-        let pivotPosY = lerp(this.pivot.position.y, 9 , 0.05 )
-        let pivotRotY = lerp( this.pivot.rotation.y , 1 , 0.05 )
+        let pivotYPosX = lerp(this.pivotY.position.x, -46 , this.lerpEasing )
+        let pivotYRotY = lerp( this.pivotY.rotation.y , .8 , this.lerpEasing )
+        let pivotXRotZ = lerp( this.pivotX.rotation.z , .1 , this.lerpEasing )
 
-        this.pivot.position.x = pivotPosX 
-        this.pivot.position.y = pivotPosY
+        this.pivotY.position.x = pivotYPosX 
+        this.pivotY.rotation.y = pivotYRotY
+        this.pivotX.rotation.z = pivotXRotZ
 
-        this.pivot.rotation.y = pivotRotY
-
-        if (this.camera.rotation.z > .07 && this.arrow.directions.left ){
-            let cameraRotX = lerp( this.camera.rotation.x , -1, 0.05 )
-            this.camera.rotation.x = cameraRotX
-        }
-        if (this.camera.rotation.z < .07 && this.arrow.directions.left ){
-            let cameraRotX = lerp( this.camera.rotation.x , 0, 0.05 )
-            this.camera.rotation.x = cameraRotX
-        }
     }
     _rightCameraPivot() {
-        let pivotPosX = lerp(this.pivot.position.x, 24 , 0.05 )
-        let pivotPosY = lerp(this.pivot.position.y, 9 , 0.05 )
-        let pivotRotY = lerp( this.pivot.rotation.y , - 1 , 0.05 )
+        let pivotPosX = lerp(this.pivotY.position.x, 46 , this.lerpEasing )
+        let pivotRotY = lerp( this.pivotY.rotation.y , -0.8 , this.lerpEasing )
+        let pivotXRotZ = lerp( this.pivotX.rotation.z , -.1 , this.lerpEasing )
 
-        this.pivot.position.x = pivotPosX
-        this.pivot.position.y = pivotPosY
+        this.pivotY.position.x = pivotPosX
 
-        this.pivot.rotation.y = pivotRotY
+        this.pivotY.rotation.y = pivotRotY
+        this.pivotX.rotation.z = pivotXRotZ
 
-        if (this.camera.rotation.z < -0.07 && this.arrow.directions.right){
-            let cameraRotX = lerp( this.camera.rotation.x , -1 , 0.05 )
-            this.camera.rotation.x = cameraRotX
-        }
-        if (this.camera.rotation.z > -0.07 && this.arrow.directions.right){
-            let cameraRotX = lerp( this.camera.rotation.x , 0, 0.05 )
-            this.camera.rotation.x = cameraRotX
-        }
     }
 
     destroyRaf() {
