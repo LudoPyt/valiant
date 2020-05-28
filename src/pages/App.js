@@ -31,18 +31,18 @@ const App = () => (
 
     <Router>
       <Switch>
-        <Route path="/photo" component={Chp1Photo} />
-        <Route path="/map" component={Chp1Map} />
-        <Route path="/lakehood" component={Chp1LakeHood} />
-        <Route path="/simon" component={Chp1Simon} />
-        <Route path="/takeoff" component={Chp2TakeOff} />
-        <Route path="/flight-feelings" component={Chp2FlightFeelings} />
-        <Route path="/cockpit" component={Chp2Cockpit} />
-        <Route path="/landing" component={Chp3Landing} />
-        <Route path="/bear" component={Chp3Bear} />
-        <Route path="/people" component={Chp3People} />
-        <Route path="/story" component={Story} />
-        <Route path="/" component={Home} />
+        <Route exact path="/photo" component={Chp1Photo} />
+        <Route exact path="/map" component={Chp1Map} />
+        <Route exact path="/lakehood" component={Chp1LakeHood} />
+        <Route exact path="/simon" component={Chp1Simon} />
+        <Route exact path="/takeoff" component={Chp2TakeOff} />
+        <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
+        <Route exact path="/cockpit" component={Chp2Cockpit} />
+        <Route exact path="/landing" component={Chp3Landing} />
+        <Route exact path="/bear" component={Chp3Bear} />
+        <Route exact path="/people" component={Chp3People} />
+        <Route exact path="/story" component={Story} />
+        <Route exact path="/" component={Home} />
         {/* <Route path="/*" component={NoMatch} /> */}
         {/* <Route path="/nuages" component={Nuages} /> */}
       </Switch>

@@ -103,3 +103,28 @@ img {
     cursor: pointer;
     // background-color: rgba(255, 0, 0, 0.4);
 }
+
+
+
+
+
+
+.fire {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1042px;
+    height: 1043px;
+    // width: 200px;
+    // height: 200px;
+    background-image: url('../assets/css_sprites.png');
+    background-position: left center;
+    background-size: cover;
+    animation: test 1s steps(17) infinite;
+}
+
+@keyframes test {
+    100% {
+        background-position: -17714px -0;
+    }
+}

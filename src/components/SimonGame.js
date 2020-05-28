@@ -85,7 +85,7 @@ class SimonGame {
             }
         }
 
-        if (this.isOkey.every(value => value === true)) {
+        if (this.isOkey.every(value => value === true) && this.history.location.pathname === '/simon') {
             setTimeout(() => {
                 return this.history.push('/takeoff');
             }, 1000)
@@ -136,7 +136,7 @@ class SimonGame {
     }
 
     _setupEventListerner() {
-        document.addEventListener("click", (event) => {this._pressingDown(event)});
+        document.addEventListener("click", this._pressingDown.bind(this));
     }
 
     _addBackground() {

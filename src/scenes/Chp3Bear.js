@@ -24,6 +24,7 @@ const Chp3Bear = () => {
     return (
         <>
             <img src="/bear/bear.png" alt="" />
+            <div className="fire"></div>
             <button id="btn" className="skip">Skip ></button>
         </>
     )
