@@ -9,9 +9,11 @@ const Chp1Context = () => {
     const context = React.useContext(Context);
 
     const scene = 1;
+    const instruction = "";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
+            context.dispatch({type: 'setInstruction', instruction});
         }
     }, [context]);
 

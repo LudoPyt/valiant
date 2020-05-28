@@ -9,9 +9,11 @@ const Chp3Bear = () => {
     const context = React.useContext(Context);
 
     const scene = 8;
+    const instruction = "Allumer puis lancer le pétard pour éloigner l'ours.";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
+            context.dispatch({type: 'setInstruction', instruction});
         }
     }, [context]);
 

@@ -1,5 +1,9 @@
 @import 'core/reset';
 
+body {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
 main {
     position: relative;
     width: 100%;
@@ -34,10 +38,15 @@ footer {
     width: 100%;
     background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5));
     min-height: 100px;
+    h1 {
+        text-align: center;
+        color: white;
+        font-size: 20px;
+    }
     .timeline {
         position: relative;
         height: 0;
-        margin: 50px auto;
+        margin: 30px auto;
         width: 90%;
         display: block;
         border: 1px dotted white;
@@ -57,7 +66,7 @@ footer {
                 position: relative;
                 margin-top: 15px;
                 text-transform: uppercase;
-                font-size: 12px;
+                font-size: 14px;
                 color: #99acb0;
                 &::before {
                     content: "";
@@ -104,7 +113,7 @@ button {
     }
     &.skip {
         position: absolute;
-        bottom: 30px;
+        bottom: 100px;
         right: 30px;
         background-color: white;
         border: initial;

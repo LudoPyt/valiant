@@ -12,9 +12,11 @@ const Chp2Cockpit = () => {
     const context = React.useContext(Context);
 
     const scene = 6;
+    const instruction = "JE SAIS PAS QUOI METTRE";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
+            context.dispatch({type: 'setInstruction', instruction});
         }
     }, [context]);
 

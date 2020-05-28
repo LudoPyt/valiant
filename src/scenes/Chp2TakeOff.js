@@ -19,9 +19,11 @@ const Chp2TakeOff = () => {
     const context = React.useContext(Context);
 
     const scene = 4;
+    const instruction = "Faire glisser l'avion pour le faire décoller.";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
+            context.dispatch({type: 'setInstruction', instruction});
         }
     }, [context]);
 
