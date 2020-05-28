@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import Story from './Story';
 
-import Chp1Photo from '../scenes/Chp1Photo';
-import Chp1Map from '../scenes/Chp1Map';
+import Chp1Context from '../scenes/Chp1Context';
 import Chp1LakeHood from '../scenes/Chp1LakeHood';
 import Chp1Simon from '../scenes/Chp1Simon';
 
@@ -31,8 +30,7 @@ const App = () => (
 
     <Router>
       <Switch>
-        <Route exact path="/photo" component={Chp1Photo} />
-        <Route exact path="/map" component={Chp1Map} />
+        <Route exact path="/context" component={Chp1Context} />
         <Route exact path="/lakehood" component={Chp1LakeHood} />
         <Route exact path="/simon" component={Chp1Simon} />
         <Route exact path="/takeoff" component={Chp2TakeOff} />
