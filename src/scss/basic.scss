@@ -14,8 +14,8 @@ main {
     }
 }
 
-main + .timeline {
-    display: none;;
+main + footer {
+    display: none;
 }
 
 header {
@@ -28,13 +28,58 @@ header {
     z-index: 1;
 }
 
-.timeline {
+footer {
     position: absolute;
     bottom: 0;
-    left: 0;
     width: 100%;
-    background-color: red;
-    color: white;
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5));
+    min-height: 150px;
+    .timeline {
+        position: relative;
+        height: 0;
+        margin: 50px auto;
+        width: 90%;
+        display: block;
+        border: 1px dotted white;
+        .fill {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            display: block;
+            height: 2px;
+            background-color: white;
+            transition: all .3s ease-in-out;
+        }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            .item {
+                position: relative;
+                margin-top: 15px;
+                text-transform: uppercase;
+                font-size: 12px;
+                color: #99acb0;
+                &::before {
+                    content: "";
+                    position: absolute;
+                    top: -22px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 15px;
+                    height: 15px;
+                    background-color: #6A9495;
+                    border: 1px solid white;
+                    border-radius: 25px;
+                }
+                p {
+                    position: absolute;
+                    transform: translateX(-50%);
+                    width: 80px;
+                    text-align: center;
+                }
+            }
+        }
+    }
 }
 
 h1 {

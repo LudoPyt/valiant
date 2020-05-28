@@ -7,12 +7,10 @@ const Chp1Map = () => {
     const history = useHistory();
 
     const context = React.useContext(Context);
-    const chapter = 1;
-    const scene = 1;
 
+    const scene = 1;
     useEffect(() => {
-        if (context.state.currentChapter !== chapter || context.state.currentScene !== scene) {
-            context.dispatch({type: 'setCurrentChapter', chapter});
+        if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
         }
     }, [context]);

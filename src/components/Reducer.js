@@ -1,13 +1,10 @@
 export const initialState = {
-    currentChapter : null,
-    currentScene: null
+    currentScene: 0
 };
 
 export const Reducer = (state, action) => {
     switch (action.type) {
-        case 'setCurrentChapter':
-            return {...state, currentChapter : action.chapter}
-        case 'setCurrentScene':
+        case 'setCurrentScene' :
             return {...state, currentScene : action.scene}
         default:
             return state;

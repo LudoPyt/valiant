@@ -4,9 +4,27 @@ import { Context } from './Provider';
 const Timeline = () => (
     <Context.Consumer>
         {({state}) => (
-            <div className="timeline">TIMELINE, chap {state.currentChapter}, scene {state.currentScene}</div>
+            <footer>
+                <div className="timeline">
+                    <span className="fill" style={{width: state.currentScene * 11 + '%'}} />
+                    <div className="container">
+                        <div className="item">
+                            <p>chapitre 1</p>
+                        </div>
+                        <div className="item">
+                            <p>chapitre 2</p>
+                        </div>
+                        <div className="item">
+                            <p>chapitre 3</p>
+                        </div>
+                        <div className="item">
+                            <p>fin</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         )}
     </Context.Consumer>
 );
 
-export default Timeline
+export default Timeline;

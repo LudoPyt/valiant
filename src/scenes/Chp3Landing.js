@@ -17,12 +17,10 @@ const Chp3Landing = () => {
     const pathToNextPage = '/bear';
 
     const context = React.useContext(Context);
-    const chapter = 3;
-    const scene = 1;
 
+    const scene = 7;
     useEffect(() => {
-        if (context.state.currentChapter !== chapter || context.state.currentScene !== scene) {
-            context.dispatch({type: 'setCurrentChapter', chapter});
+        if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
         }
     }, [context]);
