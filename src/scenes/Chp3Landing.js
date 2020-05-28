@@ -38,9 +38,7 @@ const Chp3Landing = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <img className="landing-plants" src="/landing/plants.png" alt="plants"></img>
-            {/* <img className="take-off-and-landing-left-plants" src="/landing/left-plants.png" alt="plants"></img> */}
-            {/* <img className="take-off-and-landing-right-plants" src="/landing/right-plants.png" alt="plants"></img> */}
+            <img className="plants" src="/landing/plants.png" alt="plants"></img>
             <h2>Drag the beaver to the lake</h2>
         </>
     )

@@ -38,7 +38,7 @@ const Chp2TakeOff = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <img className="take-off-plants" src="/takeoff/plants.png" alt="plants"></img>
+            <img className="plants" src="/takeoff/plants.png" alt="plants"></img>
             <h2>Drag the beaver to the sky</h2>
         </>
     )
