@@ -5,7 +5,7 @@ const Story = () => (
   <main>
     <div>
       <h1>STORY PAGE</h1>
-      <Link to="/photo">
+      <Link to="/context">
         <button>Commencer l'histoire</button>
       </Link>
     </div>

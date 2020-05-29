@@ -1,9 +1,21 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import { Context } from '../components/Provider';
 
 const Chp2FlightFeelings = () => {
 
     const history = useHistory();
+
+    const context = React.useContext(Context);
+
+    const scene = 5;
+    const instruction = "";
+    useEffect(() => {
+        if (context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentScene', scene});
+            context.dispatch({type: 'setInstruction', instruction});
+        }
+    }, [context]);
 
     useEffect(() => {
         document.getElementById('flight').addEventListener("ended", () => {history.push('/cockpit');});
