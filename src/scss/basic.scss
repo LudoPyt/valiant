@@ -36,8 +36,11 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.5));
-    min-height: 100px;
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8));
+    min-height: 150px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
     h1 {
         text-align: center;
         color: white;
@@ -49,7 +52,7 @@ footer {
         margin: 30px auto;
         width: 90%;
         display: block;
-        border: 1px dotted white;
+        border: 1px dashed white;
         .fill {
             position: absolute;
             top: -1px;
@@ -85,6 +88,7 @@ footer {
                     transform: translateX(-50%);
                     width: 80px;
                     text-align: center;
+                    margin-top: 10px;
                 }
             }
         }
