@@ -29,6 +29,14 @@ class CockpitScene{
         this.axesHelper = new THREE.AxesHelper( 5 );
         this.lerpEasing = 0.1
 
+
+        this.crackle = false;
+        this.int = 0;
+        this.interval = setInterval(() => {
+            this.crackle = !this.crackle
+        }, this.int)
+
+
         //video
         this._setVideoSea();
         //son
@@ -40,7 +48,7 @@ class CockpitScene{
 
     _setGUI(){
         let options = {
-            
+
             reset: () => {
               this.camera.position.z = 0;
               this.camera.position.x = 0;
@@ -48,7 +56,7 @@ class CockpitScene{
             }
           };
           let gui = new dat.GUI();
-          
+
           let mer = gui.addFolder('sea');
           mer.add(this.sea.position, 'x', 0, 500).listen();
           mer.add(this.sea.position, 'y', -200, 0).listen();
@@ -65,20 +73,20 @@ class CockpitScene{
         this.seaVideo.addEventListener('canplaythrough', () => {
             if (!this.isStarted){
                 this.isStarted = true
-                
+
                 this._setScene();
                 this._setTextureVideo();
 
                 this._addSky();
                 this._addSea(this.textureVideo);
-                
+
                 this._addCameraPivotY();
                 this._addCameraPivotX();
-                
+
                 this._addCockpit();
                 this._addForest();
-                
-                
+
+
                 this._render();
             }
         })
@@ -89,7 +97,7 @@ class CockpitScene{
             canvas: this.canvas,
             antialias: true
             });
-        
+
         this.renderer.setClearColor(0x000000);
         this.renderer.setPixelRatio(window.devicePixelRatio);
         this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -160,8 +168,8 @@ class CockpitScene{
             let pivotYPosX = lerp(this.pivotY.position.x, 0 , this.lerpEasing )
             let pivotYRotY = lerp( this.pivotY.rotation.y , 0 , this.lerpEasing )
             let pivotXRotZ = lerp( this.pivotX.rotation.z , 0 , this.lerpEasing )
-    
-            this.pivotY.position.x = pivotYPosX 
+
+            this.pivotY.position.x = pivotYPosX
             this.pivotY.rotation.y = pivotYRotY
             this.pivotX.rotation.z = pivotXRotZ
 
@@ -169,6 +177,25 @@ class CockpitScene{
             this.stick.rotation.z = stickRotZ
 
         }
+
+
+        // animate needles on dashboard
+        this.int = Math.round(Math.random() * 3000)
+
+        if (this.needleTopL && this.needleTopR && this.needleL) {
+            if (this.crackle) {
+                this.needleTopL.rotation.z -= 1 * this.delta
+                this.needleTopR.rotation.z -= 1 * this.delta
+                this.needleL.rotation.z += 1 * this.delta
+            } else {
+                this.needleTopL.rotation.z += 1 * this.delta
+                this.needleTopR.rotation.z += 1 * this.delta
+                this.needleL.rotation.z -= 1 * this.delta
+
+            }
+        }
+
+
 
         this._moveLeft()
         this._moveRight()
@@ -189,26 +216,41 @@ class CockpitScene{
     }
 
     _addCockpit(){
-        this.loader.load('model/hydravion/scene.gltf', (object) => { 
+        this.loader.load('model/hydravion/scene.gltf', (object) => {
             this.gltf = object.scene
             this.gltf.traverse((child) => {
-                if (child.name === 'Hydravion' ){
-                    this.cockpit = child
-                    this.cockpit.scale.set(.04, .04, .04);
-                    this.cockpit.position.set(0, 0, 0);
-                    this.scene.add(this.cockpit)
-                }
-                if (child.name === 'Helices' ){
-                    this.helices = child
-                }
-                if (child.name === 'Manche'){
-                    this._addStick(child)
+                switch (child.name) {
+                    case 'Hydravion':
+                        this.cockpit = child
+                        this.cockpit.scale.set(.04, .04, .04);
+                        this.cockpit.position.set(0, 0, 0);
+                        this.scene.add(this.cockpit)
+                        break;
+                    case 'Helices':
+                        this.helices = child
+                        break;
+                    case 'Manche':
+                        this._addStick(child)
+                        break;
+                    case 'aiguille_left':
+                        this.needleL = child
+                        console.log(this.needleL)
+                        break;
+                    case 'aiguille_top_l':
+                        this.needleTopL = child
+                        console.log(this.needleTopL)
+                        break;
+                    case 'aiguille_top_r':
+                        this.needleTopR = child
+                        console.log(this.needleTopR)
+                        break;
+                    default:
                 }
             })
         })
     }
     _addForest(){
-        this.loader.load('model/forest/scene.gltf', (object) => { 
+        this.loader.load('model/forest/scene.gltf', (object) => {
             this.forest = object.scene
             this.forest.scale.set(.8, .8, .8);
             this.forest.position.set(500, -100, -100)
@@ -255,7 +297,7 @@ class CockpitScene{
     _setVideoSea() {
         this.seaVideo.src = "decor_cockpit/tex_eau.mp4";
         this.seaVideo.crossOrigin = 'anonymous';
-        this.seaVideo.preload = 'auto'; 
+        this.seaVideo.preload = 'auto';
         this.seaVideo.autoload = true;
         this.seaVideo.load();
     }
@@ -265,7 +307,7 @@ class CockpitScene{
             this._leftCameraPivot()
             this.stick.rotateZ(this.speedRot * this.delta);
         }
-        
+
     }
     _moveRight() {
         if (this.arrow.directions.right && this.stick.rotation.z> -this.maxRotation) {
@@ -278,7 +320,7 @@ class CockpitScene{
         let pivotYRotY = lerp( this.pivotY.rotation.y , .55 , this.lerpEasing )
         let pivotXRotZ = lerp( this.pivotX.rotation.z , .1 , this.lerpEasing )
 
-        this.pivotY.position.x = pivotYPosX 
+        this.pivotY.position.x = pivotYPosX
         this.pivotY.rotation.y = pivotYRotY
         this.pivotX.rotation.z = pivotXRotZ
 

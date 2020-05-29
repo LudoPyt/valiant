@@ -26,8 +26,6 @@ class SimonGame {
         this.solution = ["btn_interrupteur_haut", "btn_interrupteur_bas", "btn_pull", "btn_rotatif_haut", "btn_press"];
 
         this.helSpeed = 0;
-        this.needleLSpeed = 0;
-        this.needlesSpeed = 0;
         this.crackle = false;
 
         this.int = 0;
@@ -166,7 +164,7 @@ class SimonGame {
         let light = new THREE.AmbientLight(0xffffff, .5);
         this.scene.add(light);
 
-        let lightPoint = new THREE.PointLight(0xffffff, 0.5);
+        let lightPoint = new THREE.PointLight(0xffffff, 0.7);
         this.scene.add(lightPoint)
     }
 
@@ -198,7 +196,6 @@ class SimonGame {
                         break;
                     case 'btn_press':
                         this._createTab(child)
-                        console.log(child)
                         break;
                     case 'aiguille_left':
                         this.needleL = child
