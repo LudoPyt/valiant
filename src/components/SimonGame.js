@@ -140,7 +140,7 @@ class SimonGame {
     }
 
     _addBackground() {
-        let background = new THREE.TextureLoader().load('before-take-off/background.png');
+        let background = new THREE.TextureLoader().load('/before-take-off/background.png');
         this.scene.background = background;
     }
 
