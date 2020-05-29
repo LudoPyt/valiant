@@ -189,7 +189,7 @@ class CockpitScene{
     }
 
     _addCockpit(){
-        this.loader.load('Cockpit3D/scene.gltf', (object) => { 
+        this.loader.load('model/hydravion/scene.gltf', (object) => { 
             this.gltf = object.scene
             this.gltf.traverse((child) => {
                 if (child.name === 'Hydravion' ){
@@ -208,7 +208,7 @@ class CockpitScene{
         })
     }
     _addForest(){
-        this.loader.load('foret/scene.gltf', (object) => { 
+        this.loader.load('model/forest/scene.gltf', (object) => { 
             this.forest = object.scene
             this.forest.scale.set(.8, .8, .8);
             this.forest.position.set(500, -100, -100)
@@ -218,7 +218,7 @@ class CockpitScene{
     }
 
     _addSky() {
-        var texture = new THREE.TextureLoader().load( "foret/tex_ciel.jpg" );
+        var texture = new THREE.TextureLoader().load( "decor_cockpit/tex_ciel.jpg" );
         let skyGeometry = new THREE.PlaneGeometry(10000, 1500);
         let skyMaterial = new THREE.MeshBasicMaterial({map: texture});
         this.sky = new THREE.Mesh(skyGeometry, skyMaterial);
@@ -253,7 +253,7 @@ class CockpitScene{
     }
 
     _setVideoSea() {
-        this.seaVideo.src = "tex_eau.mp4";
+        this.seaVideo.src = "decor_cockpit/tex_eau.mp4";
         this.seaVideo.crossOrigin = 'anonymous';
         this.seaVideo.preload = 'auto'; 
         this.seaVideo.autoload = true;

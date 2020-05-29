@@ -171,7 +171,7 @@ class SimonGame {
     }
 
     _addCockpit(){
-        this.loader.load('before-take-off/scene.gltf', (object) => {
+        this.loader.load('model/hydravion/scene.gltf', (object) => {
             this.gltf = object.scene
             this.gltf.traverse((child) => {
                 switch (child.name) {
