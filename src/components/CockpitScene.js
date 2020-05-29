@@ -10,7 +10,7 @@ import { Howl } from 'howler';
 class CockpitScene{
     constructor(canvas, video){
         this.canvas = canvas;
-        this.video = video;
+        this.seaVideo = video;
 
         this._init();
     }
@@ -30,7 +30,7 @@ class CockpitScene{
         this.lerpEasing = 0.1
 
         //video
-        this._setVideo();
+        this._setVideoSea();
         //son
         this._addSound();
 
@@ -49,58 +49,39 @@ class CockpitScene{
           };
           let gui = new dat.GUI();
           
-          let pX = gui.addFolder('pivotX');
-          pX.add(this.pivotX.position, 'x', -100, 100).listen();
-          pX.add(this.pivotX.position, 'y', -100, 100).listen();
-          pX.add(this.pivotX.position, 'z', -100, 100).listen();
-          pX.add(this.pivotX.rotation, 'x', -1, 1).listen();
-          pX.add(this.pivotX.rotation, 'y', -2, 2).listen();
-          pX.add(this.pivotX.rotation, 'z', -1, 1).listen();
-          pX.open();
-      
-          
-          let pY = gui.addFolder('pivotY');
-          pY.add(this.pivotY.position, 'x', -100, 100).listen();
-          pY.add(this.pivotY.position, 'y', -100, 100).listen();
-          pY.add(this.pivotY.position, 'z', -100, 100).listen();
-          pY.add(this.pivotY.rotation, 'x', -2, 2).listen();
-          pY.add(this.pivotY.rotation, 'y', -2, 2).listen();
-          pY.add(this.pivotY.rotation, 'z', -2, 2).listen();
-          pY.open();
-
-          let cam = gui.addFolder('camera');
-          cam.add(this.camera.position, 'x', -100, 100).listen();
-          cam.add(this.camera.position, 'y', -100, 100).listen();
-          cam.add(this.camera.position, 'z', -100, 100).listen();
-          cam.add(this.camera.rotation, 'x', -2, 2).listen();
-          cam.add(this.camera.rotation, 'y', -2, 2).listen();
-          cam.add(this.camera.rotation, 'z', -2, 2).listen();
-          cam.open();
+          let mer = gui.addFolder('sea');
+          mer.add(this.sea.position, 'x', 0, 500).listen();
+          mer.add(this.sea.position, 'y', -200, 0).listen();
+          mer.add(this.sea.position, 'z', -200, 200).listen();
+          mer.add(this.sea.rotation, 'x', -1, 1).listen();
+          mer.add(this.sea.rotation, 'y', -2, 2).listen();
+          mer.add(this.sea.rotation, 'z', -1, 1).listen();
+          mer.open();
 
           gui.add(options, 'reset');
     }
 
     _setupEventListener() {
-        this.video.addEventListener('canplaythrough', () => {
+        this.seaVideo.addEventListener('canplaythrough', () => {
             if (!this.isStarted){
                 this.isStarted = true
-
+                
                 this._setScene();
-                this._addSky();
-                this._addFloor();
+                this._setTextureVideo();
 
+                this._addSky();
+                this._addSea(this.textureVideo);
+                
                 this._addCameraPivotY();
                 this._addCameraPivotX();
-
+                
                 this._addCockpit();
-
-                // this._setTextureVideo();
-                // this._addWallLeft(this.textureVideo);
-                // this._addWallRight(this.textureVideo);
-
+                this._addForest();
+                
+                
                 this._render();
             }
-            })
+        })
     }
 
     _setScene() {
@@ -118,7 +99,7 @@ class CockpitScene{
             60,
             window.innerWidth / window.innerHeight,
             0.1,
-            1000
+            30000
         );
 
         let light = new THREE.AmbientLight(0xffffff, .5);
@@ -134,7 +115,7 @@ class CockpitScene{
         });
     }
     _setTextureVideo(){
-        this.textureVideo = new THREE.VideoTexture( this.video );
+        this.textureVideo = new THREE.VideoTexture( this.seaVideo );
         this.textureVideo.needsUpdate = true;
         this.textureVideo.minFilter = THREE.LinearFilter;
         this.textureVideo.magFilter = THREE.LinearFilter;
@@ -144,22 +125,26 @@ class CockpitScene{
     _render() {
         if (this.helices){
             this.helices.rotation.z += 10 * this.delta
+
         }
 
-        if (
-            (this.pivotY.rotation.y <= -0.3 && !this.soundRead) ||
-            (this.pivotY.rotation.y >= 0.3 && !this.soundRead)
-        ) {
+        if  (this.pivotY.rotation.y >= 0.3 && !this.soundRead) {
+            this.seaVideo.play()
             this.sound.play();
-            // this.video.play();
+            this.soundRead = true;
+        }
+
+        if  (this.pivotY.rotation.y <= -0.3 && !this.soundRead) {
+            this.seaVideo.play()
+            this.sound.play();
             this.soundRead = true;
         }
 
         if (this.pivotY.rotation.y >= -0.3 && this.pivotY.rotation.y <= 0.3) {
             this.soundRead = false;
             this.sound.stop();
-            // this.video.pause();
-            // this.video.currentTime = 0;
+            this.seaVideo.pause();
+            this.seaVideo.currentTime = 0;
         }
 
         if (this.arrow.directions.forward && this.camera.rotation.x <= 0) {
@@ -167,8 +152,8 @@ class CockpitScene{
             this.camera.rotation.x += this.speedRot * this.delta;
         }
         if (this.arrow.directions.backward) {
-            this.cockpit.rotation.x += -this.speedRot * this.delta;
-            this.camera.rotation.x += -this.speedRot * this.delta;
+            this.cockpit.rotation.x += -0.2 * this.delta;
+            this.camera.rotation.x += -0.2 * this.delta;
         }
 
         if (this.pivotY.position.x > -10 && this.pivotY.position.x < 10 && this.stick){
@@ -188,12 +173,19 @@ class CockpitScene{
         this._moveLeft()
         this._moveRight()
 
+
+
         if (!this.needDestroy) {
             this.raf = requestAnimationFrame(this._render.bind(this));
         }
 
         this.renderer.render(this.scene, this.camera);
         this.delta = this.clock.getDelta();
+        if(this.forest){
+
+            this.forest.position.z += 5 * this.delta
+        }
+
     }
 
     _addCockpit(){
@@ -205,7 +197,6 @@ class CockpitScene{
                     this.cockpit.scale.set(.04, .04, .04);
                     this.cockpit.position.set(0, 0, 0);
                     this.scene.add(this.cockpit)
-                    this._setGUI();
                 }
                 if (child.name === 'Helices' ){
                     this.helices = child
@@ -216,38 +207,22 @@ class CockpitScene{
             })
         })
     }
-    _addWallRight(texture) {
-        let wallPivot = new THREE.Object3D()
-        wallPivot.position.set(40, -32, -10);
-        wallPivot.rotation.set(0, -1.5, 0);
-        let wallRightGeometry = new THREE.PlaneGeometry(30,25);
-        let wallRightMaterial = new THREE.MeshBasicMaterial({map: texture});
-        this.wallRight = new THREE.Mesh(wallRightGeometry, wallRightMaterial);
-        wallPivot.add(this.wallRight)
-        this.wallRight.rotation.set(-.8, .2, 0);
-        this.wallRight.position.set(0,2,-13)
-        this.scene.add(wallPivot)
-
+    _addForest(){
+        this.loader.load('foret/scene.gltf', (object) => { 
+            this.forest = object.scene
+            this.forest.scale.set(.8, .8, .8);
+            this.forest.position.set(500, -100, -100)
+            this.scene.add(this.forest)
+            this._setGUI();
+        })
     }
-    _addWallLeft(texture) {
-        this.wallPivot = new THREE.Object3D()
-        this.wallPivot.position.set(-40, -32, -10);
-        this.wallPivot.rotation.set(0, 1.5, 0);
-        let wallLeftGeometry = new THREE.PlaneGeometry(40, 30);
-        let wallLeftMaterial = new THREE.MeshBasicMaterial({map: texture});
-        this.wallLeft = new THREE.Mesh(wallLeftGeometry, wallLeftMaterial);
-        this.wallPivot.add(this.wallLeft)
-        this.wallLeft.rotation.set(0, 0, 0);
-        this.wallLeft.position.set(0,2,-13)
-        this.scene.add(this.wallPivot)
 
-    }
     _addSky() {
-        var texture = new THREE.TextureLoader().load( "images/ciel-cockpit.png" );
-        let skyGeometry = new THREE.PlaneGeometry(2000, 2000);
+        var texture = new THREE.TextureLoader().load( "foret/tex_ciel.jpg" );
+        let skyGeometry = new THREE.PlaneGeometry(10000, 1500);
         let skyMaterial = new THREE.MeshBasicMaterial({map: texture});
         this.sky = new THREE.Mesh(skyGeometry, skyMaterial);
-        this.sky.position.set(0,0,-500)
+        this.sky.position.set(0,500,-1000)
         this.scene.add(this.sky)
 
     }
@@ -267,32 +242,27 @@ class CockpitScene{
         this.scene.add(this.pivotX)
     }
 
-    _addFloor() {
-        let floorGeometry = new THREE.PlaneGeometry(50, 1000, 5, 32);
-        let floorMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-        wireframe: true
-        });
-        this.floor = new THREE.Mesh(floorGeometry, floorMaterial);
-        this.floor.rotation.x += Math.PI / 2;
-        this.floor.position.set(0, -50,0);
-        this.scene.add(this.floor);
+    _addSea(texture) {
+        let seaGeometry = new THREE.PlaneGeometry(3000, 1000, 5, 32);
+        let seaMaterial = new THREE.MeshBasicMaterial({map: texture});
+        this.sea = new THREE.Mesh(seaGeometry, seaMaterial);
+        this.sea.rotation.x -= Math.PI / 2;
+        this.sea.position.set(0, -103, 0);
+        this.scene.add(this.sea);
 
     }
 
-    _setVideo() {
-        this.video.src = "video_test.mp4";
-        this.video.crossOrigin = 'anonymous';
-        this.video.preload = 'auto'; 
-        this.video.autoload = true;
-        this.video.load();
+    _setVideoSea() {
+        this.seaVideo.src = "tex_eau.mp4";
+        this.seaVideo.crossOrigin = 'anonymous';
+        this.seaVideo.preload = 'auto'; 
+        this.seaVideo.autoload = true;
+        this.seaVideo.load();
     }
 
     _moveLeft() {
         if (this.arrow.directions.left && this.stick.rotation.z < this.maxRotation) {
             this._leftCameraPivot()
-            // this.cockpit.rotateZ(this.speedRot * this.delta)
-            // this.camera.rotateZ(this.speedRot * this.delta)
             this.stick.rotateZ(this.speedRot * this.delta);
         }
         
@@ -300,14 +270,12 @@ class CockpitScene{
     _moveRight() {
         if (this.arrow.directions.right && this.stick.rotation.z> -this.maxRotation) {
             this._rightCameraPivot()
-            // this.camera.rotateZ(-this.speedRot * this.delta)
-            // this.cockpit.rotateZ(-this.speedRot * this.delta)
             this.stick.rotateZ(-this.speedRot * this.delta);
         }
     }
     _leftCameraPivot() {
-        let pivotYPosX = lerp(this.pivotY.position.x, -46 , this.lerpEasing )
-        let pivotYRotY = lerp( this.pivotY.rotation.y , .8 , this.lerpEasing )
+        let pivotYPosX = lerp(this.pivotY.position.x, -30 , this.lerpEasing )
+        let pivotYRotY = lerp( this.pivotY.rotation.y , .55 , this.lerpEasing )
         let pivotXRotZ = lerp( this.pivotX.rotation.z , .1 , this.lerpEasing )
 
         this.pivotY.position.x = pivotYPosX 
@@ -316,8 +284,8 @@ class CockpitScene{
 
     }
     _rightCameraPivot() {
-        let pivotPosX = lerp(this.pivotY.position.x, 46 , this.lerpEasing )
-        let pivotRotY = lerp( this.pivotY.rotation.y , -0.8 , this.lerpEasing )
+        let pivotPosX = lerp(this.pivotY.position.x, 30 , this.lerpEasing )
+        let pivotRotY = lerp( this.pivotY.rotation.y , -0.55 , this.lerpEasing )
         let pivotXRotZ = lerp( this.pivotX.rotation.z , -.1 , this.lerpEasing )
 
         this.pivotY.position.x = pivotPosX
