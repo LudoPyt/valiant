@@ -1,4 +1,5 @@
 @import 'core/reset';
+@import './scenes.scss';
 
 body {
     font-family: 'Josefin Sans', sans-serif;
@@ -29,7 +30,7 @@ header {
     width: 100%;
     background-color: red;
     color: white;
-    z-index: 1;
+    z-index: 5;
 }
 
 footer {
@@ -130,59 +131,4 @@ button {
     flex-flow: row nowrap;
     justify-content: center;
     align-items: center;
-}
-
-.video {
-    display: none;
-}
-
-.context, .flight {
-    width: 100%;
-    height: 100%;
-}
-
-img {
-    width: 100%;
-}
-
-.plants {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}
-
-.lakehood-beaver {
-    position: absolute;
-    bottom: 22%;
-    right: 2%;
-    width: 37%;
-    height: 22%;
-    cursor: pointer;
-    // background-color: rgba(255, 0, 0, 0.4);
-}
-
-
-
-
-
-
-.fire {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1042px;
-    height: 1043px;
-    // width: 200px;
-    // height: 200px;
-    background-image: url('../assets/flame.png');
-    background-position: left center;
-    background-size: cover;
-    animation: test 1s steps(17) infinite;
-}
-
-@keyframes test {
-    100% {
-        background-position: -17714px -0;
-    }
 }

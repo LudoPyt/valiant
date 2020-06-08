@@ -1,0 +1,118 @@
+// ALL
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+img {
+    width: 100%;
+}
+
+.plants {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+
+// MOTIONS
+.video {
+    display: none;
+}
+
+.context, .flight {
+    width: 100%;
+    height: 100%;
+}
+
+
+// LAKEHOOD SCENE
+.lakehood-beaver {
+    position: absolute;
+    bottom: 22%;
+    right: 2%;
+    width: 37%;
+    height: 22%;
+    cursor: pointer;
+    // background-color: rgba(255, 0, 0, 0.4);
+}
+
+
+// BEAR SCENE
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.bear {
+    position: absolute;
+    top: 67%;
+    left: 25%;
+    width: 180px;
+    height: 128px;
+    background-image: url('../assets/bear-sprite.png');
+    background-position: left center;
+    background-size: cover;
+    animation: walkBear 2s steps(6) 2, goForward 4s 1;
+}
+
+@keyframes walkBear {
+    100% {
+        background-position: -1080px -0;
+    }
+}
+
+@keyframes goForward {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: 25%;
+    }
+}
+
+
+.fire {
+    position: absolute;
+    bottom: 18%;
+    left: 44%;
+    width: 193px;
+    height: 289px;
+    transform: scale(.9) rotate(-10deg);
+    background-image: url('../assets/flames-sprite.png');
+    background-position: left center;
+    background-size: cover;
+    // animation-name: setFire;
+    animation-duration: 2s;
+    animation-timing-function: steps(26);
+}
+
+@keyframes setFire {
+    100% {
+        background-position: -5018px -0;
+    }
+}
+
+.explosion {
+    position: absolute;
+    top: 22%;
+    left: 23%;
+    width: 300px;
+    height: 300px;
+    background-image: url('../assets/explosion-sprite.png');
+    background-position: left center;
+    background-size: cover;
+    // animation-name: setExplosion;
+    animation-duration: 1s;
+    animation-timing-function: steps(11);
+    animation-iteration-count: 2;
+}
+
+@keyframes setExplosion {
+    100% {
+        background-position: -3300px -0;
+    }
+}
