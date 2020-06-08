@@ -113,7 +113,7 @@ class CockpitScene{
         let light = new THREE.AmbientLight(0xffffff, .5);
         this.scene.add(light);
 
-        let lightPoint = new THREE.PointLight(0xffffff, 0.5);
+        let lightPoint = new THREE.PointLight(0xffffff, 0.7);
         this.scene.add(lightPoint)
     }
 
