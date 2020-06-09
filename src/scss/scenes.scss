@@ -56,7 +56,7 @@ img {
     background-image: url('../assets/bear-sprite.png');
     background-position: left center;
     background-size: cover;
-    animation: walkBear 2s steps(6) 2, goForward 4s 1;
+    animation: 2s walkBear steps(6) 4, 10s goForward 1;
 }
 
 @keyframes walkBear {
@@ -67,7 +67,7 @@ img {
 
 @keyframes goForward {
     0% {
-        left: 0;
+        left: -15%;
     }
     100% {
         left: 25%;
@@ -77,7 +77,7 @@ img {
 
 .fire {
     position: absolute;
-    bottom: 18%;
+    bottom: 25%;
     left: 44%;
     width: 193px;
     height: 289px;

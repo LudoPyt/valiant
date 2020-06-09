@@ -8,7 +8,7 @@ const Chp3Bear = () => {
     const history = useHistory();
     const canvas = useRef(null);
     const bezierCurvePoints = {
-        start: {x: -0.6, y: -2.5},
+        start: {x: -0.6, y: -2},
         firstControl: {x: -0.5, y: 0.5},
         secondControl: {x: -1.5, y: 2},
         end:{x: -2.5, y: 1}

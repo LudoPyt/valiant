@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DragControls } from '../lib/DragControls';
+import { TextureAnimator } from '../components/animationComponents/textureAnimator';
 
 class BearScene {
     constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, scaling){
@@ -20,12 +21,17 @@ class BearScene {
 
         this.loader = new GLTFLoader();
 
+        this.clock = new THREE.Clock();
+
         this.dragArray = [];
 
         this.startPoint = this.bezierCurvePoints.start;
         this.firstControlPoint = this.bezierCurvePoints.firstControl;
         this.secondControlPoint = this.bezierCurvePoints.secondControl;
         this.endPoint = this.bezierCurvePoints.end;
+
+        this.showSparkles = false;
+        this.throwFirecracker = false;
 
         this._setScene();
         // this._addBackground();
@@ -34,78 +40,14 @@ class BearScene {
         this._addFirecracker();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
-        this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
-        this._setupEventListerner();
+        this._setupClickEventListerner();
         this._render();
     }
 
-    _pressingDown(event) {
-        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-        this.raycaster.setFromCamera(this.mouse, this.camera);
-        this.intersect = this.raycaster.intersectObjects(this.scene.children , true);
-        console.log(this.intersect)
-
-        this.intersect.map(elem => {
-            switch (elem.object.name) {
-                case 'lighter':
-                    document.getElementById('fireBox').style.zIndex = 4;
-                    document.getElementById('fireBox').style.animationName = "setFire";
-                    setTimeout(() => {
-                        document.getElementById('fireBox').style.zIndex = 2;
-                        document.getElementById('fireBox').style.animationName = "";
-                    }, 2000)
-                    break;
-                default:
-            }
-            return elem;
-        })
-    }
-
-    _setupEventListerner() {
-        document.addEventListener("click", this._pressingDown.bind(this));
-
-        window.addEventListener('mousemove', (event) => {
-            if (event.x > this.pathScreenEnd && event.x < this.pathScreenStart) {
-                this.mouseX = event.x
-            } else if (event.x < this.pathScreenEnd) {
-                this.mouseX = this.pathScreenEnd
-            } else if (event.x > this.pathScreenStart) {
-                this.mouseX = this.pathScreenStart
-            }
-        });
-
-        this.dragControls.addEventListener('drag', () => {
-            let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart)
-
-            if (percentOfCurve > 99) {
-                this.firecracker.position.x = this.endPoint.x;
-                this.firecracker.position.y = this.endPoint.y;
-                this.firecracker.material.opacity = 0;
-                setTimeout(() => {
-                    this.history.push(this.nextPage);
-                }, 3000)
-                document.getElementById('explosionBox').style.animationName = "setExplosion";
-            } else if (percentOfCurve < 1) {
-                this.firecracker.position.x = this.startPoint.x;
-                this.firecracker.position.y = this.startPoint.y;
-            } else {
-                this.firecracker.position.x = this.pathPoints[Math.round(percentOfCurve)].x
-                this.firecracker.position.y = this.pathPoints[Math.round(percentOfCurve)].y
-                this.firecracker.scale.x = 1 - (percentOfCurve*0.005);
-                this.firecracker.scale.y = 1 - (percentOfCurve*0.005);
-                this.firecracker.rotation.z += (percentOfCurve*0.003)
-            }
-        });
-
-        this.dragControls.addEventListener('dragend', () => {
-            this.firecracker.position.x = this.startPoint.x;
-            this.firecracker.position.y = this.startPoint.y;
-            this.firecracker.scale.x = 1;
-            this.firecracker.scale.y = 1;
-            this.firecracker.rotation.z = 0;
-        } );
-    }
+    // _addBackground() {
+    //     let background = new THREE.TextureLoader().load(this.pathToAssets + 'background.png');
+    //     this.scene.background = background;
+    // }
 
     _toScreenPosition(obj, camera) {
         let vector = new THREE.Vector3();
@@ -123,6 +65,7 @@ class BearScene {
     };
 
     _addPath() {
+
         let pointGeometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
         let startPoint = new THREE.Mesh(pointGeometry);
         startPoint.position.x = this.startPoint.x;
@@ -153,11 +96,6 @@ class BearScene {
         this.scene.add(line);
     }
 
-    _addBackground() {
-        let background = new THREE.TextureLoader().load(this.pathToAssets + 'background.png');
-        this.scene.background = background;
-    }
-
     _addLighter() {
         let loader = new THREE.TextureLoader();
         let material = new THREE.MeshLambertMaterial({
@@ -170,8 +108,8 @@ class BearScene {
         this.lighter.receiveShadow = true;
 
         this.lighter.name = "lighter";
-        this.lighter.position.x = 0.6;
-        this.lighter.position.y = -2.5;
+        this.lighter.position.x = -this.startPoint.x;
+        this.lighter.position.y = this.startPoint.y;
         this.lighter.position.z = 0.2;
         this.scene.add(this.lighter);
     }
@@ -187,13 +125,101 @@ class BearScene {
         this.firecracker.castShadow = true;
         this.firecracker.receiveShadow = true;
         this.firecracker.name = "firecracker";
+        this.firecracker.position.x = this.startPoint.x;
+        this.firecracker.position.y = this.startPoint.y;
+        this.firecracker.position.z = 0.2;
+
+        let sparklesTexture = new THREE.TextureLoader().load(this.pathToAssets + 'sparkles.png');
+        this.sparklesAnim = new TextureAnimator(sparklesTexture, 16, 1, 16, 150); // texture, #horiz, #vert, #total, duration.
+        let sparklesMaterial = new THREE.MeshBasicMaterial( {map: sparklesTexture, transparent: true} );
+
+        let sparklesGeometry = new THREE.PlaneGeometry(0.7, 0.85);
+        this.sparkles = new THREE.Mesh(sparklesGeometry, sparklesMaterial);
+        this.sparkles.position.x = 0.6;
+        this.sparkles.position.y = 0.7;
+        this.sparkles.position.z = 0.2;
+
+        this.firecracker.add(this.sparkles);
 
         this.dragArray.push(this.firecracker);
 
-        this.firecracker.position.x = -0.6;
-        this.firecracker.position.y = -2.5;
-        this.firecracker.position.z = 0.2;
         this.scene.add(this.firecracker);
+    }
+
+    _setupClickEventListerner() {
+        document.addEventListener("click", (event) => {
+            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+            this.raycaster.setFromCamera(this.mouse, this.camera);
+            this.intersect = this.raycaster.intersectObjects(this.scene.children , true);
+            console.log(this.intersect)
+
+            this.intersect.map(elem => {
+                if (elem.object.name === 'lighter') {
+                    document.getElementById('fireBox').style.zIndex = 4;
+                    document.getElementById('fireBox').style.animationName = "setFire";
+                    setTimeout(() => {
+                        this.showSparkles = true;
+                        this.throwFirecracker = true;
+                        this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
+                        this._setupDragEventListerner();
+                        document.getElementById('fireBox').style.zIndex = 2;
+                        document.getElementById('fireBox').style.animationName = "";
+                    }, 2000)
+                }
+                return elem;
+            })
+        });
+    }
+
+    _setupDragEventListerner() {
+
+        if (this.throwFirecracker) {
+
+            window.addEventListener('mousemove', (event) => {
+                if (event.x > this.pathScreenEnd && event.x < this.pathScreenStart) {
+                    this.mouseX = event.x
+                } else if (event.x < this.pathScreenEnd) {
+                    this.mouseX = this.pathScreenEnd
+                } else if (event.x > this.pathScreenStart) {
+                    this.mouseX = this.pathScreenStart
+                }
+            });
+
+            this.dragControls.addEventListener('drag', () => {
+                let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart)
+
+                if (percentOfCurve > 99) {
+                    this.firecracker.position.x = this.endPoint.x;
+                    this.firecracker.position.y = this.endPoint.y;
+                    this.firecracker.material.opacity = 0;
+                    this.sparkles.material.opacity = 0;
+                    setTimeout(() => {
+                        this.history.push(this.nextPage);
+                    }, 3000)
+                    document.getElementById('explosionBox').style.animationName = "setExplosion";
+                } else if (percentOfCurve < 1) {
+                    this.firecracker.position.x = this.startPoint.x;
+                    this.firecracker.position.y = this.startPoint.y;
+                } else {
+                    this.firecracker.position.x = this.pathPoints[Math.round(percentOfCurve)].x
+                    this.firecracker.position.y = this.pathPoints[Math.round(percentOfCurve)].y
+                    this.firecracker.scale.x = 1 - (percentOfCurve*0.005);
+                    this.firecracker.scale.y = 1 - (percentOfCurve*0.005);
+                    this.firecracker.rotation.z += (percentOfCurve*0.003)
+                }
+            });
+
+            this.dragControls.addEventListener('dragend', () => {
+                this.firecracker.position.x = this.startPoint.x;
+                this.firecracker.position.y = this.startPoint.y;
+                this.firecracker.scale.x = 1;
+                this.firecracker.scale.y = 1;
+                this.firecracker.rotation.z = 0;
+            } );
+
+        }
+
     }
 
     _setScene() {
@@ -220,6 +246,10 @@ class BearScene {
     }
 
     _render() {
+
+        let delta = this.clock.getDelta();
+
+        if (this.showSparkles) this.sparklesAnim.update(delta * 1000);
 
         if (!this.needDestroy) {
             requestAnimationFrame(this._render.bind(this));
