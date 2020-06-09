@@ -44,8 +44,6 @@ const Chp3Bear = () => {
             <canvas style={{zIndex: 3}} ref={canvas}></canvas>
             <img style={{zIndex: 2}} className="plants" src="/bear/plants.png" alt="plants"></img>
             <div style={{zIndex: 2}} className="bear"></div>
-            <div style={{zIndex: 2}} id="explosionBox" className="explosion"></div>
-            <div style={{zIndex: 2}} id="fireBox" className="fire"></div>
             <img style={{zIndex: 1}} className="background" src="/bear/background.png" alt="background"></img>
         </>
     )

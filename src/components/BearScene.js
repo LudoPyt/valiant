@@ -33,7 +33,9 @@ class BearScene {
         this.endPoint = this.bezierCurvePoints.end;
 
         this.showSparkles = false;
+        this.showFlames = false;
         this.throwFirecracker = false;
+        this.showExplosion = false;
         this.showPathUX = true;
 
         this._setScene();
@@ -41,6 +43,7 @@ class BearScene {
         this._addPath();
         this._addLighter();
         this._addFirecracker();
+        this._addExplosion();
         this._addUXElements();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
@@ -69,7 +72,6 @@ class BearScene {
     };
 
     _addPath() {
-
         let pointGeometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
         let startPoint = new THREE.Mesh(pointGeometry);
         startPoint.position.x = this.startPoint.x;
@@ -115,6 +117,20 @@ class BearScene {
         this.lighter.position.x = -this.startPoint.x;
         this.lighter.position.y = this.startPoint.y;
         this.lighter.position.z = 0.2;
+
+
+        let flamesTexture = new THREE.TextureLoader().load(this.pathToAssets + 'flames-sprite.png');
+        this.flamesAnim = new TextureAnimator(flamesTexture, 26, 1, 26, 100); // texture, #horiz, #vert, #total, duration.
+        let flamesMaterial = new THREE.MeshBasicMaterial( {map: flamesTexture, transparent: true} );
+        let flamesGeometry = new THREE.PlaneGeometry(1.1, 1.65);
+        this.flames = new THREE.Mesh(flamesGeometry, flamesMaterial);
+        this.flames.position.x = -0.5;
+        this.flames.position.y = 1.25;
+        this.flames.position.z = 0.2;
+        this.flames.rotation.z = 0.1;
+
+        this.lighter.add(this.flames);
+
         this.scene.add(this.lighter);
     }
 
@@ -133,10 +149,9 @@ class BearScene {
         this.firecracker.position.y = this.startPoint.y;
         this.firecracker.position.z = 0.2;
 
-        let sparklesTexture = new THREE.TextureLoader().load(this.pathToAssets + 'sparkles.png');
+        let sparklesTexture = new THREE.TextureLoader().load(this.pathToAssets + 'sparkles-sprite.png');
         this.sparklesAnim = new TextureAnimator(sparklesTexture, 16, 1, 16, 150); // texture, #horiz, #vert, #total, duration.
         let sparklesMaterial = new THREE.MeshBasicMaterial( {map: sparklesTexture, transparent: true} );
-
         let sparklesGeometry = new THREE.PlaneGeometry(0.7, 0.85);
         this.sparkles = new THREE.Mesh(sparklesGeometry, sparklesMaterial);
         this.sparkles.position.x = 0.6;
@@ -148,6 +163,19 @@ class BearScene {
         this.dragArray.push(this.firecracker);
 
         this.scene.add(this.firecracker);
+    }
+
+    _addExplosion() {
+        let explosionTexture = new THREE.TextureLoader().load(this.pathToAssets + 'explosion-sprite.png');
+        this.explosionAnim = new TextureAnimator(explosionTexture, 13, 1, 13, 100); // texture, #horiz, #vert, #total, duration.
+        let explosionMaterial = new THREE.MeshBasicMaterial( {map: explosionTexture, transparent: true} );
+        let explosionGeometry = new THREE.PlaneGeometry(2, 2);
+        this.explosion = new THREE.Mesh(explosionGeometry, explosionMaterial);
+        this.explosion.position.x = this.endPoint.x + 0.1;
+        this.explosion.position.y =this.endPoint.y - 0.1;
+        this.explosion.position.z = 0.2;
+
+        this.scene.add(this.explosion);
     }
 
     _addUXElements() {
@@ -202,8 +230,7 @@ class BearScene {
 
             this.intersect.map(elem => {
                 if (elem.object.name === 'lighter') {
-                    document.getElementById('fireBox').style.zIndex = 4;
-                    document.getElementById('fireBox').style.animationName = "setFire";
+                    this.showFlames = true;
                     setTimeout(() => {
                         this.lighterUX.material.opacity = 0;
                         this.showSparkles = true;
@@ -211,9 +238,8 @@ class BearScene {
                         this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
                         this.scene.add(this.pathStartUX, this.pathEndUX);
                         this._setupDragEventListerner();
-                        document.getElementById('fireBox').style.zIndex = 2;
-                        document.getElementById('fireBox').style.animationName = "";
-                    }, 2000)
+                        this.showFlames = false;
+                    }, 2600)
                 }
                 return elem;
             })
@@ -250,7 +276,7 @@ class BearScene {
                     setTimeout(() => {
                         this.history.push(this.nextPage);
                     }, 3000)
-                    document.getElementById('explosionBox').style.animationName = "setExplosion";
+                    this.showExplosion = true;
                 } else if (percentOfCurve < 1) {
                     this.firecracker.position.x = this.startPoint.x;
                     this.firecracker.position.y = this.startPoint.y;
@@ -304,6 +330,8 @@ class BearScene {
         let delta = this.clock.getDelta();
 
         if (this.showSparkles) this.sparklesAnim.update(delta * 1000);
+        if (this.showFlames) this.flamesAnim.update(delta * 1000);
+        if (this.showExplosion) this.explosionAnim.update(delta * 1000);
 
         if (!this.needDestroy) {
             requestAnimationFrame(this._render.bind(this));
