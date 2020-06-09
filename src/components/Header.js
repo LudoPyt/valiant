@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import menuImageAnimation from '../components/animationComponents/menuImageAnimation'
+import { Link } from "react-router-dom";
+import menuImageAnimation from '../components/animationComponents/menuImageAnimation';
 
 import '../scss/layout/header.scss';
 
 const Header = () => {
-    
+
     useEffect(() => {
         const navbar = document.querySelector('.navbar');
         const menuButton = document.querySelector('.menu__button');
@@ -17,7 +18,6 @@ const Header = () => {
             else {
                 navbar.classList.add('isActive');
                 menuButton.classList.add('isOpen')
-
             }
         });
 
@@ -41,16 +41,15 @@ const Header = () => {
             </div>
             <nav className="navbar">
                 <ul className="navbar__list">
-                    <li className="navbar__list-item" >À propos</li>
+                    <li className="navbar__list-item"><Link to="/about">À propos</Link></li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-alaska.jpg">Alaska</li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-kerguelen.jpg">Kerguelen</li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-syrie.jpg">Syrie</li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-norvege.jpg">Norvège</li>
-                    <li className="navbar__list-item">Crédits</li>
+                    <li className="navbar__list-item"><Link to="/credits">Crédits</Link></li>
                 </ul>
             </nav>
         </header>
-       
     )
 }
 

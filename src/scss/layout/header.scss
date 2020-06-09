@@ -4,7 +4,6 @@
     left: 0;
     width: 100%;
     color: white;
-    z-index: 5;
 }
 
 .menu__button {
@@ -35,29 +34,29 @@
     top: 0px;
     transform-origin: left center;
   }
-  
+
 .button__line-middle {
-top: 16px;
-transform-origin: left center;
+    top: 16px;
+    transform-origin: left center;
 }
 
 .button__line-down  {
-top: 33px;
-transform-origin: left center;
+    top: 33px;
+    transform-origin: left center;
 }
 
-.menu__button.isOpen{
+.menu__button.isOpen {
     .button__line-up {
         transform: rotate(45deg);
         top: 2px;
         left: 8px;
       }
-      
+
       .button__line-middle {
         width: 0%;
         opacity: 0;
       }
-      
+
       .button__line-down {
         transform: rotate(-45deg);
         top: 30px;
@@ -77,6 +76,8 @@ transform-origin: left center;
     transform: translateX(200%);
     transition: transform 1s ease-in-out;
 
+    z-index: 5;
+
     &.isActive {
         transform: translateX(0)
     }
@@ -89,7 +90,7 @@ transform-origin: left center;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    
+
     margin: auto;
 }
 
@@ -112,7 +113,7 @@ transform-origin: left center;
         margin-top: 60px;
     }
 
-    &:first-child, &:last-child{
+    &:first-child, &:last-child {
         position: relative;
         &:before {
             content: '';
@@ -139,11 +140,11 @@ transform-origin: left center;
     }
 }
 
-.menu__image-container{
+.menu__image-container {
     position: absolute;
 
     z-index: 2;
-    
+
     width: 600px;
     height: 350px;
 
@@ -155,7 +156,7 @@ transform-origin: left center;
 
 }
 
-.menu__images{
+.menu__images {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -178,7 +179,7 @@ transform-origin: left center;
     border-style: none;
 }
 
-.menu__current-image{
+.menu__current-image {
     height: 350px;
     width: 100%;
 }

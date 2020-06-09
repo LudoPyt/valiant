@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-const About = () => (
-    <main>
-        <div className="about">
-            PAGE A PROPOS
-        </div>
-    </main>
-)
+const About = () => {
+
+    useEffect(() => {
+        document.querySelector('.navbar').classList.remove('isActive');
+        document.querySelector('.menu__button').classList.remove('isOpen');
+    }, [])
+
+    return (
+        <main>
+            <div className="about">
+                PAGE A PROPOS
+            </div>
+        </main>
+    )
+}
 
 export default About;

@@ -29,9 +29,10 @@ import '../scss/basic.scss';
 
 const App = () => (
   <>
-    <Header />
-
     <Router>
+
+      <Header />
+
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/about" component={About} />
@@ -51,6 +52,7 @@ const App = () => (
         {/* <Route path="/*" component={NoMatch} /> */}
         {/* <Route path="/nuages" component={Nuages} /> */}
       </Switch>
+
     </Router>
 
     <Timeline />
