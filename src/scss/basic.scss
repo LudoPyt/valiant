@@ -23,16 +23,6 @@ main + footer {
     display: none;
 }
 
-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: red;
-    color: white;
-    z-index: 5;
-}
-
 footer {
     position: absolute;
     bottom: 0;

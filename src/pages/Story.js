@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import '../scss/story/story.scss';
+
 const Story = () => (
   <main>
     <div>
