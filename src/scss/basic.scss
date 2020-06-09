@@ -91,14 +91,6 @@ h1 {
     font-size: 2em;
 }
 
-h2 {
-    font-size: 1.5em;
-    position: absolute;
-    left: 20px;
-    bottom: 20px;
-    color: white;
-}
-
 button {
     &:hover {
         cursor: pointer;
@@ -111,11 +103,4 @@ button {
         border: initial;
         padding: 5px 10px;
     }
-}
-
-.choice {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: center;
-    align-items: center;
 }
