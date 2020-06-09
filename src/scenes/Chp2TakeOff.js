@@ -31,6 +31,8 @@ const Chp2TakeOff = () => {
     }, [context]);
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX);
 
         return () => {

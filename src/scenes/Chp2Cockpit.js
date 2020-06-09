@@ -21,6 +21,8 @@ const Chp2Cockpit = () => {
     }, [context]);
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         const threeScene = new CockpitScene(canvas.current, video.current);
         document.getElementById('btn').addEventListener('click', () => {history.push('/landing');});
 

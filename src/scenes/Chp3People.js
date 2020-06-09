@@ -34,6 +34,8 @@ const Chp3People = () => {
     });
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         document.getElementById('btn').addEventListener('click', () => {history.push('/');});
     }, [history])
 

@@ -18,6 +18,8 @@ const Chp2FlightFeelings = () => {
     }, [context]);
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         document.getElementById('flight').addEventListener("ended", () => {history.push('/cockpit');});
     }, [history])
 

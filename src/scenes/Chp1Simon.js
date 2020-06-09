@@ -20,6 +20,8 @@ const Chp1Simon = () => {
     }, [context]);
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         const threeScene = new SimonGame(history, canvas.current);
 
         return () => {

@@ -32,6 +32,8 @@ const Chp3Bear = () => {
     }, [context]);
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         const threeScene = new BearScene(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixLighterUX, fixPathStartUX, fixPathEndUX);
 
         return () => {

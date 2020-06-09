@@ -18,6 +18,8 @@ const Chp1Context = () => {
     }, [context]);
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         document.getElementById('context').addEventListener("ended", () => {history.push('/lakehood');});
     }, [history])
 

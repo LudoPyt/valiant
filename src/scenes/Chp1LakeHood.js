@@ -18,6 +18,8 @@ const Chp1LakeHood = () => {
     }, [context]);
 
     useEffect(() => {
+        document.querySelector('.menu__button').style.display = "none";
+
         document.getElementById('beaver').addEventListener('click', () => {history.push('/simon');});
     }, [history])
 
