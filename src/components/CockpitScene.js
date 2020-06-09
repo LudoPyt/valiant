@@ -46,29 +46,6 @@ class CockpitScene{
 
     }
 
-    _setGUI(){
-        let options = {
-
-            reset: () => {
-              this.camera.position.z = 0;
-              this.camera.position.x = 0;
-              this.camera.position.y = 0;
-            }
-          };
-          let gui = new dat.GUI();
-
-          let mer = gui.addFolder('sea');
-          mer.add(this.sea.position, 'x', 0, 500).listen();
-          mer.add(this.sea.position, 'y', -200, 0).listen();
-          mer.add(this.sea.position, 'z', -200, 200).listen();
-          mer.add(this.sea.rotation, 'x', -1, 1).listen();
-          mer.add(this.sea.rotation, 'y', -2, 2).listen();
-          mer.add(this.sea.rotation, 'z', -1, 1).listen();
-          mer.open();
-
-          gui.add(options, 'reset');
-    }
-
     _setupEventListener() {
         this.seaVideo.addEventListener('canplaythrough', () => {
             if (!this.isStarted){
@@ -234,15 +211,12 @@ class CockpitScene{
                         break;
                     case 'aiguille_left':
                         this.needleL = child
-                        console.log(this.needleL)
                         break;
                     case 'aiguille_top_l':
                         this.needleTopL = child
-                        console.log(this.needleTopL)
                         break;
                     case 'aiguille_top_r':
                         this.needleTopR = child
-                        console.log(this.needleTopR)
                         break;
                     default:
                 }
@@ -255,7 +229,6 @@ class CockpitScene{
             this.forest.scale.set(.8, .8, .8);
             this.forest.position.set(500, -100, -100)
             this.scene.add(this.forest)
-            this._setGUI();
         })
     }
 
