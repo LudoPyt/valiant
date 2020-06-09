@@ -4,13 +4,15 @@ import { DragControls } from '../lib/DragControls';
 import { TextureAnimator } from '../components/animationComponents/textureAnimator';
 
 class BearScene {
-    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, scaling){
+    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixLighterUX, fixPathStartUX, fixPathEndUX){
         this.history = history;
         this.canvas = canvas;
         this.bezierCurvePoints = bezierCurvePoints;
         this.pathToAssets = pathToAssets;
         this.nextPage = pathToNextPage;
-        this.scaling = scaling;
+        this.fixLighterUX = fixLighterUX;
+        this.fixPathStartUX = fixPathStartUX;
+        this.fixPathEndUX = fixPathEndUX;
 
         this._init();
     }
@@ -32,12 +34,14 @@ class BearScene {
 
         this.showSparkles = false;
         this.throwFirecracker = false;
+        this.showPathUX = true;
 
         this._setScene();
         // this._addBackground();
         this._addPath();
         this._addLighter();
         this._addFirecracker();
+        this._addUXElements();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
         this._setupClickEventListerner();
@@ -146,6 +150,48 @@ class BearScene {
         this.scene.add(this.firecracker);
     }
 
+    _addUXElements() {
+        let loader = new THREE.TextureLoader();
+
+        let lighterUXMaterial = new THREE.MeshLambertMaterial({
+            map: loader.load('/ux/icon-clic.png'),
+            transparent: true
+        });
+        let lighterUXGeometry = new THREE.PlaneGeometry(0.3, 0.3);
+        this.lighterUX = new THREE.Mesh(lighterUXGeometry, lighterUXMaterial);
+        this.lighterUX.castShadow = true;
+        this.lighterUX.receiveShadow = true;
+        this.lighterUX.position.x = -this.startPoint.x + this.fixLighterUX.x;
+        this.lighterUX.position.y = this.startPoint.y + this.fixLighterUX.y;
+        this.lighterUX.position.z = 0.3;
+
+        let pathStartUXMaterial = new THREE.MeshLambertMaterial({
+            map: loader.load('/ux/icon-clic.png'),
+            transparent: true
+        });
+        let pathStartUXGeometry = new THREE.PlaneGeometry(0.3, 0.3);
+        this.pathStartUX = new THREE.Mesh(pathStartUXGeometry, pathStartUXMaterial);
+        this.pathStartUX.castShadow = true;
+        this.pathStartUX.receiveShadow = true;
+        this.pathStartUX.position.x = this.startPoint.x + this.fixPathStartUX.x;
+        this.pathStartUX.position.y = this.startPoint.y + this.fixPathStartUX.y;
+        this.pathStartUX.position.z = 0.3;
+
+        let pathEndUXMaterial = new THREE.MeshLambertMaterial({
+            map: loader.load('/ux/icon-drop.png'),
+            transparent: true
+        });
+        let pathEndUXGeometry = new THREE.PlaneGeometry(0.5, 0.5);
+        this.pathEndUX = new THREE.Mesh(pathEndUXGeometry, pathEndUXMaterial);
+        this.pathEndUX.castShadow = true;
+        this.pathEndUX.receiveShadow = true;
+        this.pathEndUX.position.x = this.endPoint.x - this.fixPathEndUX.x;
+        this.pathEndUX.position.y = this.endPoint.y - this.fixPathEndUX.y;
+        this.pathEndUX.position.z = 0.3;
+
+        this.scene.add(this.lighterUX);
+    }
+
     _setupClickEventListerner() {
         document.addEventListener("click", (event) => {
             this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -159,9 +205,11 @@ class BearScene {
                     document.getElementById('fireBox').style.zIndex = 4;
                     document.getElementById('fireBox').style.animationName = "setFire";
                     setTimeout(() => {
+                        this.lighterUX.material.opacity = 0;
                         this.showSparkles = true;
                         this.throwFirecracker = true;
                         this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
+                        this.scene.add(this.pathStartUX, this.pathEndUX);
                         this._setupDragEventListerner();
                         document.getElementById('fireBox').style.zIndex = 2;
                         document.getElementById('fireBox').style.animationName = "";
@@ -189,7 +237,12 @@ class BearScene {
             this.dragControls.addEventListener('drag', () => {
                 let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart)
 
+                this.pathStartUX.material.opacity = 0;
+
                 if (percentOfCurve > 99) {
+                    this.pathStartUX.material.opacity = 0;
+                    this.pathEndUX.material.opacity = 0;
+                    this.showPathUX = false
                     this.firecracker.position.x = this.endPoint.x;
                     this.firecracker.position.y = this.endPoint.y;
                     this.firecracker.material.opacity = 0;
@@ -211,6 +264,7 @@ class BearScene {
             });
 
             this.dragControls.addEventListener('dragend', () => {
+                if (this.showPathUX) this.pathStartUX.material.opacity = 1;
                 this.firecracker.position.x = this.startPoint.x;
                 this.firecracker.position.y = this.startPoint.y;
                 this.firecracker.scale.x = 1;

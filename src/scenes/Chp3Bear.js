@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
+import * as THREE from 'three';
 import BearScene from '../components/BearScene';
 
 const Chp3Bear = () => {
@@ -15,6 +16,9 @@ const Chp3Bear = () => {
     };
     const pathToAssets = '/bear/';
     const pathToNextPage = '/people';
+    const fixLighterUX = new THREE.Vector2(0.25, 0);
+    const fixPathStartUX = new THREE.Vector2(0.02, 0.08);
+    const fixPathEndUX = new THREE.Vector2(-0.1, 0.05);
 
     const context = React.useContext(Context);
 
@@ -28,12 +32,12 @@ const Chp3Bear = () => {
     }, [context]);
 
     useEffect(() => {
-        const threeScene = new BearScene(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage);
+        const threeScene = new BearScene(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixLighterUX, fixPathStartUX, fixPathEndUX);
 
         return () => {
             threeScene.destroyRaf();
         }
-    }, [history, bezierCurvePoints])
+    }, [history, bezierCurvePoints, fixLighterUX, fixPathStartUX, fixPathEndUX])
 
     return (
         <>

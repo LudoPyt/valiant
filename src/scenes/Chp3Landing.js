@@ -16,8 +16,8 @@ const Chp3Landing = () => {
     };
     const pathToAssets = '/landing/';
     const pathToNextPage = '/bear';
-    const fixStartUX = new THREE.Vector2(0.15, -0.08);
-    const fixEndUX = new THREE.Vector2(0.15, -0.07);
+    const fixPathStartUX = new THREE.Vector2(0.15, -0.08);
+    const fixPathEndUX = new THREE.Vector2(0.15, -0.07);
 
     const context = React.useContext(Context);
 
@@ -31,12 +31,12 @@ const Chp3Landing = () => {
     }, [context]);
 
     useEffect(() => {
-        const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixStartUX, fixEndUX);
+        const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX);
 
         return () => {
             threeScene.destroyRaf();
         }
-    }, [history, bezierCurvePoints, fixStartUX, fixEndUX])
+    }, [history, bezierCurvePoints, fixPathStartUX, fixPathEndUX])
 
     return (
         <>

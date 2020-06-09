@@ -2,14 +2,14 @@ import * as THREE from 'three';
 import { DragControls } from '../lib/DragControls';
 
 class TakeOffAndLandingDrag {
-    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixStartUX, fixEndUX) {
+    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX) {
         this.history = history;
         this.canvas = canvas;
         this.bezierCurvePoints = bezierCurvePoints;
         this.pathToAssets = pathToAssets;
         this.nextPage = pathToNextPage;
-        this.fixStartUX = fixStartUX;
-        this.fixEndUX = fixEndUX;
+        this.fixPathStartUX = fixPathStartUX;
+        this.fixPathEndUX = fixPathEndUX;
 
         this._init();
     }
@@ -49,7 +49,7 @@ class TakeOffAndLandingDrag {
         this.dragControls.addEventListener('drag', () => {
             let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart);
 
-            this.startUX.material.opacity = 0;
+            this.pathStartUX.material.opacity = 0;
 
             if (percentOfCurve > 99) {
                 this.beaver.position.x = this.endPoint.x;
@@ -67,7 +67,7 @@ class TakeOffAndLandingDrag {
         });
 
         this.dragControls.addEventListener('dragend', () => {
-            this.startUX.material.opacity = 1;
+            this.pathStartUX.material.opacity = 1;
             this.beaver.position.x = this.startPoint.x;
             this.beaver.position.y = this.startPoint.y;
             this.beaver.scale.x = 1;
@@ -143,31 +143,31 @@ class TakeOffAndLandingDrag {
     _addUXElements() {
         let loader = new THREE.TextureLoader();
 
-        let startMaterial = new THREE.MeshLambertMaterial({
+        let pathStartUXMaterial = new THREE.MeshLambertMaterial({
             map: loader.load('/ux/icon-clic.png'),
             transparent: true
         });
-        let startGeometry = new THREE.PlaneGeometry(0.3, 0.3);
-        this.startUX = new THREE.Mesh(startGeometry, startMaterial);
-        this.startUX.castShadow = true;
-        this.startUX.receiveShadow = true;
-        this.startUX.position.x = this.startPoint.x + this.fixStartUX.x;
-        this.startUX.position.y = this.startPoint.y + this.fixStartUX.y;
-        this.startUX.position.z = 0.3;
+        let pathStartUXGeometry = new THREE.PlaneGeometry(0.3, 0.3);
+        this.pathStartUX = new THREE.Mesh(pathStartUXGeometry, pathStartUXMaterial);
+        this.pathStartUX.castShadow = true;
+        this.pathStartUX.receiveShadow = true;
+        this.pathStartUX.position.x = this.startPoint.x + this.fixPathStartUX.x;
+        this.pathStartUX.position.y = this.startPoint.y + this.fixPathStartUX.y;
+        this.pathStartUX.position.z = 0.3;
 
-        let endMaterial = new THREE.MeshLambertMaterial({
+        let pathEndUXMaterial = new THREE.MeshLambertMaterial({
             map: loader.load('/ux/icon-drop.png'),
             transparent: true
         });
-        let endGeometry = new THREE.PlaneGeometry(0.5, 0.5);
-        this.endUX = new THREE.Mesh(endGeometry, endMaterial);
-        this.endUX.castShadow = true;
-        this.endUX.receiveShadow = true;
-        this.endUX.position.x = this.endPoint.x - this.fixEndUX.x;
-        this.endUX.position.y = this.endPoint.y - this.fixEndUX.y;
-        this.endUX.position.z = 0.3;
+        let pathEndUXGeometry = new THREE.PlaneGeometry(0.5, 0.5);
+        this.pathEndUX = new THREE.Mesh(pathEndUXGeometry, pathEndUXMaterial);
+        this.pathEndUX.castShadow = true;
+        this.pathEndUX.receiveShadow = true;
+        this.pathEndUX.position.x = this.endPoint.x - this.fixPathEndUX.x;
+        this.pathEndUX.position.y = this.endPoint.y - this.fixPathEndUX.y;
+        this.pathEndUX.position.z = 0.3;
 
-        this.scene.add(this.startUX, this.endUX);
+        this.scene.add(this.pathStartUX, this.pathEndUX);
     }
 
     _addBackground() {
