@@ -28,10 +28,6 @@ const Chp3Bear = () => {
     }, [context]);
 
     useEffect(() => {
-        document.getElementById('btn').addEventListener('click', () => {history.push('/people');});
-    }, [history])
-
-    useEffect(() => {
         const threeScene = new BearScene(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage);
 
         return () => {
@@ -47,7 +43,6 @@ const Chp3Bear = () => {
             <div style={{zIndex: 2}} id="explosionBox" className="explosion"></div>
             <div style={{zIndex: 2}} id="fireBox" className="fire"></div>
             <img style={{zIndex: 1}} className="background" src="/bear/background.png" alt="background"></img>
-            <button id="btn" className="skip">Skip ></button>
         </>
     )
 }

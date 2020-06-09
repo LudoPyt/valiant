@@ -30,7 +30,6 @@ const Chp1Simon = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <h2>SIMON GAME: find the right combinaison</h2>
         </>
     )
 }

@@ -31,7 +31,6 @@ const Chp3People = () => {
             document.querySelector('.allPeople').classList.add('isInView');
         }, 3000)
 
-        
     });
 
     useEffect(() => {
@@ -48,7 +47,6 @@ const Chp3People = () => {
                 <img className="people teenager" src="/people/habitant_merge_ados.png" alt=""></img>
                 <img className="people mommy" src="/people/habitant_merge_dame.png" alt=""></img>
             </div>
-            <h3>Tenakee Springs's people testimonies</h3>
             <button id="btn" className="skip">Skip ></button>
         </>
     )

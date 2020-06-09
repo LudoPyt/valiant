@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
+import * as THREE from 'three';
 import TakeOffAndLandingDrag from '../components/TakeOffAndLandingDrag';
 
 const Chp2TakeOff = () => {
@@ -15,6 +16,8 @@ const Chp2TakeOff = () => {
     };
     const pathToAssets = '/takeoff/';
     const pathToNextPage = '/flight-feelings';
+    const fixStartUX = new THREE.Vector2(0.15, 0.08);
+    const fixEndUX = new THREE.Vector2(0.15, 0.05);
 
     const context = React.useContext(Context);
 
@@ -28,18 +31,17 @@ const Chp2TakeOff = () => {
     }, [context]);
 
     useEffect(() => {
-        const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage);
+        const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixStartUX, fixEndUX);
 
         return () => {
             threeScene.destroyRaf();
         }
-    }, [history, bezierCurvePoints])
+    }, [history, bezierCurvePoints, fixStartUX, fixEndUX])
 
     return (
         <>
             <canvas ref={canvas}></canvas>
             <img className="plants" src="/takeoff/plants.png" alt="plants"></img>
-            <h2>Drag the beaver to the sky</h2>
         </>
     )
 }

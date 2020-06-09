@@ -3,7 +3,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import lerp from '../utils/lerp';
 
 // import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import * as dat from 'dat.gui';
 import ArrowMove from './animationComponents/arrowMove';
 import { Howl } from 'howler';
 

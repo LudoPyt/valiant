@@ -27,7 +27,6 @@ const Chp2FlightFeelings = () => {
                 <source src="/flight/flight.mp4" type="video/mp4" />
                 Sorry, your browser doesn't support embedded videos.
             </video>
-            <h2>Flight start, pilote's feelings</h2>
         </>
     )
 }

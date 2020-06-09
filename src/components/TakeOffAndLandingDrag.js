@@ -2,13 +2,15 @@ import * as THREE from 'three';
 import { DragControls } from '../lib/DragControls';
 
 class TakeOffAndLandingDrag {
-    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, scaling){
+    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixStartUX, fixEndUX) {
         this.history = history;
         this.canvas = canvas;
         this.bezierCurvePoints = bezierCurvePoints;
         this.pathToAssets = pathToAssets;
         this.nextPage = pathToNextPage;
-        this.scaling = scaling;
+        this.fixStartUX = fixStartUX;
+        this.fixEndUX = fixEndUX;
+
         this._init();
     }
 
@@ -27,6 +29,7 @@ class TakeOffAndLandingDrag {
         this._addBackground();
         this._addPath();
         this._addBeaver();
+        this._addUXElements();
         this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
         this._setupEventListerner();
         this._render();
@@ -44,7 +47,9 @@ class TakeOffAndLandingDrag {
         });
 
         this.dragControls.addEventListener('drag', () => {
-            let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart)
+            let percentOfCurve = (this.mouseX - this.pathScreenStart)*100/(this.pathScreenEnd - this.pathScreenStart);
+
+            this.startUX.material.opacity = 0;
 
             if (percentOfCurve > 99) {
                 this.beaver.position.x = this.endPoint.x;
@@ -62,6 +67,7 @@ class TakeOffAndLandingDrag {
         });
 
         this.dragControls.addEventListener('dragend', () => {
+            this.startUX.material.opacity = 1;
             this.beaver.position.x = this.startPoint.x;
             this.beaver.position.y = this.startPoint.y;
             this.beaver.scale.x = 1;
@@ -132,6 +138,36 @@ class TakeOffAndLandingDrag {
         this.beaver.position.y = this.startPoint.y;
         this.beaver.position.z = 0.2;
         this.scene.add(this.beaver);
+    }
+
+    _addUXElements() {
+        let loader = new THREE.TextureLoader();
+
+        let startMaterial = new THREE.MeshLambertMaterial({
+            map: loader.load('/ux/icon-clic.png'),
+            transparent: true
+        });
+        let startGeometry = new THREE.PlaneGeometry(0.3, 0.3);
+        this.startUX = new THREE.Mesh(startGeometry, startMaterial);
+        this.startUX.castShadow = true;
+        this.startUX.receiveShadow = true;
+        this.startUX.position.x = this.startPoint.x + this.fixStartUX.x;
+        this.startUX.position.y = this.startPoint.y + this.fixStartUX.y;
+        this.startUX.position.z = 0.3;
+
+        let endMaterial = new THREE.MeshLambertMaterial({
+            map: loader.load('/ux/icon-drop.png'),
+            transparent: true
+        });
+        let endGeometry = new THREE.PlaneGeometry(0.5, 0.5);
+        this.endUX = new THREE.Mesh(endGeometry, endMaterial);
+        this.endUX.castShadow = true;
+        this.endUX.receiveShadow = true;
+        this.endUX.position.x = this.endPoint.x - this.fixEndUX.x;
+        this.endUX.position.y = this.endPoint.y - this.fixEndUX.y;
+        this.endUX.position.z = 0.3;
+
+        this.scene.add(this.startUX, this.endUX);
     }
 
     _addBackground() {

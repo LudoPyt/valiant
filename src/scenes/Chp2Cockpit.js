@@ -33,7 +33,6 @@ const Chp2Cockpit = () => {
         <>
             <video className="video" ref={video}></video>
             <canvas ref={canvas}></canvas>
-            <h2>Use arrows</h2>
             <button id="btn" className="skip">Skip ></button>
         </>
     )
