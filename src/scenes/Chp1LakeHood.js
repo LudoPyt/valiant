@@ -9,7 +9,7 @@ const Chp1LakeHood = () => {
     const context = React.useContext(Context);
 
     const scene = 2;
-    const instruction = "Cliquer sur votre hydravion.";
+    const instruction = "Cliquer sur le bon hydravion";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});

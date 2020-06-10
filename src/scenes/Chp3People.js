@@ -11,7 +11,7 @@ const Chp3People = () => {
     const context = React.useContext(Context);
 
     const scene = 9;
-    const instruction = "Écouter ce que chaque habitant veut nous dire.";
+    const instruction = "Survoler les habitants pour les écouter";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});

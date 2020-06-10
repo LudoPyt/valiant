@@ -12,7 +12,7 @@ const Chp2Cockpit = () => {
     const context = React.useContext(Context);
 
     const scene = 6;
-    const instruction = "JE SAIS PAS QUOI METTRE";
+    const instruction = "Observer à gauche // Regarder vers la droite // Commencer la descente/Décourvrir Tenakee Springs";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});

@@ -11,7 +11,7 @@ const Chp1Simon = () => {
     const context = React.useContext(Context);
 
     const scene = 3;
-    const instruction = "Cliquer sur les boutons du tableau de bord dans le bon ordre.";
+    const instruction = "Reproduiser l'enchaînement en cliquant sur les boutons du tableau de bord";
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
