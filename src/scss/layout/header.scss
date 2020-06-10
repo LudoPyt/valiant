@@ -73,8 +73,8 @@
     background-size: cover;
     background-position: center;
 
-    transform: translateX(200%);
-    transition: transform 1s ease-in-out;
+    transform: translateX(150%);
+    transition: transform 1.5s ease-in-out;
 
     z-index: 5;
 
@@ -143,7 +143,7 @@
 .menu__image-container {
     position: absolute;
 
-    z-index: 2;
+    z-index: 12;
 
     width: 600px;
     height: 350px;
@@ -187,5 +187,5 @@
 .menu__next-image {
     height: 350px;
     width: 100%;
-    z-index: 1;
+    z-index: 11;
 }

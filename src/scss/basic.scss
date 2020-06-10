@@ -25,19 +25,15 @@ main + footer {
 
 footer {
     position: absolute;
-    bottom: 0;
+    bottom: -15px;
     z-index: 10;
     width: 100%;
     background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.8));
     min-height: 150px;
     display: flex;
     flex-flow: column nowrap;
-    justify-content: space-evenly;
-    h1 {
-        text-align: center;
-        color: white;
-        font-size: 20px;
-    }
+    justify-content: center;
+    
     .timeline {
         position: relative;
         height: 0;
@@ -89,6 +85,12 @@ footer {
 
 h1 {
     font-size: 2em;
+}
+
+.instruction {
+    text-align: center;
+    color: white;
+    font-size: 20px;
 }
 
 button {

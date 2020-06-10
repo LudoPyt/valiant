@@ -2,14 +2,15 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import lerp from '../utils/lerp';
 
-// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
 import ArrowMove from './animationComponents/arrowMove';
 import { Howl } from 'howler';
 
 class CockpitScene{
-    constructor(canvas, video){
+    constructor(canvas, seaVideo, skyVideo ){
         this.canvas = canvas;
-        this.seaVideo = video;
+        this.seaVideo = seaVideo;
+        this.skyVideo = skyVideo;
 
         this._init();
     }
@@ -27,6 +28,8 @@ class CockpitScene{
         this.loader = new GLTFLoader();
         this.axesHelper = new THREE.AxesHelper( 5 );
         this.lerpEasing = 0.1
+        this.right = false;
+        this.left = false;
 
 
         this.crackle = false;
@@ -38,6 +41,7 @@ class CockpitScene{
 
         //video
         this._setVideoSea();
+        this._setVideoSky();
         //son
         this._addSound();
 
@@ -51,10 +55,11 @@ class CockpitScene{
                 this.isStarted = true
 
                 this._setScene();
-                this._setTextureVideo();
+                this._setTextureSea();
+                this._setTextureSky();
 
-                this._addSky();
-                this._addSea(this.textureVideo);
+                this._addSky(this.textureSky);
+                this._addSea(this.textureSea);
 
                 this._addCameraPivotY();
                 this._addCameraPivotX();
@@ -89,7 +94,7 @@ class CockpitScene{
         let light = new THREE.AmbientLight(0xffffff, .5);
         this.scene.add(light);
 
-        let lightPoint = new THREE.PointLight(0xffffff, 0.7);
+        let lightPoint = new THREE.PointLight(0xffffff, 0.55);
         this.scene.add(lightPoint)
     }
 
@@ -98,17 +103,25 @@ class CockpitScene{
             src: 'test-voix.mp3'
         });
     }
-    _setTextureVideo(){
-        this.textureVideo = new THREE.VideoTexture( this.seaVideo );
-        this.textureVideo.needsUpdate = true;
-        this.textureVideo.minFilter = THREE.LinearFilter;
-        this.textureVideo.magFilter = THREE.LinearFilter;
-        this.textureVideo.format = THREE.RGBFormat;
+    _setTextureSea(){
+        this.textureSea = new THREE.VideoTexture( this.seaVideo );
+        this.textureSea.needsUpdate = true;
+        this.textureSea.minFilter = THREE.LinearFilter;
+        this.textureSea.magFilter = THREE.LinearFilter;
+        this.textureSea.format = THREE.RGBFormat;
+    }
+    _setTextureSky(){
+        this.textureSky = new THREE.VideoTexture( this.skyVideo );
+        this.textureSky.needsUpdate = true;
+        this.textureSky.minFilter = THREE.LinearFilter;
+        this.textureSky.magFilter = THREE.LinearFilter;
+        this.textureSky.format = THREE.RGBFormat;
     }
 
     _render() {
+        this.skyVideo.play();
         if (this.helices){
-            this.helices.rotation.z += 10 * this.delta
+            this.helices.rotation.z += 7 * this.delta
 
         }
 
@@ -131,11 +144,7 @@ class CockpitScene{
             this.seaVideo.currentTime = 0;
         }
 
-        if (this.arrow.directions.forward && this.camera.rotation.x <= 0) {
-            this.cockpit.rotation.x += this.speedRot * this.delta;
-            this.camera.rotation.x += this.speedRot * this.delta;
-        }
-        if (this.arrow.directions.backward) {
+        if (this.arrow.directions.backward && this.left) {
             this.cockpit.rotation.x += -0.2 * this.delta;
             this.camera.rotation.x += -0.2 * this.delta;
         }
@@ -173,8 +182,10 @@ class CockpitScene{
 
 
 
-        this._moveLeft()
         this._moveRight()
+        if (this.right){
+            this._moveLeft()
+        }
 
 
 
@@ -199,7 +210,7 @@ class CockpitScene{
                     case 'Hydravion':
                         this.cockpit = child
                         this.cockpit.scale.set(.04, .04, .04);
-                        this.cockpit.position.set(0, 0, 0);
+                        this.cockpit.position.set(0, 1, 0);
                         this.scene.add(this.cockpit)
                         break;
                     case 'Helices':
@@ -231,8 +242,7 @@ class CockpitScene{
         })
     }
 
-    _addSky() {
-        var texture = new THREE.TextureLoader().load( "decor_cockpit/tex_ciel.jpg" );
+    _addSky(texture) {
         let skyGeometry = new THREE.PlaneGeometry(10000, 1500);
         let skyMaterial = new THREE.MeshBasicMaterial({map: texture});
         this.sky = new THREE.Mesh(skyGeometry, skyMaterial);
@@ -274,17 +284,30 @@ class CockpitScene{
         this.seaVideo.load();
     }
 
+    _setVideoSky() {
+        this.skyVideo.src = "decor_cockpit/tex_ciel.mp4";
+        this.skyVideo.crossOrigin = 'anonymous';
+        this.skyVideo.preload = 'auto';
+        this.skyVideo.autoload = true;
+        this.skyVideo.load();
+    }
+
     _moveLeft() {
         if (this.arrow.directions.left && this.stick.rotation.z < this.maxRotation) {
             this._leftCameraPivot()
             this.stick.rotateZ(this.speedRot * this.delta);
+            if (this.stick.rotation.z >= this.maxRotation){
+                this.left = true
+            }
         }
-
     }
     _moveRight() {
         if (this.arrow.directions.right && this.stick.rotation.z> -this.maxRotation) {
             this._rightCameraPivot()
             this.stick.rotateZ(-this.speedRot * this.delta);
+            if (this.stick.rotation.z <= -this.maxRotation){
+                this.right = true
+            }
         }
     }
     _leftCameraPivot() {
