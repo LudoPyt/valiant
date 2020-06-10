@@ -5,7 +5,7 @@ const Timeline = () => (
     <Context.Consumer>
         {({state}) => (
             <footer>
-                <h2 className="instruction">{state.instruction}</h2>
+                <h2 id="instruction" className="instruction">{state.instruction}</h2>
                 <div className="timeline">
                     <span className="fill" style={{width: state.currentScene * 11 + '%'}} />
                     <div className="container">
