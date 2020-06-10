@@ -17,9 +17,23 @@
 .adviceRight {
     right: -8%;
     opacity: 1;
+    transition: opacity .5s ease-in-out;
+    &.isUnActive{
+        opacity: .2;
+    }
 }
 .adviceLeft {
     left: -9%;
+    transition: opacity .5s ease-in-out;
+    &.isActive {
+        opacity: 1;
+    }
+}
+.adviceDown {
+    transition: opacity .5s ease-in-out;
+    &.isActive {
+        opacity: 1;
+    }
 }
 
 .arrow-down {

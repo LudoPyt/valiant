@@ -28,22 +28,23 @@ const Chp2Cockpit = () => {
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
 
-        const threeScene = new CockpitScene(canvas.current, seaVideo.current, skyVideo.current );
+        const threeScene = new CockpitScene(canvas.current, seaVideo.current, skyVideo.current , context);
         document.getElementById('btn').addEventListener('click', () => {history.push('/landing');});
 
         return () => {
             threeScene.destroyRaf();
         }
-    }, [history])
+
+    }, [history, context])
 
     return (
         <>
             <video className="video" ref={seaVideo}></video>
-            <video className="video" ref={skyVideo} autoPlay></video>
+            <video className="video" ref={skyVideo}></video>
             <canvas ref={canvas}></canvas>
-            <div className="adviceRight"><div class="arrow-right"></div></div>
-            <div className="adviceLeft"><div class="arrow-left"></div></div>
-            <div className="adviceDown"><div class="arrow-down"></div></div>
+            <div className="adviceRight"><div className="arrow-right"></div></div>
+            <div className="adviceLeft"><div className="arrow-left"></div></div>
+            <div className="adviceDown"><div className="arrow-down"></div></div>
             <button id="btn" className="skip">Skip ></button>
         </>
     )

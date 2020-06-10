@@ -7,10 +7,11 @@ import ArrowMove from './animationComponents/arrowMove';
 import { Howl } from 'howler';
 
 class CockpitScene{
-    constructor(canvas, seaVideo, skyVideo ){
+    constructor(canvas, seaVideo, skyVideo, context ){
         this.canvas = canvas;
         this.seaVideo = seaVideo;
         this.skyVideo = skyVideo;
+        this.context = context
 
         this._init();
     }
@@ -47,6 +48,9 @@ class CockpitScene{
 
         this._setupEventListener();
 
+        let text = "Observer à gauche"
+        // this.context.dispatch({type: 'setInstruction', text });
+
     }
 
     _setupEventListener() {
@@ -67,7 +71,7 @@ class CockpitScene{
                 this._addCockpit();
                 this._addForest();
 
-
+                this.skyVideo.play()
                 this._render();
             }
         })
@@ -119,10 +123,8 @@ class CockpitScene{
     }
 
     _render() {
-        this.skyVideo.play();
         if (this.helices){
             this.helices.rotation.z += 7 * this.delta
-
         }
 
         if  (this.pivotY.rotation.y >= 0.3 && !this.soundRead) {
@@ -130,6 +132,8 @@ class CockpitScene{
             this.sound.play();
             this.soundRead = true;
         }
+
+        
 
         if  (this.pivotY.rotation.y <= -0.3 && !this.soundRead) {
             this.seaVideo.play()
@@ -289,6 +293,7 @@ class CockpitScene{
         this.skyVideo.crossOrigin = 'anonymous';
         this.skyVideo.preload = 'auto';
         this.skyVideo.autoload = true;
+        this.skyVideo.loop = true
         this.skyVideo.load();
     }
 
@@ -297,15 +302,19 @@ class CockpitScene{
             this._leftCameraPivot()
             this.stick.rotateZ(this.speedRot * this.delta);
             if (this.stick.rotation.z >= this.maxRotation){
+                document.querySelector('.adviceLeft').classList.remove('isActive')
+                document.querySelector('.adviceDown').classList.add('isActive')
                 this.left = true
             }
         }
     }
     _moveRight() {
-        if (this.arrow.directions.right && this.stick.rotation.z> -this.maxRotation) {
+        if (this.arrow.directions.right && this.stick.rotation.z > -this.maxRotation) {
             this._rightCameraPivot()
             this.stick.rotateZ(-this.speedRot * this.delta);
             if (this.stick.rotation.z <= -this.maxRotation){
+                document.querySelector('.adviceRight').classList.add('isUnActive')
+                document.querySelector('.adviceLeft').classList.add('isActive')
                 this.right = true
             }
         }
