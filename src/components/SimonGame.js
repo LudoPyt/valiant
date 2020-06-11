@@ -20,6 +20,10 @@ class SimonGame {
 
         this.isOkey = [];
 
+        this.UXObjects = [];
+        this.blinkInterval = null;
+        this.objectInterval = null;
+
         this.intersect = [];
         this.btnTab = [];
         this.moves = [];
@@ -36,10 +40,16 @@ class SimonGame {
         this._setScene();
         this._addBackground();
         this._addCockpit();
+        this._addUXElements();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
         this._setupEventListerner();
         this._render();
+
+        this._animUXElements();
+        this.repeatUXAnim = setInterval(() => {
+            this._animUXElements();
+        }, 18000)
     }
 
     _reset() {
@@ -140,6 +150,58 @@ class SimonGame {
     _addBackground() {
         let background = new THREE.TextureLoader().load('/before-take-off/background.png');
         this.scene.background = background;
+    }
+
+    _addUXElements() {
+        let loader = new THREE.TextureLoader();
+
+        let UXItemPositions = [
+            {x: 5.05, y: -2.5, z: -20},
+            {x: 5, y: -3.3, z: -20},
+            {x: 2.45, y: -4.65, z: -20},
+            {x: -5.8, y: -1.5, z: -20},
+            {x: -7, y: -5, z: -20}
+        ]
+
+        for (let i = 0; i < 5; i++) {
+            let item = new THREE.Mesh(
+                new THREE.PlaneGeometry(0.5, 0.5),
+                new THREE.MeshLambertMaterial({
+                    map: loader.load('/ux/icon-clic.png'),
+                    transparent: true
+                })
+            );
+            item.position.x = UXItemPositions[i].x;
+            item.position.y = UXItemPositions[i].y;
+            item.position.z = UXItemPositions[i].z;
+            item.material.opacity = 0;
+            this.UXObjects.push(item);
+            this.scene.add(item);
+        }
+    }
+
+    _animUXElements() {
+        let blinkSpeed = 500;
+        let i = 0
+        let isBlinking = true;
+
+        this.blinkInterval = setInterval(() => {
+            if (isBlinking) {
+                this.UXObjects[i].material.opacity = 1;
+                isBlinking = false;
+            } else {
+                this.UXObjects[i].material.opacity = 0;
+                isBlinking = true;
+            }
+        }, blinkSpeed);
+
+        this.objectInterval = setInterval(() => {
+            if (i === 4) {
+                clearInterval(this.blinkInterval)
+                clearInterval(this.objectInterval)
+            }
+            i += 1;
+        }, 3000)
     }
 
     _setScene() {
@@ -258,6 +320,9 @@ class SimonGame {
 
     destroyRaf() {
         clearInterval(this.interval)
+        clearInterval(this.repeatUXAnim)
+        clearInterval(this.blinkInterval)
+        clearInterval(this.objectInterval)
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }

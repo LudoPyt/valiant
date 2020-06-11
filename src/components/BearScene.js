@@ -239,7 +239,7 @@ class BearScene {
                         this.scene.add(this.pathStartUX, this.pathEndUX);
                         this._setupDragEventListerner();
                         this.showFlames = false;
-                        document.getElementById('instruction').innerHTML = "Lancer le pétard pour éloigner l'ours"
+                        document.getElementById('instruction').innerHTML = "Lancer le pétard pour éloigner l'ours";
                     }, 2600)
                 }
                 return elem;
