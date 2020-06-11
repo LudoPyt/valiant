@@ -29,7 +29,7 @@ const Chp2Cockpit = () => {
         document.querySelector('.menu__button').style.display = "none";
 
         const threeScene = new CockpitScene(canvas.current, seaVideo.current, skyVideo.current , context);
-        document.getElementById('btn').addEventListener('click', () => {history.push('/landing');});
+        document.getElementById('btn').addEventListener('click', () => {history.push('/tenakee');});
 
         return () => {
             threeScene.destroyRaf();

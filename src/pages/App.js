@@ -17,6 +17,7 @@ import Chp1Simon from '../scenes/Chp1Simon';
 import Chp2TakeOff from '../scenes/Chp2TakeOff';
 import Chp2FlightFeelings from '../scenes/Chp2FlightFeelings';
 import Chp2Cockpit from '../scenes/Chp2Cockpit';
+import Chp2Tenakee from '../scenes/Chp2Tenakee';
 
 import Chp3Landing from '../scenes/Chp3Landing';
 import Chp3Bear from '../scenes/Chp3Bear';
@@ -45,6 +46,7 @@ const App = () => (
         <Route exact path="/takeoff" component={Chp2TakeOff} />
         <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
         <Route exact path="/cockpit" component={Chp2Cockpit} />
+        <Route exact path="/tenakee" component={Chp2Tenakee} />
         <Route exact path="/landing" component={Chp3Landing} />
         <Route exact path="/bear" component={Chp3Bear} />
         <Route exact path="/people" component={Chp3People} />
