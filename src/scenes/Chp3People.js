@@ -22,7 +22,7 @@ const Chp3People = () => {
     useEffect(() => {
         let persons = document.querySelectorAll('.people');
         for ( let i = 0; i < persons.length; i++){
-            persons[i].addEventListener('mouseenter', () => {
+            persons[i].addEventListener('click', () => {
                 persons[i].classList.add('isActive')
             })
         }
