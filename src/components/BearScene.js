@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { DragControls } from '../lib/DragControls';
 import { TextureAnimator } from '../components/animationComponents/textureAnimator';
+import { Howl } from 'howler';
 
 class BearScene {
     constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixLighterUX, fixPathStartUX, fixPathEndUX){
@@ -45,6 +46,7 @@ class BearScene {
         this._addFirecracker();
         this._addExplosion();
         this._addUXElements();
+        this._addSound();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
         this._setupClickEventListerner();
@@ -220,6 +222,29 @@ class BearScene {
         this.scene.add(this.lighterUX);
     }
 
+    _addSound(){
+        this.bearSound = new Howl({
+            src: this.pathToAssets + 'bear.mp3'
+        });
+        this.bearSound.play();
+
+        this.lighterSound = new Howl({
+            src: this.pathToAssets + 'lighter.mp3'
+        });
+
+        this.sparklesSound = new Howl({
+            src: this.pathToAssets + 'sparkles.mp3',
+            onend: () => {
+                this.showSparkles = false;
+                this.throwFirecracker = false
+            }
+        });
+
+        this.explosionSound = new Howl({
+            src: this.pathToAssets + 'explosion.mp3',
+        });
+    }
+
     _setupClickEventListerner() {
         document.addEventListener("click", (event) => {
             this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -231,9 +256,11 @@ class BearScene {
             this.intersect.map(elem => {
                 if (elem.object.name === 'lighter') {
                     this.showFlames = true;
+                    this.lighterSound.play();
                     setTimeout(() => {
                         this.lighterUX.material.opacity = 0;
                         this.showSparkles = true;
+                        this.sparklesSound.play();
                         this.throwFirecracker = true;
                         this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
                         this.scene.add(this.pathStartUX, this.pathEndUX);
@@ -266,7 +293,7 @@ class BearScene {
 
                 this.pathStartUX.material.opacity = 0;
 
-                if (percentOfCurve > 99) {
+                if (percentOfCurve > 99 && this.throwFirecracker) {
                     this.pathStartUX.material.opacity = 0;
                     this.pathEndUX.material.opacity = 0;
                     this.showPathUX = false
@@ -274,10 +301,13 @@ class BearScene {
                     this.firecracker.position.y = this.endPoint.y;
                     this.firecracker.material.opacity = 0;
                     this.sparkles.material.opacity = 0;
+                    this.showExplosion = true;
+                    setTimeout(() => {
+                        this.showExplosion = false;
+                    }, 1300)
                     setTimeout(() => {
                         this.history.push(this.nextPage);
-                    }, 3000)
-                    this.showExplosion = true;
+                    }, 4000)
                 } else if (percentOfCurve < 1) {
                     this.firecracker.position.x = this.startPoint.x;
                     this.firecracker.position.y = this.startPoint.y;
@@ -297,7 +327,11 @@ class BearScene {
                 this.firecracker.scale.x = 1;
                 this.firecracker.scale.y = 1;
                 this.firecracker.rotation.z = 0;
-            } );
+                if (this.showExplosion) {
+                    this.sparklesSound.stop();
+                    this.explosionSound.play();
+                }
+            });
 
         }
 
@@ -330,7 +364,11 @@ class BearScene {
 
         let delta = this.clock.getDelta();
 
-        if (this.showSparkles) this.sparklesAnim.update(delta * 1000);
+        if (this.showSparkles) {
+            this.sparklesAnim.update(delta * 1000);
+        } else {
+            this.sparklesAnim.update(0);
+        }
         if (this.showFlames) this.flamesAnim.update(delta * 1000);
         if (this.showExplosion) this.explosionAnim.update(delta * 1000);
 

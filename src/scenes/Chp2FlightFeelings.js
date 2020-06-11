@@ -10,10 +10,12 @@ const Chp2FlightFeelings = () => {
 
     const scene = 5;
     const instruction = "";
+    const ambiantSound = 0;
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
+            context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
     }, [context]);
 

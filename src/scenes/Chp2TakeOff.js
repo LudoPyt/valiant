@@ -23,10 +23,12 @@ const Chp2TakeOff = () => {
 
     const scene = 4;
     const instruction = "Faire glisser l'avion pour décoller";
+    const ambiantSound = 1;
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
+            context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
     }, [context]);
 

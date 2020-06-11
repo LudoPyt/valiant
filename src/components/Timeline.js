@@ -3,9 +3,9 @@ import { Context } from './Provider';
 
 const Timeline = () => (
     <Context.Consumer>
-        {({state}) => (
+        {({ state }) => (
             <footer>
-                <h2 id="instruction" className="instruction">{state.instruction}</h2>
+                <h2 id="instruction" className="instruction">{ state.instruction }</h2>
                 <div className="timeline">
                     <span className="fill" style={{width: state.currentScene * 11 + '%'}} />
                     <div className="container">

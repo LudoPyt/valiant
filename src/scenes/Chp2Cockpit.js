@@ -15,13 +15,14 @@ const Chp2Cockpit = () => {
     const context = React.useContext(Context);
 
     const scene = 6;
-
     const instruction = "Observer à gauche // Regarder vers la droite // Commencer la descente/Décourvrir Tenakee Springs";
+    const ambiantSound = 3;
 
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
+            context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
     }, [context]);
 
