@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const StoryElement = (props) => (
-    <section className="story__element" style={{backgroundColor: props.data.backgroundColor}}>
+    <section id={ props.data.id } className="story__element" style={{backgroundColor: props.data.backgroundColor}}>
         <div className="story__element-content">
             <img className="story__element-content-img" src={ props.data.imgSrc } alt={ props.data.imgAlt }/>
             <Link className="story__element-content-link" to={ props.data.link }>
@@ -12,7 +12,6 @@ const StoryElement = (props) => (
             <p className="story__element-duration">{ props.data.duration } min</p>
         </div>
         <p className="story__element-subtitle">{ props.data.subtitle }</p>
-
     </section>
 )
 

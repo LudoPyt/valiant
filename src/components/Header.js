@@ -21,6 +21,17 @@ const Header = () => {
             }
         });
 
+        const items = document.querySelectorAll('.navbar__list-item')
+        const itemsTab = Object.entries(items)
+
+        for (let i = 0; i < itemsTab.length; i++) {
+            itemsTab[i][1].addEventListener('click', () => {
+                document.querySelector('.navbar').classList.remove('isActive');
+                document.querySelector('.menu__button').classList.remove('isOpen');
+                document.querySelector('.menu__button').style.display = "block";
+            })
+        }
+
         new menuImageAnimation()
     }, [])
 
@@ -42,10 +53,10 @@ const Header = () => {
             <nav className="navbar">
                 <ul className="navbar__list">
                     <li className="navbar__list-item"><Link to="/about">À propos</Link></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-alaska.jpg">Alaska</li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-kerguelen.jpg">Kerguelen</li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-syrie.jpg">Syrie</li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-norvege.jpg">Norvège</li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-alaska.jpg"><Link to={{pathname: "/story", hash: "#alaska"}}>Alaska</Link></li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-kerguelen.jpg"><Link to={{pathname: "/story", hash: "#kerguelen"}}>Kerguelen</Link></li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-syrie.jpg"><Link to={{pathname: "/story", hash: "#syrie"}}>Syrie</Link></li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-norvege.jpg"><Link to={{pathname: "/story", hash: "#norvege"}}>Norvège</Link></li>
                     <li className="navbar__list-item"><Link to="/credits">Crédits</Link></li>
                 </ul>
             </nav>
