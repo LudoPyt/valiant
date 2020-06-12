@@ -99,7 +99,7 @@ class CockpitScene{
         let light = new THREE.AmbientLight(0xffffff, .5);
         this.scene.add(light);
 
-        let lightPoint = new THREE.PointLight(0xffffff, 1.2);
+        let lightPoint = new THREE.PointLight(0xffffff, .9);
         this.scene.add(lightPoint)
     }
 
@@ -318,7 +318,7 @@ class CockpitScene{
         if (this.arrow.directions.right && this.stick.rotation.z > -this.maxRotation) {
             this._rightCameraPivot()
             this.stick.rotateZ(-this.speedRot * this.delta);
-            if (this.stick.rotation.z <= -this.maxRotation){
+            if (this.stick.rotation.z <= -this.maxRotation && !this.left){
                 document.querySelector('.adviceRight').classList.add('isUnActive')
                 document.querySelector('.adviceLeft').classList.add('isActive')
                 this.right = true
