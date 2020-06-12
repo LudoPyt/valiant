@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
+import AssetsLoader from '../components/AssetsLoader';
 
 import Header from '../components/Header';
 import Timeline from '../components/Timeline';
@@ -28,37 +30,46 @@ import Chp3People from '../scenes/Chp3People';
 
 import '../scss/basic.scss';
 
-const App = () => (
-  <>
-    <Router>
+const App = () => {
 
-      <Header />
+  useEffect(() => {
+    let loader = new AssetsLoader();
+    loader.loadAssets()
+    console.log(loader._promises)
+  }, [])
 
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/about" component={About} />
-        <Route exact path="/credits" component={Credits} />
+  return (
+    <>
+      <Router>
 
-        <Route exact path="/story" component={Story} />
-        <Route exact path="/context" component={Chp1Context} />
-        <Route exact path="/lakehood" component={Chp1LakeHood} />
-        <Route exact path="/simon" component={Chp1Simon} />
-        <Route exact path="/takeoff" component={Chp2TakeOff} />
-        <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
-        <Route exact path="/cockpit" component={Chp2Cockpit} />
-        <Route exact path="/tenakee" component={Chp2Tenakee} />
-        <Route exact path="/landing" component={Chp3Landing} />
-        <Route exact path="/bear" component={Chp3Bear} />
-        <Route exact path="/people" component={Chp3People} />
+        <Header />
 
-        {/* <Route path="/*" component={NoMatch} /> */}
-        {/* <Route path="/nuages" component={Nuages} /> */}
-      </Switch>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/credits" component={Credits} />
 
-    </Router>
+          <Route exact path="/story" component={Story} />
+          <Route exact path="/context" component={Chp1Context} />
+          <Route exact path="/lakehood" component={Chp1LakeHood} />
+          <Route exact path="/simon" component={Chp1Simon} />
+          <Route exact path="/takeoff" component={Chp2TakeOff} />
+          <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
+          <Route exact path="/cockpit" component={Chp2Cockpit} />
+          <Route exact path="/tenakee" component={Chp2Tenakee} />
+          <Route exact path="/landing" component={Chp3Landing} />
+          <Route exact path="/bear" component={Chp3Bear} />
+          <Route exact path="/people" component={Chp3People} />
 
-    <Timeline />
-  </>
-);
+          {/* <Route path="/*" component={NoMatch} /> */}
+          {/* <Route path="/nuages" component={Nuages} /> */}
+        </Switch>
+
+      </Router>
+
+      <Timeline />
+    </>
+  )
+};
 
 export default App;
