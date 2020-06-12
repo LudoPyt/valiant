@@ -15,7 +15,9 @@ const Chp2Cockpit = () => {
     const context = React.useContext(Context);
 
     const scene = 6;
-    const instruction = "Observer à gauche // Regarder vers la droite // Commencer la descente/Décourvrir Tenakee Springs";
+
+
+    const instruction = "Regarder vers la droite";
     const ambiantSound = 3;
 
     useEffect(() => {
@@ -29,8 +31,7 @@ const Chp2Cockpit = () => {
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
 
-        const threeScene = new CockpitScene(canvas.current, seaVideo.current, skyVideo.current , context);
-        document.getElementById('btn').addEventListener('click', () => {history.push('/tenakee');});
+        const threeScene = new CockpitScene(history, canvas.current, seaVideo.current, skyVideo.current , context);
 
         return () => {
             threeScene.destroyRaf();
@@ -46,7 +47,6 @@ const Chp2Cockpit = () => {
             <div className="adviceRight"><div className="arrow-right"></div></div>
             <div className="adviceLeft"><div className="arrow-left"></div></div>
             <div className="adviceDown"><div className="arrow-down"></div></div>
-            <button id="btn" className="skip">Skip ></button>
         </>
     )
 }

@@ -7,11 +7,12 @@ import ArrowMove from './animationComponents/arrowMove';
 import { Howl } from 'howler';
 
 class CockpitScene{
-    constructor(canvas, seaVideo, skyVideo, context ){
+    constructor(history, canvas, seaVideo, skyVideo, context ){
         this.canvas = canvas;
         this.seaVideo = seaVideo;
         this.skyVideo = skyVideo;
         this.context = context
+        this.history = history
 
         this._init();
     }
@@ -98,7 +99,7 @@ class CockpitScene{
         let light = new THREE.AmbientLight(0xffffff, .5);
         this.scene.add(light);
 
-        let lightPoint = new THREE.PointLight(0xffffff, 0.55);
+        let lightPoint = new THREE.PointLight(0xffffff, 1.2);
         this.scene.add(lightPoint)
     }
 
@@ -151,6 +152,9 @@ class CockpitScene{
         if (this.arrow.directions.backward && this.left) {
             this.cockpit.rotation.x += -0.2 * this.delta;
             this.camera.rotation.x += -0.2 * this.delta;
+            if (this.camera.rotation.x <= -0.2){
+                this.history.push('/tenakee')
+            }
         }
 
         if (this.pivotY.position.x > -10 && this.pivotY.position.x < 10 && this.stick){
@@ -176,6 +180,7 @@ class CockpitScene{
                 this.needleTopL.rotation.z -= 1 * this.delta
                 this.needleTopR.rotation.z -= 1 * this.delta
                 this.needleL.rotation.z += 1 * this.delta
+
             } else {
                 this.needleTopL.rotation.z += 1 * this.delta
                 this.needleTopR.rotation.z += 1 * this.delta
@@ -305,6 +310,7 @@ class CockpitScene{
                 document.querySelector('.adviceLeft').classList.remove('isActive')
                 document.querySelector('.adviceDown').classList.add('isActive')
                 this.left = true
+                document.getElementById('instruction').innerHTML = "Commencer la descente sur Tenakee Springs"
             }
         }
     }
@@ -316,6 +322,7 @@ class CockpitScene{
                 document.querySelector('.adviceRight').classList.add('isUnActive')
                 document.querySelector('.adviceLeft').classList.add('isActive')
                 this.right = true
+                document.getElementById('instruction').innerHTML = "Observer à gauche"
             }
         }
     }
