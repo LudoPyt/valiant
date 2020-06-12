@@ -17,7 +17,6 @@ class menuImageAnimation {
             currentImage: this.el.querySelector(".current-image .menu__image"),
             listMenu: this.el.querySelector(".navbar__list"),
             listItemMenu: this.el.querySelectorAll(".navbar__list-item"),
-
         }
 
         this.mouse = { x: 0, y: 0 };
