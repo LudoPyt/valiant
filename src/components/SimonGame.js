@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { Howl } from 'howler';
 
 class SimonGame {
     constructor(history, canvas){
@@ -41,6 +42,7 @@ class SimonGame {
         this._addBackground();
         this._addCockpit();
         this._addUXElements();
+        this._addSound();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
         this._setupEventListerner();
@@ -61,6 +63,7 @@ class SimonGame {
         this.needleTopR.rotation.z = -0.7890085819315339
         this.needleL.rotation.z = -1.585403998531092
         this.helices.rotation.z = 0
+        this.helSound.stop();
         this.btnTab.map(e => {
             switch (e.name) {
                 case 'btn_interrupteur_haut':
@@ -82,6 +85,9 @@ class SimonGame {
             }
             return e;
         })
+        clearInterval(this.blinkInterval)
+        clearInterval(this.objectInterval)
+        this._animUXElements()
     }
 
     _isRight() {
@@ -95,6 +101,9 @@ class SimonGame {
 
         if (this.isOkey.every(value => value === true) && this.history.location.pathname === '/simon') {
             setTimeout(() => {
+                this.helSound.stop();
+                clearInterval(this.blinkInterval)
+                clearInterval(this.objectInterval)
                 return this.history.push('/takeoff');
             }, 1000)
         } else {
@@ -116,18 +125,23 @@ class SimonGame {
                 switch (elem.object.parent.name) {
                     case 'btn_interrupteur_haut':
                         elem.object.parent.rotation.x = elem.object.parent.rotation.y - 3
+                        this.intSound.play();
                         break;
                     case 'btn_interrupteur_bas':
                         elem.object.parent.rotation.x = elem.object.parent.rotation.y - 3
+                        this.intSound.play();
                         break;
                     case 'btn_pull':
                         elem.object.parent.children[0].material.color = {r:3, g:1, b:1}
+                        this.pullSound.play();
                         break;
                     case 'btn_rotatif_haut':
                         if (elem.object.parent.rotation.x !== -31.39620073873673) elem.object.parent.rotation.x = elem.object.parent.rotation.x - 2
+                        this.rotSound.play();
                         break;
                     case 'btn_press':
                         if (elem.object.parent.position.z !== -1426.0050048828125) elem.object.parent.position.z = elem.object.parent.position.z - 6
+                        this.pressSound.play();
                         break;
                     default:
                 }
@@ -138,9 +152,10 @@ class SimonGame {
 
         console.log(this.moves)
 
-        if (this.moves.length === 5) {
-            this._isRight();
-        }
+
+        if (this.moves.length === 4) this.helSound.play();
+
+        if (this.moves.length === 5) this._isRight();
     }
 
     _setupEventListerner() {
@@ -150,6 +165,59 @@ class SimonGame {
     _addBackground() {
         let background = new THREE.TextureLoader().load('/before-take-off/background.png');
         this.scene.background = background;
+    }
+
+    _createTab(elem) {
+        elem.children[0].material.transparent = true;
+        this.btnTab.push(elem);
+    }
+
+    _addCockpit(){
+        this.loader.load('model/hydravion/scene.gltf', (object) => {
+            this.gltf = object.scene
+            this.gltf.traverse((child) => {
+                switch (child.name) {
+                    case 'Hydravion':
+                        this.cockpit = child
+                        this.cockpit.scale.set(.04, .04, .04);
+                        this.cockpit.position.set(0, 0, 0);
+                        this.scene.add(this.cockpit)
+                        break;
+                    case 'Helices':
+                        this.helices = child
+                        break;
+                    case 'btn_interrupteur_haut':
+                        this._createTab(child)
+                        break;
+                    case 'btn_interrupteur_bas':
+                        this._createTab(child)
+                        break;
+                    case 'btn_pull':
+                        this._createTab(child)
+                        break;
+                    case 'btn_rotatif_haut':
+                        this._createTab(child)
+                        break;
+                    case 'btn_press':
+                        this._createTab(child)
+                        break;
+                    case 'aiguille_left':
+                        this.needleL = child
+                        console.log(this.needleL)
+                        break;
+                    case 'aiguille_top_l':
+                        this.needleTopL = child
+                        console.log(this.needleTopL)
+                        break;
+                    case 'aiguille_top_r':
+                        this.needleTopR = child
+                        console.log(this.needleTopR)
+                        break;
+                    default:
+                }
+            })
+            console.log('btnTab : ', this.btnTab)
+        })
     }
 
     _addUXElements() {
@@ -204,6 +272,33 @@ class SimonGame {
         }, 3000)
     }
 
+    _addSound(){
+        this.intSound = new Howl({
+            src: '/simon/btninterrupteur.mp3',
+            volume: 0.1,
+        });
+
+        this.pressSound = new Howl({
+            src: '/simon/btnpress.mp3',
+            volume: 0.5,
+        });
+
+        this.pullSound = new Howl({
+            src: '/simon/btnpull.mp3',
+            volume: 0.5,
+        });
+
+        this.rotSound = new Howl({
+            src: '/simon/btnrotatif.mp3',
+            volume: 0.5,
+        });
+
+        this.helSound = new Howl({
+            src: '/simon/helice.mp3',
+            volume: 0.8,
+        });
+    }
+
     _setScene() {
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -226,60 +321,9 @@ class SimonGame {
         let light = new THREE.AmbientLight(0xffffff, .5);
         this.scene.add(light);
 
-        let lightPoint = new THREE.PointLight(0xffffff, 0.7);
+        let lightPoint = new THREE.PointLight(0xffffff, 1.2);
         this.scene.add(lightPoint)
     }
-
-    _addCockpit(){
-        this.loader.load('model/hydravion/scene.gltf', (object) => {
-            this.gltf = object.scene
-            this.gltf.traverse((child) => {
-                switch (child.name) {
-                    case 'Hydravion':
-                        this.cockpit = child
-                        this.cockpit.scale.set(.04, .04, .04);
-                        this.cockpit.position.set(0, 0, 0);
-                        this.scene.add(this.cockpit)
-                        break;
-                    case 'Helices':
-                        this.helices = child
-                        break;
-                    case 'btn_interrupteur_haut':
-                        this._createTab(child)
-                        break;
-                    case 'btn_interrupteur_bas':
-                        this._createTab(child)
-                        break;
-                    case 'btn_pull':
-                        this._createTab(child)
-                        break;
-                    case 'btn_rotatif_haut':
-                        this._createTab(child)
-                        break;
-                    case 'btn_press':
-                        this._createTab(child)
-                        break;
-                    case 'aiguille_left':
-                        this.needleL = child
-                        break;
-                    case 'aiguille_top_l':
-                        this.needleTopL = child
-                        break;
-                    case 'aiguille_top_r':
-                        this.needleTopR = child
-                        break;
-                    default:
-                }
-            })
-            console.log('btnTab : ', this.btnTab)
-        })
-    }
-
-    _createTab(elem) {
-        elem.children[0].material.transparent = true;
-        this.btnTab.push(elem);
-    }
-
 
     _render() {
 

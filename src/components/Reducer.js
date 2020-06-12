@@ -9,18 +9,22 @@ export const initialState = {
 
 let sound1 = new Howl({
     src: '/ambiantSound/ambiance_1.mp3',
+    volume: 0.7,
 });
 
 let sound2 = new Howl({
     src: '/ambiantSound/ambiance_2.mp3',
+    volume: 0.7,
 });
 
 let sound3 = new Howl({
     src: '/ambiantSound/ambiance_3.mp3',
+    volume: 0.7,
 });
 
 let sound4 = new Howl({
     src: '/ambiantSound/ambiance_4.mp3',
+    volume: 0.7,
 });
 
 export const Reducer = (state, action) => {
