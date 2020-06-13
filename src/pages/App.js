@@ -33,41 +33,37 @@ import '../scss/basic.scss';
 const App = () => {
 
   useEffect(() => {
-    let loader = new AssetsLoader();
-    loader.loadAssets()
-    console.log(loader._promises)
+    AssetsLoader._loadAssets()
   }, [])
 
   return (
     <>
       <Router>
+          <Header />
 
-        <Header />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/about" component={About} />
+            <Route exact path="/credits" component={Credits} />
 
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route exact path="/about" component={About} />
-          <Route exact path="/credits" component={Credits} />
+            <Route exact path="/story" component={Story} />
+            <Route exact path="/context" component={Chp1Context} />
+            <Route exact path="/lakehood" component={Chp1LakeHood} />
+            <Route exact path="/simon" component={Chp1Simon} />
+            <Route exact path="/takeoff" component={Chp2TakeOff} />
+            <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
+            <Route exact path="/cockpit" component={Chp2Cockpit} />
+            <Route exact path="/tenakee" component={Chp2Tenakee} />
+            <Route exact path="/landing" component={Chp3Landing} />
+            <Route exact path="/bear" component={Chp3Bear} />
+            <Route exact path="/people" component={Chp3People} />
 
-          <Route exact path="/story" component={Story} />
-          <Route exact path="/context" component={Chp1Context} />
-          <Route exact path="/lakehood" component={Chp1LakeHood} />
-          <Route exact path="/simon" component={Chp1Simon} />
-          <Route exact path="/takeoff" component={Chp2TakeOff} />
-          <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
-          <Route exact path="/cockpit" component={Chp2Cockpit} />
-          <Route exact path="/tenakee" component={Chp2Tenakee} />
-          <Route exact path="/landing" component={Chp3Landing} />
-          <Route exact path="/bear" component={Chp3Bear} />
-          <Route exact path="/people" component={Chp3People} />
+            {/* <Route path="/*" component={NoMatch} /> */}
+            {/* <Route path="/nuages" component={Nuages} /> */}
+          </Switch>
 
-          {/* <Route path="/*" component={NoMatch} /> */}
-          {/* <Route path="/nuages" component={Nuages} /> */}
-        </Switch>
-
+          <Timeline />
       </Router>
-
-      <Timeline />
     </>
   )
 };
