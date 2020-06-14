@@ -4,8 +4,16 @@ import { Link } from "react-router-dom";
 import '../scss/home/home.scss';
 import Logo from '../assets/images/logo.png'
 
+import { Context } from '../components/Provider';
 
 const Home = () => {
+
+    const context = React.useContext(Context);
+
+    const ambiantSound = 0;
+    useEffect(() => {
+        context.dispatch({type: 'setAmbiantSound', ambiantSound});
+    }, [context]);
 
     useEffect(() => {
         document.querySelector('.navbar').classList.remove('isActive');

@@ -15,7 +15,7 @@ export const data = [
         subtitle: "Marchez dans les pas des scientifiques des îles Kerguelen",
         imgSrc: "kerguelen.png",
         imgAlt: "Kerguelen Illustration",
-        duration: "10",
+        duration: "-",
         backgroundColor: "#7193b8",
         link: "/not-available"
     },
@@ -25,7 +25,7 @@ export const data = [
         subtitle: "Sillonnez le désert jusqu'au camp d'Al Roukbar",
         imgSrc: "syrie.png",
         imgAlt: "Syrie Illustration",
-        duration: "10",
+        duration: "-",
         backgroundColor: "#db9d6a",
         link: "/not-available"
     },
@@ -35,7 +35,7 @@ export const data = [
         subtitle: "Naviguez aux confins des Îles Lofoten",
         imgSrc: "norvege.png",
         imgAlt: "Norvege Illustration",
-        duration: "10",
+        duration: "-",
         backgroundColor: "#8e3150",
         link: "/not-available"
     }

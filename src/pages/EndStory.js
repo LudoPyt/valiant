@@ -4,16 +4,7 @@ import RecoElement from '../components/RecoElement';
 import { data } from "../data/data";
 import '../scss/layout/end.scss';
 
-import { Context } from '../components/Provider';
-
 const EndStory = () => {
-
-    const context = React.useContext(Context);
-
-    const ambiantSound = 0;
-    useEffect(() => {
-        context.dispatch({type: 'setAmbiantSound', ambiantSound});
-    }, [context]);
 
     useEffect(() => {
         document.querySelector('.navbar').classList.remove('isActive');
