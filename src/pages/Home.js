@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 import '../scss/home/home.scss';
-import Logo from '../assets/images/logo.png'
+import Logo from '../assets/images/logo.png';
 
 import { Context } from '../components/Provider';
 
