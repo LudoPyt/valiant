@@ -5,7 +5,7 @@ export const data = [
         subtitle: "Incarnez une pilote d'hydravion en direction de Tenakee Spring",
         imgSrc: "alaska.jpg",
         imgAlt: "Alaska Illustration",
-        duration: "10",
+        duration: "5",
         backgroundColor: "#518381",
         link: "/context"
     },

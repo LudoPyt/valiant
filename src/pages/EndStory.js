@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import RecoElement from '../components/RecoElement';
 import { data } from "../data/data";
 import '../scss/layout/end.scss';
+import { Howl } from 'howler';
 
 const EndStory = () => {
 
@@ -11,7 +12,11 @@ const EndStory = () => {
         document.querySelector('.menu__button').classList.remove('isOpen');
         document.querySelector('.menu__button').style.display = "block";
 
-        document.getElementById('end').play()
+        let plane = new Howl({
+            src:  '/endStory/plane.mp3',
+        });
+        plane.play();
+        document.getElementById('end').play();
     }, [])
 
     return (

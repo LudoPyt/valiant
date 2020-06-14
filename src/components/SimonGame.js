@@ -157,7 +157,7 @@ class SimonGame {
     }
 
     _setupEventListerner() {
-        document.addEventListener("click", this._pressingDown.bind(this));
+        document.addEventListener("click", (event) => this._pressingDown(event), false);
     }
 
     _addBackground() {
@@ -371,12 +371,14 @@ class SimonGame {
     }
 
     destroyRaf() {
+        console.log('destroyyy')
+        this.moves = 0;
         clearTimeout(this.timeoutGameFinished)
         clearInterval(this.interval)
         clearInterval(this.repeatUXAnim)
         clearInterval(this.blinkInterval)
         clearInterval(this.objectInterval)
-        document.removeEventListener("click", this._pressingDown.bind(this));
+        document.removeEventListener("click", (event) => this._pressingDown(event), false);
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }

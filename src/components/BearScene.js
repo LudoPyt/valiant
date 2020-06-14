@@ -266,31 +266,33 @@ class BearScene {
     }
 
     _setupClickEventListerner() {
-        document.addEventListener("click", (event) => {
-            this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-            this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-            this.raycaster.setFromCamera(this.mouse, this.camera);
-            this.intersect = this.raycaster.intersectObjects(this.scene.children , true);
+        document.addEventListener("click", (event) => this._clickOnLighter(event));
+    }
 
-            this.intersect.map(elem => {
-                if (elem.object.name === 'lighter') {
-                    this.showFlames = true;
-                    this.lighterSound.play();
-                    this.timeoutLighterClicked = setTimeout(() => {
-                        this.lighterUX.material.opacity = 0;
-                        this.showSparkles = true;
-                        this.sparklesSound.play();
-                        this.throwFirecracker = true;
-                        this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
-                        this.scene.add(this.pathStartUX, this.pathEndUX);
-                        this._setupDragEventListerner();
-                        this.showFlames = false;
-                        document.getElementById('instruction').innerHTML = "Lancer le pétard pour éloigner l'ours";
-                    }, 2600)
-                }
-                return elem;
-            })
-        });
+    _clickOnLighter(event) {
+        this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+        this.raycaster.setFromCamera(this.mouse, this.camera);
+        this.intersect = this.raycaster.intersectObjects(this.scene.children , true);
+
+        this.intersect.map(elem => {
+            if (elem.object.name === 'lighter') {
+                this.showFlames = true;
+                this.lighterSound.play();
+                this.timeoutLighterClicked = setTimeout(() => {
+                    this.lighterUX.material.opacity = 0;
+                    this.showSparkles = true;
+                    this.sparklesSound.play();
+                    this.throwFirecracker = true;
+                    this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
+                    this.scene.add(this.pathStartUX, this.pathEndUX);
+                    this._setupDragEventListerner();
+                    this.showFlames = false;
+                    document.getElementById('instruction').innerHTML = "Lancer le pétard pour éloigner l'ours";
+                }, 2600)
+            }
+            return elem;
+        })
     }
 
     _setupDragEventListerner() {
@@ -398,6 +400,7 @@ class BearScene {
         clearTimeout(this.timeoutLighterClicked);
         clearTimeout(this.timeoutStopExplosion);
         clearInterval(this.interval);
+        document.removeEventListener("click", (event) => this._clickOnLighter(event));
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }
