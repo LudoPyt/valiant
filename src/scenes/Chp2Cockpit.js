@@ -15,11 +15,8 @@ const Chp2Cockpit = () => {
     const context = React.useContext(Context);
 
     const scene = 6;
-
-
     const instruction = "Regarder vers la droite";
     const ambiantSound = 3;
-
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
@@ -31,16 +28,16 @@ const Chp2Cockpit = () => {
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
 
-        const threeScene = new CockpitScene(history, canvas.current, seaVideo.current, skyVideo.current , context);
+        const threeScene = new CockpitScene(history, canvas.current, seaVideo.current, skyVideo.current);
 
         return () => {
             threeScene.destroyRaf();
         }
-
-    }, [history, context])
+    }, [history])
 
     return (
         <>
+            <div className="loader"><div className="loader__logo"></div></div>
             <video className="video" ref={seaVideo}></video>
             <video className="video" ref={skyVideo}></video>
             <canvas ref={canvas}></canvas>

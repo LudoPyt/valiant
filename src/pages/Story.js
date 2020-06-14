@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import StoryElement from '../components/StoryElement';
 import { data } from "../data/data";
-import '../scss/story/story.scss';
+import '../scss/layout/story.scss';
 
 const Story = () => {
 
