@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { isMobile } from 'react-device-detect';
 
 import AssetsLoader from '../components/AssetsLoader';
 import Emitter from '../components/Emitter';
@@ -39,7 +40,7 @@ const App = () => {
   const loader = useRef();
 
   useEffect(() => {
-    AssetsLoader._loadAssets()
+    !isMobile && AssetsLoader._loadAssets()
     Emitter.on('loadingComplete', () => {
       setIsLoaded(true)
       setTimeout(() => {
@@ -54,6 +55,17 @@ const App = () => {
   return (
     <>
       <Router>
+        {isMobile ? (
+          <div className="mobile">
+            <p className="mobile__text">
+              Votre écran n'est pas adapté pour les expériences interactives de Valiant.
+              <br/>
+              <br/>
+              Nous vous conseillons de visiter Valiant sur un ordinateur.
+            </p>
+          </div>
+        ) : (
+          <>
           <Header />
 
           {isLoading && <div ref={loader} className="loader"><div className="loader__logo"></div></div>}
@@ -84,7 +96,8 @@ const App = () => {
               <Timeline />
             </>
           }
-
+          </>
+        )}
       </Router>
     </>
   )
