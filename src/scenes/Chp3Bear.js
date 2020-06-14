@@ -31,7 +31,7 @@ const Chp3Bear = () => {
                 context.dispatch({type: 'setInstruction', instruction});
                 context.dispatch({type: 'setAmbiantSound', ambiantSound});
             }
-    }, [context]);
+    }, []);
 
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";

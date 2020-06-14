@@ -100,6 +100,7 @@ class TakeOffAndLandingDrag {
             src: '/before-take-off/takeoff.mp3',
             autoplay: true,
             loop: true,
+            volume: 0.5
         });
     }
 

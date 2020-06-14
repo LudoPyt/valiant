@@ -96,20 +96,19 @@ class CockpitScene {
         this.seaVideo.crossOrigin = 'anonymous';
         this.seaVideo.autoload = true;
 
-        this.seaVideo.addEventListener('canplaythrough', () => {
-            this.textureSea = new THREE.VideoTexture( this.seaVideo );
-            this.textureSea.needsUpdate = true;
-            this.textureSea.minFilter = THREE.LinearFilter;
-            this.textureSea.magFilter = THREE.LinearFilter;
-            this.textureSea.format = THREE.RGBFormat;
+        this.textureSea = new THREE.VideoTexture( this.seaVideo );
+        this.textureSea.needsUpdate = true;
+        this.textureSea.minFilter = THREE.LinearFilter;
+        this.textureSea.magFilter = THREE.LinearFilter;
+        this.textureSea.format = THREE.RGBFormat;
 
-            let seaGeometry = new THREE.PlaneGeometry(3000, 1000, 5, 32);
-            let seaMaterial = new THREE.MeshBasicMaterial({map: this.textureSea});
-            this.sea = new THREE.Mesh(seaGeometry, seaMaterial);
-            this.sea.rotation.x -= Math.PI / 2;
-            this.sea.position.set(0, -103, 0);
-            this.scene.add(this.sea);
-        })
+        let seaGeometry = new THREE.PlaneGeometry(3000, 1000, 5, 32);
+        let seaMaterial = new THREE.MeshBasicMaterial({map: this.textureSea});
+        this.sea = new THREE.Mesh(seaGeometry, seaMaterial);
+        this.sea.rotation.x -= Math.PI / 2;
+        this.sea.position.set(0, -103, 0);
+        this.scene.add(this.sea);
+    
     }
 
     _setVideoSky() {
@@ -120,21 +119,21 @@ class CockpitScene {
         this.skyVideo.loop = true
         this.skyVideo.load();
 
-        this.skyVideo.addEventListener('canplaythrough', () => {
-            this.textureSky = new THREE.VideoTexture( this.skyVideo );
-            this.textureSky.needsUpdate = true;
-            this.textureSky.minFilter = THREE.LinearFilter;
-            this.textureSky.magFilter = THREE.LinearFilter;
-            this.textureSky.format = THREE.RGBFormat;
+        
+        this.textureSky = new THREE.VideoTexture( this.skyVideo );
+        this.textureSky.needsUpdate = true;
+        this.textureSky.minFilter = THREE.LinearFilter;
+        this.textureSky.magFilter = THREE.LinearFilter;
+        this.textureSky.format = THREE.RGBFormat;
 
-            let skyGeometry = new THREE.PlaneGeometry(10000, 1500);
-            let skyMaterial = new THREE.MeshBasicMaterial({map: this.textureSky});
-            this.sky = new THREE.Mesh(skyGeometry, skyMaterial);
-            this.sky.position.set(0,500,-1000)
-            this.scene.add(this.sky)
+        let skyGeometry = new THREE.PlaneGeometry(10000, 1500);
+        let skyMaterial = new THREE.MeshBasicMaterial({map: this.textureSky});
+        this.sky = new THREE.Mesh(skyGeometry, skyMaterial);
+        this.sky.position.set(0,500,-1000)
+        this.scene.add(this.sky)
 
-            this.skyVideo.play()
-        })
+        this.skyVideo.play()
+    
     }
 
     _addCockpit(){

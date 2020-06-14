@@ -22,7 +22,6 @@ const Chp3People = () => {
 
     useEffect(() => {
         let isRead = false;
-        console.log('appel')
         let granny = new Howl({
             src:  '/people/granny.mp3',
             onplay: () => {
