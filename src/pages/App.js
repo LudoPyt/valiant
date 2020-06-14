@@ -12,6 +12,7 @@ import Home from './Home';
 import About from './About';
 import Credits from './Credits';
 import EndStory from './EndStory';
+import NotAvailable from './NotAvailable';
 
 import Story from './Story';
 
@@ -76,6 +77,7 @@ const App = () => {
                 <Route exact path="/about" component={About} />
                 <Route exact path="/credits" component={Credits} />
                 <Route exact path="/end" component={EndStory} />
+                <Route exact path="/not-available" component={NotAvailable} />
 
                 <Route exact path="/story" component={Story} />
                 <Route exact path="/context" component={Chp1Context} />

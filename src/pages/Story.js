@@ -11,8 +11,10 @@ const Story = () => {
 
   const ambiantSound = 0;
   useEffect(() => {
-      context.dispatch({type: 'setAmbiantSound', ambiantSound});
-  }, [context]);
+    if (context.state.ambiantSound !== ambiantSound) {
+        context.dispatch({type: 'setAmbiantSound', ambiantSound});
+    }
+}, [context]);
 
   useEffect(() => {
       document.querySelector('.navbar').classList.remove('isActive');

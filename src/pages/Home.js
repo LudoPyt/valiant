@@ -12,7 +12,9 @@ const Home = () => {
 
     const ambiantSound = 0;
     useEffect(() => {
-        context.dispatch({type: 'setAmbiantSound', ambiantSound});
+        if (context.state.ambiantSound !== ambiantSound) {
+            context.dispatch({type: 'setAmbiantSound', ambiantSound});
+        }
     }, [context]);
 
     useEffect(() => {
