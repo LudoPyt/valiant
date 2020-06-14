@@ -52,9 +52,13 @@ const Chp3Landing = () => {
             },
         });
 
-        setTimeout(() => {
+        let timeoutPlayVoice = setTimeout(() => {
             voice.play();
         }, 2000)
+
+        return() => {
+            clearTimeout(timeoutPlayVoice)
+        }
     }, [])
     return (
         <>

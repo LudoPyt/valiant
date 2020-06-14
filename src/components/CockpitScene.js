@@ -335,6 +335,7 @@ class CockpitScene {
     }
 
     destroyRaf() {
+        clearInterval(this.interval);
         this.needDestroy = true;
         window.cancelAnimationFrame(this.raf)
     }

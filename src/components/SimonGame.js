@@ -101,7 +101,7 @@ class SimonGame {
         }
 
         if (this.isOkey.every(value => value === true)) {
-            setTimeout(() => {
+            this.timeoutGameFinished = setTimeout(() => {
                 this.helSound.stop();
                 clearInterval(this.blinkInterval)
                 clearInterval(this.objectInterval)
@@ -373,10 +373,12 @@ class SimonGame {
     }
 
     destroyRaf() {
+        clearTimeout(this.timeoutGameFinished)
         clearInterval(this.interval)
         clearInterval(this.repeatUXAnim)
         clearInterval(this.blinkInterval)
         clearInterval(this.objectInterval)
+        document.removeEventListener("click");
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }

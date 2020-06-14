@@ -53,9 +53,13 @@ const Chp2TakeOff = () => {
             },
         });
 
-        setTimeout(() => {
-            voice.play()
+        let timeoutPlayVoice = setTimeout(() => {
+            voice.play();
         }, 3000)
+
+        return() => {
+            clearTimeout(timeoutPlayVoice)
+        }
     }, [])
 
 

@@ -276,7 +276,7 @@ class BearScene {
                 if (elem.object.name === 'lighter') {
                     this.showFlames = true;
                     this.lighterSound.play();
-                    setTimeout(() => {
+                    this.timeoutLighterClicked = setTimeout(() => {
                         this.lighterUX.material.opacity = 0;
                         this.showSparkles = true;
                         this.sparklesSound.play();
@@ -321,7 +321,7 @@ class BearScene {
                     this.firecracker.material.opacity = 0;
                     this.sparkles.material.opacity = 0;
                     this.showExplosion = true;
-                    setTimeout(() => {
+                    this.timeoutStopExplosion = setTimeout(() => {
                         this.showExplosion = false;
                     }, 1300)
                 } else if (percentOfCurve < 1) {
@@ -395,7 +395,9 @@ class BearScene {
     }
 
     destroyRaf() {
-        clearInterval(this.interval)
+        clearTimeout(this.timeoutLighterClicked);
+        clearTimeout(this.timeoutStopExplosion);
+        clearInterval(this.interval);
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }
