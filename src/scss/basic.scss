@@ -115,4 +115,20 @@ button {
     left: 0;
     z-index: 20;
     background-color: #6A9495;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .loader__logo {
+        width: 500px;
+        height: 280px;
+        background-image: url('../assets/images/logo-sprite.png');
+        background-position: left center;
+        background-size: cover;
+        animation: 2s logoAnim steps(5) infinite;
+    }
+    @keyframes logoAnim {
+        100% {
+            background-position: -2495px -0;
+        }
+    }
 }
