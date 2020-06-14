@@ -172,7 +172,8 @@ class SimonGame {
 
     _addCockpit(){
         let object = AssetsLoader.getModels('hydravion')
-        this.gltf = object[0].content.scene
+        this.gltf = object[0].content.scene.clone()
+        console.log(this.gltf)
         this.gltf.traverse((child) => {
             switch (child.name) {
                 case 'Hydravion':
@@ -201,15 +202,12 @@ class SimonGame {
                     break;
                 case 'aiguille_left':
                     this.needleL = child
-                    console.log(this.needleL)
                     break;
                 case 'aiguille_top_l':
                     this.needleTopL = child
-                    console.log(this.needleTopL)
                     break;
                 case 'aiguille_top_r':
                     this.needleTopR = child
-                    console.log(this.needleTopR)
                     break;
                 default:
             }
@@ -378,7 +376,7 @@ class SimonGame {
         clearInterval(this.repeatUXAnim)
         clearInterval(this.blinkInterval)
         clearInterval(this.objectInterval)
-        document.removeEventListener("click");
+        document.removeEventListener("click", this._pressingDown.bind(this));
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }

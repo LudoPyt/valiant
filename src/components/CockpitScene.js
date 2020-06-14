@@ -154,7 +154,8 @@ class CockpitScene {
 
     _addCockpit(){
         let object = AssetsLoader.getModels('hydravion')
-        this.gltf = object[0].content.scene
+        this.gltf = object[0].content.scene.clone()
+        console.log(this.gltf)
         this.gltf.traverse((child) => {
             switch (child.name) {
                 case 'Hydravion':
