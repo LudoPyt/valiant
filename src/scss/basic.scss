@@ -96,14 +96,6 @@ button {
     &:hover {
         cursor: pointer;
     }
-    &.skip {
-        position: absolute;
-        bottom: 200px;
-        right: 30px;
-        background-color: white;
-        border: initial;
-        padding: 5px 10px;
-    }
 }
 
 
@@ -118,6 +110,7 @@ button {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 1s transform ease-in-out;
     .loader__logo {
         width: 500px;
         height: 280px;
