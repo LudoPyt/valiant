@@ -224,8 +224,10 @@ class BearScene {
 
     _addSound(){
         this.bearSound = new Howl({
-            src: this.pathToAssets + 'bear.mp3'
+            src: this.pathToAssets + 'bear.mp3',
+            loop: true,
         });
+
         this.bearSound.play();
 
         this.lighterSound = new Howl({
@@ -242,6 +244,24 @@ class BearScene {
 
         this.explosionSound = new Howl({
             src: this.pathToAssets + 'explosion.mp3',
+            volume: 1,
+            onend: () => {
+                this.endVoice.play();
+                this.bearSound.pause();
+            }
+        });
+
+        this.beginVoice = new Howl({
+            src: this.pathToAssets + 'voiceBegin.mp3',
+        });
+
+        this.beginVoice.play();
+
+        this.endVoice = new Howl({
+            src: this.pathToAssets + 'voiceEnd.mp3',
+            onend: () => {
+                this.history.push(this.nextPage);
+            }
         });
     }
 
@@ -251,7 +271,6 @@ class BearScene {
             this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
             this.raycaster.setFromCamera(this.mouse, this.camera);
             this.intersect = this.raycaster.intersectObjects(this.scene.children , true);
-            console.log(this.intersect)
 
             this.intersect.map(elem => {
                 if (elem.object.name === 'lighter') {
@@ -305,9 +324,6 @@ class BearScene {
                     setTimeout(() => {
                         this.showExplosion = false;
                     }, 1300)
-                    setTimeout(() => {
-                        this.history.push(this.nextPage);
-                    }, 4000)
                 } else if (percentOfCurve < 1) {
                     this.firecracker.position.x = this.startPoint.x;
                     this.firecracker.position.y = this.startPoint.y;

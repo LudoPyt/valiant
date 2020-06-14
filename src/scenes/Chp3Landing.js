@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import * as THREE from 'three';
 import TakeOffAndLandingDrag from '../components/TakeOffAndLandingDrag';
+import { Howl, Howler } from 'howler';
 
 const Chp3Landing = () => {
 
@@ -42,6 +43,21 @@ const Chp3Landing = () => {
         }
     }, [history, bezierCurvePoints, fixPathStartUX, fixPathEndUX])
 
+    useEffect(() => {
+        let voice = new Howl({
+            src: '/landing/amerrissageVoice.mp3',
+            onplay: () => {
+                Howler.volume(0.5)
+            },
+            onend: () => {
+                Howler.volume(1)
+            }
+        });
+
+        setTimeout(() => {
+            voice.play();
+        }, 2000)
+    }, [])
     return (
         <>
             <canvas ref={canvas}></canvas>
