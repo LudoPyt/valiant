@@ -37,7 +37,7 @@ const Chp2Cockpit = () => {
 
     return (
         <>
-            <div className="loader"><img src="/topo.png" alt="loading"/></div>
+            <div className="loader"><div className="loader__logo"></div></div>
             <video className="video" ref={seaVideo}></video>
             <video className="video" ref={skyVideo}></video>
             <canvas ref={canvas}></canvas>
