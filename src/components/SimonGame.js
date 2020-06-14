@@ -105,7 +105,7 @@ class SimonGame {
                 this.helSound.stop();
                 clearInterval(this.blinkInterval)
                 clearInterval(this.objectInterval)
-                return this.history.push('/takeoff');
+                return this.voiceAfterGame.play()
             }, 1000)
         } else {
             this._reset();
@@ -150,9 +150,6 @@ class SimonGame {
                 return this.moves
             })
         })
-
-        console.log(this.moves)
-
 
         if (this.moves.length === 4) this.helSound.play();
 
@@ -296,6 +293,19 @@ class SimonGame {
         this.helSound = new Howl({
             src: '/simon/helice.mp3',
             volume: 0.8,
+        });
+
+        this.voiceBeforeGame = new Howl({
+            src: '/simon/voiceBeforeGame.mp3',
+            volume: 1,
+            autoplay: true
+        });
+        this.voiceAfterGame = new Howl({
+            src: '/simon/voiceAfterGame.mp3',
+            volume: 1,
+            onend: () => {
+                this.history.push('/takeoff');
+            }
         });
     }
 

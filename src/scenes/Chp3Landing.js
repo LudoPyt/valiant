@@ -48,10 +48,8 @@ const Chp3Landing = () => {
             src: '/landing/amerrissageVoice.mp3',
             onplay: () => {
                 Howler.volume(0.5)
+                voice.volume(1)
             },
-            onend: () => {
-                Howler.volume(1)
-            }
         });
 
         setTimeout(() => {

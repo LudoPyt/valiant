@@ -51,9 +51,6 @@ const Chp2TakeOff = () => {
                 Howler.volume(0.5)
                 voice.volume(1)
             },
-            onend: () => {
-                Howler.volume(1)
-            }
         });
 
         setTimeout(() => {

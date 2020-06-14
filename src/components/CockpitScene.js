@@ -38,14 +38,13 @@ class CockpitScene {
             this.crackle = !this.crackle
         }, this.int)
 
-        //son
-        this._addSound();
 
         this._setupEventListener();
     }
 
     _setupEventListener() {
         this._setScene();
+        this._addSound();
 
         this._addCockpit();
         this._addForest();
@@ -85,9 +84,26 @@ class CockpitScene {
     }
 
     _addSound(){
-        this.sound = new Howl({
-            src: 'test-voix.mp3'
+        this.voiceRight = new Howl({
+            src: '/decor_cockpit/voiceRight.mp3'
         });
+
+        this.voiceDown = new Howl({
+            src: '/decor_cockpit/voiceDown.mp3'
+        });
+
+        this.voiceLeft = new Howl({
+            src: '/decor_cockpit/voiceLeft.mp3',
+            onend: () => {
+                this.voiceDown.play()
+            }
+        });
+
+        this.whale = new Howl({
+            src: '/decor_cockpit/baleines.mp3',
+            volume: 0.3,
+        });
+
     }
 
     _setVideoSea() {
@@ -195,6 +211,7 @@ class CockpitScene {
                 document.querySelector('.adviceLeft').classList.remove('isActive')
                 document.querySelector('.adviceDown').classList.add('isActive')
                 this.left = true
+                this.voiceLeft.play();
                 document.getElementById('instruction').innerHTML = "Commencer la descente sur Tenakee Springs"
             }
         }
@@ -208,6 +225,7 @@ class CockpitScene {
                 document.querySelector('.adviceRight').classList.add('isUnActive')
                 document.querySelector('.adviceLeft').classList.add('isActive')
                 this.right = true
+                this.voiceRight.play();
                 document.getElementById('instruction').innerHTML = "Observer à gauche"
             }
         }
@@ -242,19 +260,21 @@ class CockpitScene {
 
         if  (this.pivotY.rotation.y >= 0.3 && !this.soundRead) {
             this.seaVideo.play()
-            this.sound.play();
             this.soundRead = true;
         }
 
         if  (this.pivotY.rotation.y <= -0.3 && !this.soundRead) {
             this.seaVideo.play()
-            this.sound.play();
             this.soundRead = true;
         }
 
         if (this.pivotY.rotation.y >= -0.3 && this.pivotY.rotation.y <= 0.3) {
             this.soundRead = false;
-            this.sound.stop();
+            if (this.whale && this.voiceLeft && this.voiceRight){
+                this.whale.stop();
+                this.voiceLeft.stop();
+                this.voiceRight.stop();
+            }
             this.seaVideo.pause();
             this.seaVideo.currentTime = 0;
         }
