@@ -263,7 +263,7 @@ class CockpitScene {
             this.cockpit.rotation.x += -0.2 * this.delta;
             this.camera.rotation.x += -0.2 * this.delta;
             if (this.camera.rotation.x <= -0.2) {
-                this.history.push('/tenakee')
+                this.history.push('/landing')
             }
         }
 

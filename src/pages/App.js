@@ -21,9 +21,9 @@ import Chp1Simon from '../scenes/Chp1Simon';
 import Chp2TakeOff from '../scenes/Chp2TakeOff';
 import Chp2FlightFeelings from '../scenes/Chp2FlightFeelings';
 import Chp2Cockpit from '../scenes/Chp2Cockpit';
-import Chp2Tenakee from '../scenes/Chp2Tenakee';
 
 import Chp3Landing from '../scenes/Chp3Landing';
+import Chp3Tenakee from '../scenes/Chp3Tenakee';
 import Chp3Bear from '../scenes/Chp3Bear';
 import Chp3People from '../scenes/Chp3People';
 
@@ -34,16 +34,18 @@ import '../scss/basic.scss';
 
 const App = () => {
 
-  const [isLoaded, setIsLoaded] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isLoaded, setIsLoaded] = useState(false)
   const loader = useRef();
 
   useEffect(() => {
     AssetsLoader._loadAssets()
     Emitter.on('loadingComplete', () => {
+      setIsLoaded(true)
       setTimeout(() => {
         loader.current.style.transform = 'translateX(-100%)';
         setTimeout(() => {
-          setIsLoaded(false)
+          setIsLoading(false)
         }, 1000)
       }, 2000)
     })
@@ -54,31 +56,35 @@ const App = () => {
       <Router>
           <Header />
 
-          {isLoaded && <div ref={loader} className="loader"><div className="loader__logo"></div></div>}
+          {isLoading && <div ref={loader} className="loader"><div className="loader__logo"></div></div>}
+          {isLoaded &&
+            <>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/about" component={About} />
+                <Route exact path="/credits" component={Credits} />
+                <Route exact path="/end" component={EndStory} />
 
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/about" component={About} />
-            <Route exact path="/credits" component={Credits} />
-            <Route exact path="/end" component={EndStory} />
+                <Route exact path="/story" component={Story} />
+                <Route exact path="/context" component={Chp1Context} />
+                <Route exact path="/lakehood" component={Chp1LakeHood} />
+                <Route exact path="/simon" component={Chp1Simon} />
+                <Route exact path="/takeoff" component={Chp2TakeOff} />
+                <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
+                <Route exact path="/cockpit" component={Chp2Cockpit} />
+                <Route exact path="/landing" component={Chp3Landing} />
+                <Route exact path="/tenakee" component={Chp3Tenakee} />
+                <Route exact path="/bear" component={Chp3Bear} />
+                <Route exact path="/people" component={Chp3People} />
 
-            <Route exact path="/story" component={Story} />
-            <Route exact path="/context" component={Chp1Context} />
-            <Route exact path="/lakehood" component={Chp1LakeHood} />
-            <Route exact path="/simon" component={Chp1Simon} />
-            <Route exact path="/takeoff" component={Chp2TakeOff} />
-            <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
-            <Route exact path="/cockpit" component={Chp2Cockpit} />
-            <Route exact path="/tenakee" component={Chp2Tenakee} />
-            <Route exact path="/landing" component={Chp3Landing} />
-            <Route exact path="/bear" component={Chp3Bear} />
-            <Route exact path="/people" component={Chp3People} />
+                {/* <Route path="/*" component={NoMatch} /> */}
+                {/* <Route path="/nuages" component={Nuages} /> */}
+              </Switch>
 
-            {/* <Route path="/*" component={NoMatch} /> */}
-            {/* <Route path="/nuages" component={Nuages} /> */}
-          </Switch>
+              <Timeline />
+            </>
+          }
 
-          <Timeline />
       </Router>
     </>
   )

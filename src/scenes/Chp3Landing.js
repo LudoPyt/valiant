@@ -16,7 +16,7 @@ const Chp3Landing = () => {
         end:{x: 4, y: -2}
     };
     const pathToAssets = '/landing/';
-    const pathToNextPage = '/bear';
+    const pathToNextPage = '/tenakee';
     const fixPathStartUX = new THREE.Vector2(0.15, -0.08);
     const fixPathEndUX = new THREE.Vector2(0.15, -0.07);
 

@@ -2,13 +2,13 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 
-const Chp2Tenakee = () => {
+const Chp3Tenakee = () => {
 
     const history = useHistory();
 
     const context = React.useContext(Context);
 
-    const scene = 6;
+    const scene = 7;
     const instruction = "";
     const ambiantSound = 0;
     useEffect(() => {
@@ -22,7 +22,7 @@ const Chp2Tenakee = () => {
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
 
-        document.getElementById('tenakee').addEventListener("ended", () => {history.push('/landing');});
+        document.getElementById('tenakee').addEventListener("ended", () => {history.push('/bear');});
     }, [history])
 
     return (
@@ -35,4 +35,4 @@ const Chp2Tenakee = () => {
     )
 }
 
-export default Chp2Tenakee;
+export default Chp3Tenakee;
