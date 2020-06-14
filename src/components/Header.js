@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import menuImageAnimation from '../components/animationComponents/menuImageAnimation';
 
 import '../scss/layout/header.scss';
+import Logo from '../assets/images/logo.png';
 
 const Header = () => {
 
@@ -37,6 +38,9 @@ const Header = () => {
 
     return (
         <header className="header">
+            <Link to="/">
+                <img className="header__logo" src={`${Logo}`} alt=""></img>
+            </Link>
             <button className="menu__button">
                 <div className="button__line-up"></div>
                 <div className="button__line-middle"></div>

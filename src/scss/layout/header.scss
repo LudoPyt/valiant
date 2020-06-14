@@ -12,10 +12,22 @@
     right: 70px;
     z-index: 10;
 
+    
     width: 40px;
     height: 25px;
     background: none;
 
+}
+
+.header__logo {
+    position: fixed;
+    top: 70px;
+    left: 70px;
+    z-index: 10;
+
+    transform: translateY(-50%);
+    width: 7%;
+    height: auto;
 }
 
 .button__line-up, .button__line-middle,.button__line-down {
