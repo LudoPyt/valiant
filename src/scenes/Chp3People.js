@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import { Howl } from 'howler';
@@ -8,7 +8,7 @@ import '../scss/peopleScene/people.scss';
 const Chp3People = () => {
 
     const history = useHistory();
-
+    const [isFinish, setIsFinish] = useState(0)
     const context = React.useContext(Context);
 
     const scene = 9;
@@ -22,16 +22,15 @@ const Chp3People = () => {
 
     useEffect(() => {
         let isRead = false;
-
+        console.log('appel')
         let granny = new Howl({
             src:  '/people/granny.mp3',
             onplay: () => {
                 document.querySelector('.granny').classList.add('isActive')
             },
             onend: () => {
-                console.log(isRead)
                 isRead = false
-                console.log(isRead)
+                setIsFinish(isFinish + 1)
             }
         });
 
@@ -42,6 +41,7 @@ const Chp3People = () => {
             },
             onend: () => {
                 isRead = false
+                setIsFinish(isFinish + 1)
             }
         });
 
@@ -52,6 +52,7 @@ const Chp3People = () => {
             },
             onend: () => {
                 isRead = false
+                setIsFinish(isFinish + 1)
             }
         });
 
@@ -62,6 +63,7 @@ const Chp3People = () => {
             },
             onend: () => {
                 isRead = false
+                setIsFinish(isFinish + 1)
             }
         });
 
@@ -72,10 +74,11 @@ const Chp3People = () => {
             },
             onend: () => {
                 isRead = false
+                setIsFinish(isFinish + 1)
             }
         });
 
-        setTimeout(() => {
+        let timeInView = setTimeout(() => {
             document.querySelector('.allPeople').classList.add('isInView');
         }, 3000)
             document.querySelector('.granny').addEventListener('click', () => { 
@@ -109,13 +112,21 @@ const Chp3People = () => {
                     mommy.play()
                 }
             } );
+
+            return() => {
+                clearTimeout(timeInView)
+            }
     });
 
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
-
-        document.getElementById('btn').addEventListener('click', () => {history.push('/');});
     }, [history])
+ 
+    useEffect(() => {
+        if (isFinish === 5) {
+            history.push('/end');
+        }
+    }, [isFinish, history])
 
     return (
         <>
@@ -127,7 +138,6 @@ const Chp3People = () => {
                 <img className="people teenager" src="/people/habitant_merge_ados.png" alt=""></img>
                 <img className="people mommy" src="/people/habitant_merge_dame.png" alt=""></img>
             </div>
-            <button id="btn" className="skip">Skip ></button>
         </>
     )
 }
