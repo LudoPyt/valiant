@@ -3,7 +3,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import lerp from '../utils/lerp';
 
 import AssetsLoader from '../components/AssetsLoader';
-import Emitter from './Emitter';
 
 import ArrowMove from './animationComponents/arrowMove';
 import { Howl } from 'howler';
@@ -46,14 +45,6 @@ class CockpitScene {
     }
 
     _setupEventListener() {
-        this._loadAssets();
-    }
-
-    _loadAssets() {
-        Emitter.on('loadingComplete', this.loadingComplete.bind(this))
-    }
-
-    loadingComplete() {
         this._setScene();
 
         this._addCockpit();
@@ -66,8 +57,6 @@ class CockpitScene {
         this._addCameraPivotX();
 
         this._render();
-
-        document.querySelector('.loader').style.display = 'none';
     }
 
     _setScene() {

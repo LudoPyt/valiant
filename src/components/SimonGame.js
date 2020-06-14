@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howl } from 'howler';
+import AssetsLoader from '../components/AssetsLoader';
 
 class SimonGame {
     constructor(history, canvas){
@@ -99,7 +100,7 @@ class SimonGame {
             }
         }
 
-        if (this.isOkey.every(value => value === true) && this.history.location.pathname === '/simon') {
+        if (this.isOkey.every(value => value === true)) {
             setTimeout(() => {
                 this.helSound.stop();
                 clearInterval(this.blinkInterval)
@@ -173,62 +174,61 @@ class SimonGame {
     }
 
     _addCockpit(){
-        this.loader.load('model/hydravion/scene.gltf', (object) => {
-            this.gltf = object.scene
-            this.gltf.traverse((child) => {
-                switch (child.name) {
-                    case 'Hydravion':
-                        this.cockpit = child
-                        this.cockpit.scale.set(.04, .04, .04);
-                        this.cockpit.position.set(0, 0, 0);
-                        this.scene.add(this.cockpit)
-                        break;
-                    case 'Helices':
-                        this.helices = child
-                        break;
-                    case 'btn_interrupteur_haut':
-                        this._createTab(child)
-                        break;
-                    case 'btn_interrupteur_bas':
-                        this._createTab(child)
-                        break;
-                    case 'btn_pull':
-                        this._createTab(child)
-                        break;
-                    case 'btn_rotatif_haut':
-                        this._createTab(child)
-                        break;
-                    case 'btn_press':
-                        this._createTab(child)
-                        break;
-                    case 'aiguille_left':
-                        this.needleL = child
-                        console.log(this.needleL)
-                        break;
-                    case 'aiguille_top_l':
-                        this.needleTopL = child
-                        console.log(this.needleTopL)
-                        break;
-                    case 'aiguille_top_r':
-                        this.needleTopR = child
-                        console.log(this.needleTopR)
-                        break;
-                    default:
-                }
-            })
-            console.log('btnTab : ', this.btnTab)
+        let object = AssetsLoader.getModels('hydravion')
+        this.gltf = object[0].content.scene
+        this.gltf.traverse((child) => {
+            switch (child.name) {
+                case 'Hydravion':
+                    this.cockpit = child
+                    this.cockpit.scale.set(.04, .04, .04);
+                    this.cockpit.position.set(0, 0, 0);
+                    this.scene.add(this.cockpit)
+                    break;
+                case 'Helices':
+                    this.helices = child
+                    break;
+                case 'btn_interrupteur_haut':
+                    this._createTab(child)
+                    break;
+                case 'btn_interrupteur_bas':
+                    this._createTab(child)
+                    break;
+                case 'btn_pull':
+                    this._createTab(child)
+                    break;
+                case 'btn_rotatif_haut':
+                    this._createTab(child)
+                    break;
+                case 'btn_press':
+                    this._createTab(child)
+                    break;
+                case 'aiguille_left':
+                    this.needleL = child
+                    console.log(this.needleL)
+                    break;
+                case 'aiguille_top_l':
+                    this.needleTopL = child
+                    console.log(this.needleTopL)
+                    break;
+                case 'aiguille_top_r':
+                    this.needleTopR = child
+                    console.log(this.needleTopR)
+                    break;
+                default:
+            }
         })
+        console.log('btnTab : ', this.btnTab)
     }
 
     _addUXElements() {
         let loader = new THREE.TextureLoader();
 
         let UXItemPositions = [
-            {x: 5.05, y: -2.5, z: -20},
-            {x: 5, y: -3.3, z: -20},
-            {x: 2.45, y: -4.65, z: -20},
-            {x: -5.8, y: -1.5, z: -20},
-            {x: -7, y: -5, z: -20}
+            {x: 5.05, y: -2.8, z: -20},
+            {x: 5, y: -3.65, z: -20},
+            {x: 2.45, y: -4.95, z: -20},
+            {x: -5.8, y: -1.8, z: -20},
+            {x: -7, y: -5.3, z: -20}
         ]
 
         for (let i = 0; i < 5; i++) {
