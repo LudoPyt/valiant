@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { isMobile } from 'react-device-detect';
+import { isMobile, isChrome } from 'react-device-detect';
 
 import AssetsLoader from '../components/AssetsLoader';
 import Emitter from '../components/Emitter';
@@ -41,7 +41,7 @@ const App = () => {
   const loader = useRef();
 
   useEffect(() => {
-    !isMobile && AssetsLoader._loadAssets()
+    !isMobile && isChrome && AssetsLoader._loadAssets()
     Emitter.on('loadingComplete', () => {
       setIsLoaded(true)
       setTimeout(() => {
@@ -66,39 +66,45 @@ const App = () => {
             </p>
           </div>
         ) : (
-          <>
-          <Header />
-
-          {isLoading && <div ref={loader} className="loader"><div className="loader__logo"></div></div>}
-          {isLoaded &&
+          !isChrome ? (
+            <div className="not-chrome">
+              <p className="not-chrome__text">
+                Nous vous conseillons de visiter Valiant sur Chrome.
+              </p>
+            </div>
+          ): (
             <>
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route exact path="/about" component={About} />
-                <Route exact path="/credits" component={Credits} />
-                <Route exact path="/end" component={EndStory} />
-                <Route exact path="/not-available" component={NotAvailable} />
+              <Header />
+                {isLoading && <div ref={loader} className="loader"><div className="loader__logo"></div></div>}
+                {isLoaded &&
+                  <>
+                    <Switch>
+                      <Route exact path="/" component={Home} />
+                      <Route exact path="/about" component={About} />
+                      <Route exact path="/credits" component={Credits} />
+                      <Route exact path="/end" component={EndStory} />
+                      <Route exact path="/not-available" component={NotAvailable} />
 
-                <Route exact path="/story" component={Story} />
-                <Route exact path="/context" component={Chp1Context} />
-                <Route exact path="/lakehood" component={Chp1LakeHood} />
-                <Route exact path="/simon" component={Chp1Simon} />
-                <Route exact path="/takeoff" component={Chp2TakeOff} />
-                <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
-                <Route exact path="/cockpit" component={Chp2Cockpit} />
-                <Route exact path="/landing" component={Chp3Landing} />
-                <Route exact path="/tenakee" component={Chp3Tenakee} />
-                <Route exact path="/bear" component={Chp3Bear} />
-                <Route exact path="/people" component={Chp3People} />
+                      <Route exact path="/story" component={Story} />
+                      <Route exact path="/context" component={Chp1Context} />
+                      <Route exact path="/lakehood" component={Chp1LakeHood} />
+                      <Route exact path="/simon" component={Chp1Simon} />
+                      <Route exact path="/takeoff" component={Chp2TakeOff} />
+                      <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
+                      <Route exact path="/cockpit" component={Chp2Cockpit} />
+                      <Route exact path="/landing" component={Chp3Landing} />
+                      <Route exact path="/tenakee" component={Chp3Tenakee} />
+                      <Route exact path="/bear" component={Chp3Bear} />
+                      <Route exact path="/people" component={Chp3People} />
 
-                {/* <Route path="/*" component={NoMatch} /> */}
-                {/* <Route path="/nuages" component={Nuages} /> */}
-              </Switch>
-
-              <Timeline />
-            </>
-          }
-          </>
+                      {/* <Route path="/*" component={NoMatch} /> */}
+                      {/* <Route path="/nuages" component={Nuages} /> */}
+                    </Switch>
+                    <Timeline />
+                  </>
+                }
+              </>
+          )
         )}
       </Router>
     </>
