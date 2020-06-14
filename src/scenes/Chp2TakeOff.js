@@ -44,7 +44,6 @@ const Chp2TakeOff = () => {
     }, [history, bezierCurvePoints, fixPathStartUX, fixPathEndUX])
 
     useEffect(() => {
-        console.log('use3')
         let voice = new Howl({
             src: '/before-take-off/voice.mp3',
             onplay: () => {

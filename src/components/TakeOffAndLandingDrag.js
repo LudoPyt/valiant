@@ -17,7 +17,6 @@ class TakeOffAndLandingDrag {
     }
 
     _init() {
-        console.log('init Takeoff')
         this.needDestroy = false
         this.raf = 0;
         this.mouseX = 0;
@@ -114,8 +113,6 @@ class TakeOffAndLandingDrag {
         endPoint.position.y = this.endPoint.y;
         this.pathScreenStart = this._toScreenPosition(startPoint, this.camera)
         this.pathScreenEnd = this._toScreenPosition(endPoint, this.camera)
-        console.log('pathStart :', this.pathScreenStart)
-        console.log('pathEnd :', this.pathScreenEnd)
 
         let path = new THREE.Path();
         path.moveTo(this.startPoint.x, this.startPoint.y);

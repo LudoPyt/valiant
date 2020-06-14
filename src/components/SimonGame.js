@@ -56,7 +56,6 @@ class SimonGame {
     }
 
     _reset() {
-        console.log('reseeet')
         this.isOkey = [];
         this.intersect = [];
         this.moves = [];
@@ -117,7 +116,6 @@ class SimonGame {
         this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
         this.raycaster.setFromCamera(this.mouse, this.camera);
         this.intersect = this.raycaster.intersectObjects(this.scene.children , true);
-        console.log(this.intersect)
 
         this.intersect.map(elem => {
             return this.btnTab.map(e => {
@@ -173,7 +171,6 @@ class SimonGame {
     _addCockpit(){
         let object = AssetsLoader.getModels('hydravion')
         this.gltf = object[0].content.scene.clone()
-        console.log(this.gltf)
         this.gltf.traverse((child) => {
             switch (child.name) {
                 case 'Hydravion':
@@ -212,7 +209,6 @@ class SimonGame {
                 default:
             }
         })
-        console.log('btnTab : ', this.btnTab)
     }
 
     _addUXElements() {
@@ -371,7 +367,6 @@ class SimonGame {
     }
 
     destroyRaf() {
-        console.log('destroyyy')
         this.moves = 0;
         clearTimeout(this.timeoutGameFinished)
         clearInterval(this.interval)

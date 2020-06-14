@@ -73,7 +73,6 @@ class AssetsLoader {
     }
 
     getModels(name) {
-        console.log('get Cockpit', this.models)
         return this.models.filter(entry => {return entry.name === name})
     }
 
