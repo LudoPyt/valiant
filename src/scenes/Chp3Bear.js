@@ -26,16 +26,16 @@ const Chp3Bear = () => {
     const instruction = "Cliquer sur le briquet pour l'allumer";
     const ambiantSound = 4;
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
-            context.dispatch({type: 'setCurrentScene', scene});
-            context.dispatch({type: 'setInstruction', instruction});
-            context.dispatch({type: 'setAmbiantSound', ambiantSound});
-        }
+            if (context.state.currentScene !== scene) {
+                context.dispatch({type: 'setCurrentScene', scene});
+                context.dispatch({type: 'setInstruction', instruction});
+                context.dispatch({type: 'setAmbiantSound', ambiantSound});
+            }
     }, [context]);
 
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
-
+        
         const threeScene = new BearScene(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixLighterUX, fixPathStartUX, fixPathEndUX);
 
         return () => {

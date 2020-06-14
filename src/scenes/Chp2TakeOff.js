@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import * as THREE from 'three';
 import TakeOffAndLandingDrag from '../components/TakeOffAndLandingDrag';
+import { Howl, Howler } from 'howler';
+
 
 const Chp2TakeOff = () => {
 
@@ -34,13 +36,31 @@ const Chp2TakeOff = () => {
 
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
-
         const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX);
 
         return () => {
             threeScene.destroyRaf();
         }
     }, [history, bezierCurvePoints, fixPathStartUX, fixPathEndUX])
+
+    useEffect(() => {
+        console.log('use3')
+        let voice = new Howl({
+            src: '/before-take-off/voice.mp3',
+            onplay: () => {
+                Howler.volume(0.5)
+                voice.volume(1)
+            },
+            onend: () => {
+                Howler.volume(1)
+            }
+        });
+
+        setTimeout(() => {
+            voice.play()
+        }, 3000)
+    }, [])
+
 
     return (
         <>

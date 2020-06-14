@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { DragControls } from '../lib/DragControls';
+import { Howl } from 'howler';
+
 
 class TakeOffAndLandingDrag {
     constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX) {
@@ -15,6 +17,7 @@ class TakeOffAndLandingDrag {
     }
 
     _init() {
+        console.log('init Takeoff')
         this.needDestroy = false
         this.raf = 0;
         this.mouseX = 0;
@@ -31,6 +34,7 @@ class TakeOffAndLandingDrag {
         this._addBeaver();
         this._addUXElements();
         this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
+        this._addSound();
         this._setupEventListerner();
         this._render();
     }
@@ -55,6 +59,7 @@ class TakeOffAndLandingDrag {
                 this.beaver.position.x = this.endPoint.x;
                 this.beaver.position.y = this.endPoint.y;
                 this.history.push(this.nextPage);
+                this.takeoffSound.stop()
             } else if (percentOfCurve < 1) {
                 this.beaver.position.x = this.startPoint.x;
                 this.beaver.position.y = this.startPoint.y;
@@ -89,6 +94,14 @@ class TakeOffAndLandingDrag {
 
         return vector.x;
     };
+
+    _addSound() {
+        this.takeoffSound = new Howl({
+            src: '/before-take-off/takeoff.mp3',
+            autoplay: true,
+            loop: true,
+        });
+    }
 
     _addPath() {
         let pointGeometry = new THREE.BoxGeometry(0.001, 0.001, 0.001);
