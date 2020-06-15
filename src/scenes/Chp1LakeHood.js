@@ -31,23 +31,25 @@ const Chp1LakeHood = () => {
     const Green = useRef();
     const [canInteract, setCanInteract] = useState(false)
     const [isRead, setIsRead] = useState(false)
-    const voice = new Howl({
-        src: '/lakehood/voice.mp3',
-        onend: () => {
-            setIsRead(false)
-            setCanInteract(true)
-        }
-    });
-    const wrong = new Howl({
-        src:  '/lakehood/wrong.mp3',
-        onend: () => setIsRead(false)
-    });
-    const mike = new Howl({
-        src: '/lakehood/mike.mp3',
-        onend: () => setIsRead(false)
-    });
+
 
     useEffect(() => {
+        const voice = new Howl({
+            src: '/lakehood/voice.mp3',
+            onend: () => {
+                setIsRead(false)
+                setCanInteract(true)
+            }
+        });
+        const wrong = new Howl({
+            src:  '/lakehood/wrong.mp3',
+            onend: () => setIsRead(false)
+        });
+        const mike = new Howl({
+            src: '/lakehood/mike.mp3',
+            onend: () => setIsRead(false)
+        });
+
         if (!canInteract) voice.play()
 
         if (canInteract && !isRead) {
