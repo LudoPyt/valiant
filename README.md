@@ -4,10 +4,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Installation
 
-After you clone the repository, execute the command `npm install` to add all dependencies.
+After you clone the repository, execute the command `npm install` to add all dependencies.<br />
 Then, execute `npm run start` to lauche the project on `http://localhost:3000/`
 
-### Available Scripts
+## Available Scripts
 
 In the project directory, you can run:
 
@@ -44,7 +44,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### Learn More
+## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
