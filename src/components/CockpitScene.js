@@ -38,7 +38,6 @@ class CockpitScene {
             this.crackle = !this.crackle
         }, this.int)
 
-
         this._setupEventListener();
     }
 
@@ -124,7 +123,6 @@ class CockpitScene {
         this.sea.rotation.x -= Math.PI / 2;
         this.sea.position.set(0, -103, 0);
         this.scene.add(this.sea);
-    
     }
 
     _setVideoSky() {
@@ -135,7 +133,6 @@ class CockpitScene {
         this.skyVideo.loop = true
         this.skyVideo.load();
 
-        
         this.textureSky = new THREE.VideoTexture( this.skyVideo );
         this.textureSky.needsUpdate = true;
         this.textureSky.minFilter = THREE.LinearFilter;
@@ -149,7 +146,6 @@ class CockpitScene {
         this.scene.add(this.sky)
 
         this.skyVideo.play()
-    
     }
 
     _addCockpit(){

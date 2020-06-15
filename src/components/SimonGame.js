@@ -42,17 +42,10 @@ class SimonGame {
         this._setScene();
         this._addBackground();
         this._addCockpit();
-        this._addUXElements();
         this._addSound();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
-        this._setupEventListerner();
         this._render();
-
-        this._animUXElements();
-        this.repeatUXAnim = setInterval(() => {
-            this._animUXElements();
-        }, 18000)
     }
 
     _reset() {
@@ -152,6 +145,15 @@ class SimonGame {
         if (this.moves.length === 4) this.helSound.play();
 
         if (this.moves.length === 5) this._isRight();
+    }
+
+    _userCanInteract() {
+        this._setupEventListerner();
+        this._addUXElements();
+        this._animUXElements();
+        this.repeatUXAnim = setInterval(() => {
+            this._animUXElements();
+        }, 18000)
     }
 
     _setupEventListerner() {
@@ -292,14 +294,14 @@ class SimonGame {
         this.voiceBeforeGame = new Howl({
             src: '/simon/voiceBeforeGame.mp3',
             volume: 1,
-            autoplay: true
+            autoplay: true,
+            onend: () => this._userCanInteract()
         });
         this.voiceAfterGame = new Howl({
             src: '/simon/voiceAfterGame.mp3',
             volume: 1,
-            onend: () => {
-                this.history.push('/takeoff');
-            }
+            onplay: () => clearInterval(this.repeatUXAnim),
+            onend: () => this.history.push('/takeoff')
         });
     }
 
