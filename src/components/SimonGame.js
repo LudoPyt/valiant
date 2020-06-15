@@ -216,25 +216,25 @@ class SimonGame {
     _addUXElements() {
         let loader = new THREE.TextureLoader();
 
-        let UXItemPositions = [
-            {x: 5.05, y: -2.8, z: -20},
-            {x: 5, y: -3.65, z: -20},
-            {x: 2.45, y: -4.95, z: -20},
-            {x: -5.8, y: -1.8, z: -20},
-            {x: -7, y: -5.3, z: -20}
+        let UXItem = [
+            {img: '/ux/icon-simon-01.png', x: 5.05, y: -2.8, z: -20},
+            {img: '/ux/icon-simon-02.png', x: 5, y: -3.65, z: -20},
+            {img: '/ux/icon-simon-03.png', x: 2.45, y: -4.95, z: -20},
+            {img: '/ux/icon-simon-04.png', x: -5.8, y: -1.8, z: -20},
+            {img: '/ux/icon-simon-05.png', x: -7, y: -5.3, z: -20}
         ]
 
         for (let i = 0; i < 5; i++) {
             let item = new THREE.Mesh(
-                new THREE.PlaneGeometry(0.5, 0.5),
+                new THREE.PlaneGeometry(0.6, 0.6),
                 new THREE.MeshLambertMaterial({
-                    map: loader.load('/ux/icon-clic.png'),
+                    map: loader.load(UXItem[i].img),
                     transparent: true
                 })
             );
-            item.position.x = UXItemPositions[i].x;
-            item.position.y = UXItemPositions[i].y;
-            item.position.z = UXItemPositions[i].z;
+            item.position.x = UXItem[i].x;
+            item.position.y = UXItem[i].y;
+            item.position.z = UXItem[i].z;
             item.material.opacity = 0;
             this.UXObjects.push(item);
             this.scene.add(item);

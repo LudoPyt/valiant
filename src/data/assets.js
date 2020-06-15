@@ -22,6 +22,22 @@ export const models = [
 
 export const images = [
     {
+        "name" : "alaska",
+        "url" : "/story/alaska.jpg"
+    },
+    {
+        "name" : "kerguelen",
+        "url" : "/story/kerguelen.jpg"
+    },
+    {
+        "name" : "norvege",
+        "url" : "/story/norvege.jpg"
+    },
+    {
+        "name" : "syrie",
+        "url" : "/story/syrie.jpg"
+    },
+    {
         "name" : "illu-alaska",
         "url" : "/menuBurger/illu-alaska.png"
     },
