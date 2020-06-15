@@ -96,7 +96,7 @@ class CockpitScene {
             onend: () => {
                 this.timeoutVoiceDown = setTimeout(() => {
                     this.voiceDown.play()
-                }, 1000)
+                }, 2000)
             }
         });
 
@@ -219,7 +219,7 @@ class CockpitScene {
         if (this.arrow.directions.right && this.stick.rotation.z > -this.maxRotation) {
             this._rightCameraPivot()
             this.stick.rotateZ(-this.speedRot * this.delta);
-            if (this.stick.rotation.z <= -this.maxRotation){
+            if (this.stick.rotation.z <= -this.maxRotation && !this.left){
                 document.querySelector('.adviceRight').classList.add('isUnActive')
                 document.querySelector('.adviceLeft').classList.add('isActive')
                 this.right = true
