@@ -5,7 +5,7 @@ const RecoElement = (props) => (
         <div className="reco__element">
             <img className="reco__element-img" src={`/story/${props.data.imgSrc}`} alt={ props.data.imgAlt }/>
             <Link className="reco__element-link" to={ props.data.link }>
-                <img className="reco__element-link-img" src="/story/icon-play.png" alt="button play" />
+                <div className="storyPlayer__container endPlayer__container"><div className="storyPlayer endPlayer"></div></div>
             </Link>
             <h2 className="reco__element-title">{ props.data.title }</h2>
         </div>

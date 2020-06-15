@@ -166,3 +166,74 @@ button {
         }
     }
 }
+
+.storyPlayer__container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 100px;
+    height: 100px;
+
+    border: solid white 2px;
+    border-radius: 50%;
+
+    transition: width  .5s ease-in-out, height .5s ease-in-out;
+
+    &:hover{
+        width: 75px;
+        height: 75px;
+
+        .storyPlayer {
+            border-top: 13px solid transparent;
+            border-bottom: 13px solid transparent;
+
+            border-left: 26px solid white;
+        }
+    }
+}
+
+.storyPlayer {
+    position: absolute;
+    left: 4px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+
+    width: 0; 
+    height: 0; 
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+
+    border-left: 35px solid white;
+
+    transition: border-top  .5s ease-in-out, border-bottom .5s ease-in-out, border-left .5s ease-in-out;
+}
+.endPlayer__container {
+    width: 50px;
+    height: 50px;
+
+
+    &:hover{
+        width: 30px;
+        height: 30px;
+
+        .storyPlayer {
+            border-top: 7px solid transparent;
+            border-bottom: 7px solid transparent;
+
+            border-left: 14px solid white;
+        }
+    }
+}
+
+.endPlayer {
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+
+    border-left: 20px solid white;
+
+    transition: border-top  .5s ease-in-out, border-bottom .5s ease-in-out, border-left .5s ease-in-out;
+}

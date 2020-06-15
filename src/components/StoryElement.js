@@ -6,7 +6,7 @@ const StoryElement = (props) => (
         <div className="story__element-content">
             <img className="story__element-content-img" src={`/story/${props.data.imgSrc}`} alt={ props.data.imgAlt }/>
             <Link className="story__element-content-link" to={ props.data.link }>
-                <img className="story__element-content-link-img" src="/story/icon-play.png" alt="button play" />
+                <div className="storyPlayer__container"><div className="storyPlayer"></div></div>
             </Link>
             <h2 className="story__element-content-title">{ props.data.title }</h2>
             <p className="story__element-duration">{ props.data.duration } min</p>
