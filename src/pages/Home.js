@@ -21,6 +21,7 @@ const Home = () => {
         document.querySelector('.navbar').classList.remove('isActive');
         document.querySelector('.menu__button').classList.remove('isOpen');
         document.querySelector('.menu__button').style.display = "none";
+        document.querySelector('.header__logo').style.display = "none";
     }, [])
 
     return (
