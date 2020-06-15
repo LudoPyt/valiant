@@ -16,7 +16,6 @@ const EndStory = () => {
             src:  '/endStory/plane.mp3',
         });
         plane.play();
-        document.getElementById('end').play();
     }, [])
 
     return (
