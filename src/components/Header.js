@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
+import { HashLink } from 'react-router-hash-link';
 import menuImageAnimation from '../components/animationComponents/menuImageAnimation';
 
 import '../scss/layout/header.scss';
@@ -57,12 +58,12 @@ const Header = () => {
             </div>
             <nav ref={NavBar} className="navbar">
                 <ul className="navbar__list">
-                    <li className="navbar__list-item"><a href="/about">À propos</a></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-alaska.png"><a href="/story#alaska">Alaska</a></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-kerguelen.png"><a href="/story#kerguelen">Kerguelen</a></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-syrie.png"><a href="/story#syrie">Syrie</a></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-norvege.png"><a href="/story#norvege">Norvège</a></li>
-                    <li className="navbar__list-item"><a to="/credits">Crédits</a></li>
+                    <li className="navbar__list-item"><Link to="/about">À propos</Link></li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-alaska.png"><HashLink to="/story#alaska">Alaska</HashLink></li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-kerguelen.png"><HashLink to="/story#kerguelen">Kerguelen</HashLink></li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-syrie.png"><HashLink to="/story#syrie">Syrie</HashLink></li>
+                    <li className="navbar__list-item" data-image="/menuBurger/illu-norvege.png"><HashLink to="/story#norvege">Norvège</HashLink></li>
+                    <li className="navbar__list-item"><Link to="/credits">Crédits</Link></li>
                 </ul>
             </nav>
         </header>
