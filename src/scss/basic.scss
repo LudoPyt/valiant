@@ -155,7 +155,7 @@ button {
     .loader__logo {
         width: 500px;
         height: 280px;
-        background-image: url('../assets/images/logo-sprite.png');
+        background-image: url('/layout/logo-sprite.png');
         background-position: left center;
         background-size: cover;
         animation: 2s logoAnim steps(5) infinite;

@@ -19,3 +19,22 @@ export const models = [
         "url" : "/model/hydravion/scene.gltf"
     }
 ];
+
+export const images = [
+    {
+        "name" : "illu-alaska",
+        "url" : "/menuBurger/illu-alaska.png"
+    },
+    {
+        "name" : "illu-kerguelen",
+        "url" : "/menuBurger/illu-kerguelen.png"
+    },
+    {
+        "name" : "illu-norvege",
+        "url" : "/menuBurger/illu-norvege.png"
+    },
+    {
+        "name" : "illu-syrie",
+        "url" : "/menuBurger/illu-syrie.png"
+    }
+];

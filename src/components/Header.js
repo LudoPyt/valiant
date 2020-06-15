@@ -4,7 +4,6 @@ import { HashLink } from 'react-router-hash-link';
 import menuImageAnimation from '../components/animationComponents/menuImageAnimation';
 
 import '../scss/layout/header.scss';
-import Logo from '../assets/images/logo.png';
 
 const Header = () => {
 
@@ -41,7 +40,7 @@ const Header = () => {
     return (
         <header className="header">
             <Link to="/">
-                <img className="header__logo" src={`${Logo}`} alt=""></img>
+                <img className="header__logo" src="/layout/logo.png" alt=""></img>
             </Link>
             <button ref={MenuButton} className="menu__button">
                 <div className="button__line-up"></div>

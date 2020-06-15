@@ -33,7 +33,6 @@ import Chp3People from '../scenes/Chp3People';
 // import Nuages from '../components/Nuages';
 
 import '../scss/basic.scss';
-import Logo from '../assets/images/logo.png';
 
 const App = () => {
 
@@ -59,7 +58,7 @@ const App = () => {
       <Router>
         {isMobile ? (
           <div className="mobile">
-            <img className="mobile__logo" src={Logo} alt="logo"/>
+            <img className="mobile__logo" src="layout/logo.png" alt="logo"/>
             <p className="mobile__text">
               Votre écran n'est pas adapté pour les expériences interactives de Valiant.
               <br/>
@@ -70,7 +69,7 @@ const App = () => {
         ) : (
           !isChrome ? (
             <div className="not-chrome">
-              <img className="not-chrome__logo" src={Logo} alt="logo"/>
+              <img className="not-chrome__logo" src="layout/logo.png" alt="logo"/>
               <p className="not-chrome__text">
                 Nous vous conseillons de visiter Valiant sur Chrome.
               </p>

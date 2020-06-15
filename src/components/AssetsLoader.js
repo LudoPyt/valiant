@@ -1,4 +1,4 @@
-import { models, videos } from '../data/assets';
+import { models, videos, images } from '../data/assets';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Emitter from './Emitter';
 
@@ -51,6 +51,19 @@ class AssetsLoader {
                 });
                 return result
             });
+
+            this._promises.push(promise);
+        }
+
+        // load images
+        for (let i = 0; i < images.length; i++) {
+
+            let img = new Image();
+            img.src = images[i].url;
+
+            let promise = new Promise(resolve => {
+                img.addEventListener('load', () => resolve(img));
+            })
 
             this._promises.push(promise);
         }
