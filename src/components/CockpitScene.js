@@ -94,7 +94,9 @@ class CockpitScene {
         this.voiceLeft = new Howl({
             src: '/decor_cockpit/voiceLeft.mp3',
             onend: () => {
-                this.voiceDown.play()
+                this.timeoutVoiceDown = setTimeout(() => {
+                    this.voiceDown.play()
+                }, 1000)
             }
         });
 
@@ -332,6 +334,7 @@ class CockpitScene {
 
     destroyRaf() {
         clearInterval(this.interval);
+        clearTimeout(this.timeoutVoiceDown);
         this.needDestroy = true;
         window.cancelAnimationFrame(this.raf)
     }

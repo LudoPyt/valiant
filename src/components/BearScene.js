@@ -45,11 +45,9 @@ class BearScene {
         this._addLighter();
         this._addFirecracker();
         this._addExplosion();
-        this._addUXElements();
         this._addSound();
         this.mouse = new THREE.Vector2();
         this.raycaster = new THREE.Raycaster();
-        this._setupClickEventListerner();
         this._render();
     }
 
@@ -251,6 +249,7 @@ class BearScene {
 
         this.beginVoice = new Howl({
             src: this.pathToAssets + 'voiceBegin.mp3',
+            onend: () => this._userCanInteract()
         });
 
         this.beginVoice.play();
@@ -265,6 +264,11 @@ class BearScene {
 
     _setupClickEventListerner() {
         document.addEventListener("click", (event) => this._clickOnLighter(event));
+    }
+
+    _userCanInteract() {
+        this._setupClickEventListerner();
+        this._addUXElements();
     }
 
     _clickOnLighter(event) {
@@ -332,7 +336,7 @@ class BearScene {
                     this.firecracker.position.y = this.pathPoints[Math.round(percentOfCurve)].y
                     this.firecracker.scale.x = 1 - (percentOfCurve*0.005);
                     this.firecracker.scale.y = 1 - (percentOfCurve*0.005);
-                    this.firecracker.rotation.z += (percentOfCurve*0.003)
+                    this.firecracker.rotation.z += (percentOfCurve*0.002)
                 }
             });
 
