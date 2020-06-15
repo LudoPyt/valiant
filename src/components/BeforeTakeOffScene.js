@@ -3,7 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howl } from 'howler';
 import AssetsLoader from '../components/AssetsLoader';
 
-class SimonGame {
+class BeforeTakeOffScene {
     constructor(history, canvas){
         this.history = history;
         this.canvas = canvas;
@@ -161,7 +161,7 @@ class SimonGame {
     }
 
     _addBackground() {
-        let background = new THREE.TextureLoader().load('/before-take-off/background.png');
+        let background = new THREE.TextureLoader().load('/assets/beforeTakeOff/background.png');
         this.scene.background = background;
     }
 
@@ -217,11 +217,11 @@ class SimonGame {
         let loader = new THREE.TextureLoader();
 
         let UXItem = [
-            {img: '/ux/icon-simon-01.png', x: 5.05, y: -2.8, z: -20},
-            {img: '/ux/icon-simon-02.png', x: 5, y: -3.65, z: -20},
-            {img: '/ux/icon-simon-03.png', x: 2.45, y: -4.95, z: -20},
-            {img: '/ux/icon-simon-04.png', x: -5.8, y: -1.8, z: -20},
-            {img: '/ux/icon-simon-05.png', x: -7, y: -5.3, z: -20}
+            {img: '/assets/ux/icon-simon-01.png', x: 5.05, y: -2.8, z: -20},
+            {img: '/assets/ux/icon-simon-02.png', x: 5, y: -3.65, z: -20},
+            {img: '/assets/ux/icon-simon-03.png', x: 2.45, y: -4.95, z: -20},
+            {img: '/assets/ux/icon-simon-04.png', x: -5.8, y: -1.8, z: -20},
+            {img: '/assets/ux/icon-simon-05.png', x: -7, y: -5.3, z: -20}
         ]
 
         for (let i = 0; i < 5; i++) {
@@ -267,38 +267,38 @@ class SimonGame {
 
     _addSound(){
         this.intSound = new Howl({
-            src: '/simon/btninterrupteur.mp3',
+            src: '/assets/beforeTakeOff/btninterrupteur.mp3',
             volume: 0.1,
         });
 
         this.pressSound = new Howl({
-            src: '/simon/btnpress.mp3',
+            src: '/assets/beforeTakeOff/btnpress.mp3',
             volume: 0.5,
         });
 
         this.pullSound = new Howl({
-            src: '/simon/btnpull.mp3',
+            src: '/assets/beforeTakeOff/btnpull.mp3',
             volume: 0.5,
         });
 
         this.rotSound = new Howl({
-            src: '/simon/btnrotatif.mp3',
+            src: '/assets/beforeTakeOff/btnrotatif.mp3',
             volume: 0.5,
         });
 
         this.helSound = new Howl({
-            src: '/simon/helice.mp3',
+            src: '/assets/beforeTakeOff/helice.mp3',
             volume: 0.8,
         });
 
         this.voiceBeforeGame = new Howl({
-            src: '/simon/voiceBeforeGame.mp3',
+            src: '/assets/beforeTakeOff/voiceBeforeGame.mp3',
             volume: 1,
             autoplay: true,
             onend: () => this._userCanInteract()
         });
         this.voiceAfterGame = new Howl({
-            src: '/simon/voiceAfterGame.mp3',
+            src: '/assets/beforeTakeOff/voiceAfterGame.mp3',
             volume: 1,
             onplay: () => clearInterval(this.repeatUXAnim),
             onend: () => this.history.push('/takeoff')
@@ -382,4 +382,4 @@ class SimonGame {
 
 }
 
-export default SimonGame;
+export default BeforeTakeOffScene;

@@ -26,7 +26,7 @@ const Home = () => {
     return (
         <main>
             <div className="home">
-                <img className="home__logo" src="/layout/logo.png" alt=""></img>
+                <img className="home__logo" src="/assets/logo.png" alt=""></img>
                 <h1 className="home__heading">Le dernier lien vers l'inconnu</h1>
                 <Link to="/story">
                     <button className="home__button">Découvrir</button>

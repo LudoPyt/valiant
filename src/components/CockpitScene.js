@@ -84,15 +84,15 @@ class CockpitScene {
 
     _addSound(){
         this.voiceRight = new Howl({
-            src: '/decor_cockpit/voiceRight.mp3'
+            src: '/assets/duringFlight/voiceRight.mp3'
         });
 
         this.voiceDown = new Howl({
-            src: '/decor_cockpit/voiceDown.mp3'
+            src: '/assets/duringFlight/voiceDown.mp3'
         });
 
         this.voiceLeft = new Howl({
-            src: '/decor_cockpit/voiceLeft.mp3',
+            src: '/assets/duringFlight/voiceLeft.mp3',
             onend: () => {
                 this.timeoutVoiceDown = setTimeout(() => {
                     this.voiceDown.play()
@@ -101,7 +101,7 @@ class CockpitScene {
         });
 
         this.whale = new Howl({
-            src: '/decor_cockpit/baleines.mp3',
+            src: '/assets/duringFlight/baleines.mp3',
             volume: 0.3,
         });
 

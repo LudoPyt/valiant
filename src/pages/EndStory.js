@@ -14,7 +14,7 @@ const EndStory = () => {
         document.querySelector('.header__logo').style.display = "block";
 
         let plane = new Howl({
-            src:  '/endStory/plane.mp3',
+            src:  '/assets/endStory/plane.mp3',
         });
         plane.play();
     }, [])
@@ -39,7 +39,7 @@ const EndStory = () => {
                 </div>
                 <div className="end__under">
                     <video id="end" className="end__under-video" autoPlay width="250">
-                        <source src="/endStory/beaver.mp4" type="video/mp4" />
+                        <source src="/assets/endStory/beaver.mp4" type="video/mp4" />
                         Sorry, your browser doesn't support embedded videos.
                     </video>
                 </div>

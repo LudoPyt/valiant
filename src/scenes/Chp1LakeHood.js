@@ -36,25 +36,25 @@ const Chp1LakeHood = () => {
 
     useEffect(() => {
         const voice = new Howl({
-            src: '/lakehood/voice.mp3',
+            src: '/assets/lakehood/voice.mp3',
             onend: () => {
                 setIsRead(false)
                 setCanInteract(true)
             }
         });
         const wrong = new Howl({
-            src:  '/lakehood/wrong.mp3',
+            src:  '/assets/lakehood/wrong.mp3',
             onend: () => setIsRead(false)
         });
         const mike = new Howl({
-            src: '/lakehood/mike.mp3',
+            src: '/assets/lakehood/mike.mp3',
             onend: () => setIsRead(false)
         });
 
         if (!canInteract) voice.play()
 
         if (canInteract && !isRead) {
-            Beaver.current.addEventListener('click', () => {history.push('/simon');});
+            Beaver.current.addEventListener('click', () => {history.push('/before-take-off');});
 
             Mike.current.addEventListener('click', () => {
                 setIsRead(true)
@@ -73,7 +73,7 @@ const Chp1LakeHood = () => {
             <div ref={Beaver} className="lakehood-beaver"></div>
             <div ref={Mike} className="lakehood-mike"></div>
             <div ref={Green} className="lakehood-green"></div>
-            <img src="/lakehood/lakehood.png" alt="" />
+            <img src="/assets/lakehood/lakehood.png" alt="" />
         </>
     )
 }

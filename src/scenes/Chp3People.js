@@ -36,7 +36,7 @@ const Chp3People = () => {
         let isRead = false;
 
         let granny = new Howl({
-            src:  '/people/granny.mp3',
+            src:  '/assets/people/granny.mp3',
             onplay: () => {
                 Granny.current.classList.add('isActive')
             },
@@ -47,7 +47,7 @@ const Chp3People = () => {
         });
 
         let daddy = new Howl({
-            src: '/people/daddy.mp3',
+            src: '/assets/people/daddy.mp3',
             onplay: () => {
                 Daddy.current.classList.add('isActive')
             },
@@ -58,7 +58,7 @@ const Chp3People = () => {
         });
 
         let mommy = new Howl({
-            src: '/people/mommy.mp3',
+            src: '/assets/people/mommy.mp3',
             onplay: () => {
                 Mommy.current.classList.add('isActive')
             },
@@ -69,7 +69,7 @@ const Chp3People = () => {
         });
 
         let teenager = new Howl({
-            src: '/people/teenager.mp3',
+            src: '/assets/people/teenager.mp3',
             onplay: () => {
                 Teenager.current.classList.add('isActive')
             },
@@ -80,7 +80,7 @@ const Chp3People = () => {
         });
 
         let child = new Howl({
-            src: '/people/child.mp3',
+            src: '/assets/people/child.mp3',
             onplay: () => {
                 Child.current.classList.add('isActive')
             },
@@ -139,12 +139,12 @@ const Chp3People = () => {
     return (
         <>
             <div ref={AllPeople} className="allPeople">
-                <img className="backgroundPeople" src="/people/habitant_merge_decor.png" alt=""></img>
-                <img ref={Granny} className="people granny" src="/people/habitant_merge_mamie.png" alt=""></img>
-                <img ref={Daddy} className="people daddy" src="/people/habitant_merge_homme.png" alt=""></img>
-                <img ref={Child} className="people child" src="/people/habitant_merge_enfant.png" alt=""></img>
-                <img ref={Teenager} className="people teenager" src="/people/habitant_merge_ados.png" alt=""></img>
-                <img ref={Mommy} className="people mommy" src="/people/habitant_merge_dame.png" alt=""></img>
+                <img className="backgroundPeople" src="/assets/people/habitant_merge_decor.png" alt=""></img>
+                <img ref={Granny} className="people granny" src="/assets/people/habitant_merge_mamie.png" alt=""></img>
+                <img ref={Daddy} className="people daddy" src="/assets/people/habitant_merge_homme.png" alt=""></img>
+                <img ref={Child} className="people child" src="/assets/people/habitant_merge_enfant.png" alt=""></img>
+                <img ref={Teenager} className="people teenager" src="/assets/people/habitant_merge_ados.png" alt=""></img>
+                <img ref={Mommy} className="people mommy" src="/assets/people/habitant_merge_dame.png" alt=""></img>
             </div>
         </>
     )

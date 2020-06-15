@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
-import SimonGame from '../components/SimonGame';
+import BeforeTakeOffScene from '../components/BeforeTakeOffScene';
 
-const Chp1Simon = () => {
+const Chp1BeforeTakeOff = () => {
 
     const context = React.useContext(Context);
     const history = useHistory();
@@ -25,7 +25,7 @@ const Chp1Simon = () => {
     }, [context]);
 
     useEffect(() => {
-        const threeScene = new SimonGame(history, canvas.current);
+        const threeScene = new BeforeTakeOffScene(history, canvas.current);
 
         return () => {
             threeScene.destroyRaf();
@@ -39,4 +39,4 @@ const Chp1Simon = () => {
     )
 }
 
-export default Chp1Simon;
+export default Chp1BeforeTakeOff;

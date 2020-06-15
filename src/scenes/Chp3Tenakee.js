@@ -30,7 +30,7 @@ const Chp3Tenakee = () => {
     return (
         <>
             <video ref={videoTenakee} id="tenakee" className="tenakee" autoPlay width="250">
-                <source src="/tenakee/tenakee.mp4" type="video/mp4" />
+                <source src="/assets/tenakee/tenakee.mp4" type="video/mp4" />
                 Sorry, your browser doesn't support embedded videos.
             </video>
         </>

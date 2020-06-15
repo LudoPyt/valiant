@@ -40,7 +40,7 @@ const Header = () => {
     return (
         <header className="header">
             <Link to="/">
-                <img className="header__logo" src="/layout/logo.png" alt=""></img>
+                <img className="header__logo" src="/assets/logo.png" alt=""></img>
             </Link>
             <button ref={MenuButton} className="menu__button">
                 <div className="button__line-up"></div>
@@ -58,10 +58,10 @@ const Header = () => {
             <nav ref={NavBar} className="navbar">
                 <ul className="navbar__list">
                     <li className="navbar__list-item"><Link to="/about">À propos</Link></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-alaska.png"><HashLink to="/story#alaska">Alaska</HashLink></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-kerguelen.png"><HashLink to="/story#kerguelen">Kerguelen</HashLink></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-syrie.png"><HashLink to="/story#syrie">Syrie</HashLink></li>
-                    <li className="navbar__list-item" data-image="/menuBurger/illu-norvege.png"><HashLink to="/story#norvege">Norvège</HashLink></li>
+                    <li className="navbar__list-item" data-image="/assets/menu/illu-alaska.png"><HashLink to="/story#alaska">Alaska</HashLink></li>
+                    <li className="navbar__list-item" data-image="/assets/menu/illu-kerguelen.png"><HashLink to="/story#kerguelen">Kerguelen</HashLink></li>
+                    <li className="navbar__list-item" data-image="/assets/menu/illu-syrie.png"><HashLink to="/story#syrie">Syrie</HashLink></li>
+                    <li className="navbar__list-item" data-image="/assets/menu/illu-norvege.png"><HashLink to="/story#norvege">Norvège</HashLink></li>
                     <li className="navbar__list-item"><Link to="/credits">Crédits</Link></li>
                 </ul>
             </nav>

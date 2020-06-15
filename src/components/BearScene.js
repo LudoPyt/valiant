@@ -180,7 +180,7 @@ class BearScene {
         let loader = new THREE.TextureLoader();
 
         let lighterUXMaterial = new THREE.MeshLambertMaterial({
-            map: loader.load('/ux/icon-clic.png'),
+            map: loader.load('/assets/ux/icon-clic.png'),
             transparent: true
         });
         let lighterUXGeometry = new THREE.PlaneGeometry(0.3, 0.3);
@@ -192,7 +192,7 @@ class BearScene {
         this.lighterUX.position.z = 0.3;
 
         let pathStartUXMaterial = new THREE.MeshLambertMaterial({
-            map: loader.load('/ux/icon-clic.png'),
+            map: loader.load('/assets/ux/icon-clic.png'),
             transparent: true
         });
         let pathStartUXGeometry = new THREE.PlaneGeometry(0.3, 0.3);
@@ -204,7 +204,7 @@ class BearScene {
         this.pathStartUX.position.z = 0.3;
 
         let pathEndUXMaterial = new THREE.MeshLambertMaterial({
-            map: loader.load('/ux/icon-drop.png'),
+            map: loader.load('/assets/ux/icon-drop.png'),
             transparent: true
         });
         let pathEndUXGeometry = new THREE.PlaneGeometry(0.5, 0.5);

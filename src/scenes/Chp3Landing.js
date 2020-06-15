@@ -32,11 +32,11 @@ const Chp3Landing = () => {
             secondControl: {x: 0, y: -2},
             end:{x: 4, y: -2}
         };
-        const pathToAssets = '/landing/';
+        const pathToAssets = '/assets/takeOffAndLanding/landing/';
         const pathToNextPage = '/tenakee';
         const fixPathStartUX = new THREE.Vector2(0.15, -0.08);
         const fixPathEndUX = new THREE.Vector2(0.15, -0.07);
-        const voiceOff = '/landing/amerrissageVoice.mp3';
+        const voiceOff = '/assets/takeOffAndLanding/voiceLanding.mp3';
         const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX, voiceOff);
 
         return () => {
@@ -47,7 +47,7 @@ const Chp3Landing = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <img className="plants" src="/landing/plants.png" alt="plants"></img>
+            <img className="plants" src="/assets/takeOffAndLanding/landing/plants.png" alt="plants"></img>
         </>
     )
 }

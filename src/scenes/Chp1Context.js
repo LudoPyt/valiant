@@ -30,7 +30,7 @@ const Chp1Context = () => {
     return (
         <>
             <video ref={contextVideo} id="context" className="context" autoPlay width="250">
-                <source src="/context/context.mp4" type="video/mp4" />
+                <source src="/assets/context/context.mp4" type="video/mp4" />
                 Sorry, your browser doesn't support embedded videos.
             </video>
         </>

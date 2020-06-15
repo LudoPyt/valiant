@@ -100,7 +100,7 @@ class TakeOffAndLandingDrag {
 
     _addSound() {
         this.planeSound = new Howl({
-            src: '/before-take-off/takeoff.mp3',
+            src: '/assets/takeOffAndLanding/plane.mp3',
             autoplay: true,
             loop: true,
             volume: 0.5
@@ -155,7 +155,7 @@ class TakeOffAndLandingDrag {
     _addBeaver() {
         let loader = new THREE.TextureLoader();
         let material = new THREE.MeshLambertMaterial({
-            map: loader.load(this.pathToAssets + 'beaver.png'),
+            map: loader.load('/assets/takeOffAndLanding/beaver.png'),
             transparent: true
         });
         let geometry = new THREE.PlaneGeometry(2, 0.75);
@@ -175,7 +175,7 @@ class TakeOffAndLandingDrag {
         let loader = new THREE.TextureLoader();
 
         let pathStartUXMaterial = new THREE.MeshLambertMaterial({
-            map: loader.load('/ux/icon-clic.png'),
+            map: loader.load('/assets/ux/icon-clic.png'),
             transparent: true
         });
         let pathStartUXGeometry = new THREE.PlaneGeometry(0.3, 0.3);
@@ -187,7 +187,7 @@ class TakeOffAndLandingDrag {
         this.pathStartUX.position.z = 0.3;
 
         let pathEndUXMaterial = new THREE.MeshLambertMaterial({
-            map: loader.load('/ux/icon-drop.png'),
+            map: loader.load('/assets/ux/icon-drop.png'),
             transparent: true
         });
         let pathEndUXGeometry = new THREE.PlaneGeometry(0.5, 0.5);

@@ -18,7 +18,7 @@ import Story from './Story';
 
 import Chp1Context from '../scenes/Chp1Context';
 import Chp1LakeHood from '../scenes/Chp1LakeHood';
-import Chp1Simon from '../scenes/Chp1Simon';
+import Chp1BeforeTakeOff from '../scenes/Chp1BeforeTakeOff';
 
 import Chp2TakeOff from '../scenes/Chp2TakeOff';
 import Chp2FlightFeelings from '../scenes/Chp2FlightFeelings';
@@ -58,7 +58,7 @@ const App = () => {
       <Router>
         {isMobile ? (
           <div className="mobile">
-            <img className="mobile__logo" src="layout/logo.png" alt="logo"/>
+            <img className="mobile__logo" src="/assets/logo.png" alt="logo"/>
             <p className="mobile__text">
               Votre écran n'est pas adapté pour les expériences interactives de Valiant.
               <br/>
@@ -69,7 +69,7 @@ const App = () => {
         ) : (
           !isChrome ? (
             <div className="not-chrome">
-              <img className="not-chrome__logo" src="layout/logo.png" alt="logo"/>
+              <img className="not-chrome__logo" src="/assets/logo.png" alt="logo"/>
               <p className="not-chrome__text">
                 Nous vous conseillons de visiter Valiant sur Chrome.
               </p>
@@ -90,7 +90,7 @@ const App = () => {
                       <Route exact path="/story" component={Story} />
                       <Route exact path="/context" component={Chp1Context} />
                       <Route exact path="/lakehood" component={Chp1LakeHood} />
-                      <Route exact path="/simon" component={Chp1Simon} />
+                      <Route exact path="/before-take-off" component={Chp1BeforeTakeOff} />
                       <Route exact path="/takeoff" component={Chp2TakeOff} />
                       <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
                       <Route exact path="/cockpit" component={Chp2Cockpit} />

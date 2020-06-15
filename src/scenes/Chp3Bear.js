@@ -32,7 +32,7 @@ const Chp3Bear = () => {
             secondControl: {x: -1.5, y: 2},
             end:{x: -2.5, y: 1}
         };
-        const pathToAssets = '/bear/';
+        const pathToAssets = '/assets/bear/';
         const pathToNextPage = '/people';
         const fixLighterUX = new THREE.Vector2(0.25, 0);
         const fixPathStartUX = new THREE.Vector2(0.02, 0.08);
@@ -47,9 +47,9 @@ const Chp3Bear = () => {
     return (
         <>
             <canvas style={{zIndex: 3}} ref={canvas}></canvas>
-            <img style={{zIndex: 2}} className="plants" src="/bear/plants.png" alt="plants"></img>
+            <img style={{zIndex: 2}} className="plants" src="/assets/bear/plants.png" alt="plants"></img>
             <div style={{zIndex: 2}} className="bear"></div>
-            <img style={{zIndex: 1}} className="background" src="/bear/background.png" alt="background"></img>
+            <img style={{zIndex: 1}} className="background" src="/assets/bear/background.png" alt="background"></img>
         </>
     )
 }
