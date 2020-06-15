@@ -4,24 +4,23 @@ import { Context } from '../components/Provider';
 
 const Chp1Context = () => {
 
-    const history = useHistory();
-
     const context = React.useContext(Context);
+    const history = useHistory();
 
     const scene = 1;
     const instruction = "";
     const ambiantSound = 0;
+
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
+        document.querySelector('.menu__button').style.display = "none";
     }, [context]);
 
     useEffect(() => {
-        document.querySelector('.menu__button').style.display = "none";
-
         document.getElementById('context').addEventListener("ended", () => {history.push('/lakehood');});
     }, [history])
 

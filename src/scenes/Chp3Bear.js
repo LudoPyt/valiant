@@ -6,8 +6,11 @@ import BearScene from '../components/BearScene';
 
 const Chp3Bear = () => {
 
+    const context = React.useContext(Context);
     const history = useHistory();
+
     const canvas = useRef(null);
+
     const bezierCurvePoints = {
         start: {x: -0.6, y: -2},
         firstControl: {x: -0.5, y: 0.5},
@@ -20,22 +23,20 @@ const Chp3Bear = () => {
     const fixPathStartUX = new THREE.Vector2(0.02, 0.08);
     const fixPathEndUX = new THREE.Vector2(-0.1, 0.05);
 
-    const context = React.useContext(Context);
-
     const scene = 8;
     const instruction = "Cliquer sur le briquet pour l'allumer";
     const ambiantSound = 4;
+
     useEffect(() => {
-            if (context.state.currentScene !== scene) {
-                context.dispatch({type: 'setCurrentScene', scene});
-                context.dispatch({type: 'setInstruction', instruction});
-                context.dispatch({type: 'setAmbiantSound', ambiantSound});
-            }
+        if (context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentScene', scene});
+            context.dispatch({type: 'setInstruction', instruction});
+            context.dispatch({type: 'setAmbiantSound', ambiantSound});
+        }
+        document.querySelector('.menu__button').style.display = "none";
     }, []);
 
     useEffect(() => {
-        document.querySelector('.menu__button').style.display = "none";
-        
         const threeScene = new BearScene(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixLighterUX, fixPathStartUX, fixPathEndUX);
 
         return () => {

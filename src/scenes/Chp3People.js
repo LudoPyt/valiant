@@ -7,17 +7,20 @@ import '../scss/peopleScene/people.scss';
 
 const Chp3People = () => {
 
-    const history = useHistory();
-    const [isFinish, setIsFinish] = useState(0)
     const context = React.useContext(Context);
+    const history = useHistory();
+
+    const [isFinish, setIsFinish] = useState(0)
 
     const scene = 9;
     const instruction = "Cliquer sur les habitants pour les écouter";
+
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
         }
+        document.querySelector('.menu__button').style.display = "none";
     }, [context]);
 
     useEffect(() => {
@@ -117,10 +120,6 @@ const Chp3People = () => {
             }
     });
 
-    useEffect(() => {
-        document.querySelector('.menu__button').style.display = "none";
-    }, [history])
- 
     useEffect(() => {
         if (isFinish === 5) {
             history.push('/end');

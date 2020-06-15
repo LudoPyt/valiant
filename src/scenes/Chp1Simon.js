@@ -5,25 +5,25 @@ import SimonGame from '../components/SimonGame';
 
 const Chp1Simon = () => {
 
-    const history = useHistory();
-    const canvas = useRef(null);
-
     const context = React.useContext(Context);
+    const history = useHistory();
+
+    const canvas = useRef(null);
 
     const scene = 3;
     const instruction = "Reproduiser l'enchaînement en cliquant sur les boutons du tableau de bord";
     const ambiantSound = 2;
+
     useEffect(() => {
         if (context.state.currentScene !== scene) {
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
+        document.querySelector('.menu__button').style.display = "none";
     }, [context]);
 
     useEffect(() => {
-        document.querySelector('.menu__button').style.display = "none";
-
         const threeScene = new SimonGame(history, canvas.current);
 
         return () => {

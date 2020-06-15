@@ -9,8 +9,8 @@ import '../scss/lakehood/lakehood.scss';
 
 const Chp1LakeHood = () => {
 
-    const history = useHistory();
     const context = React.useContext(Context);
+    const history = useHistory();
 
     const scene = 2;
     const instruction = "Cliquer sur le bon hydravion";
