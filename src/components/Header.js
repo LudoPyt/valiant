@@ -57,12 +57,12 @@ const Header = () => {
             </div>
             <nav ref={NavBar} className="navbar">
                 <ul className="navbar__list">
-                    <li className="navbar__list-item"><Link to="/about">À propos</Link></li>
+                    <li className="navbar__list-item"><a href="/about">À propos</a></li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-alaska.png"><a href="/story#alaska">Alaska</a></li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-kerguelen.png"><a href="/story#kerguelen">Kerguelen</a></li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-syrie.png"><a href="/story#syrie">Syrie</a></li>
                     <li className="navbar__list-item" data-image="/menuBurger/illu-norvege.png"><a href="/story#norvege">Norvège</a></li>
-                    <li className="navbar__list-item"><Link to="/credits">Crédits</Link></li>
+                    <li className="navbar__list-item"><a to="/credits">Crédits</a></li>
                 </ul>
             </nav>
         </header>
