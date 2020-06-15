@@ -20,6 +20,7 @@ const Chp1Context = () => {
             context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
         document.querySelector('.menu__button').style.display = "none";
+        document.querySelector('.header__logo').style.display = "block";
     }, [context]);
 
     useEffect(() => {

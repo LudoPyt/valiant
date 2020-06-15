@@ -21,6 +21,7 @@ const Chp3People = () => {
             context.dispatch({type: 'setInstruction', instruction});
         }
         document.querySelector('.menu__button').style.display = "none";
+        document.querySelector('.header__logo').style.display = "block";
     }, [context]);
 
 

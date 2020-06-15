@@ -11,6 +11,7 @@ const EndStory = () => {
         document.querySelector('.navbar').classList.remove('isActive');
         document.querySelector('.menu__button').classList.remove('isOpen');
         document.querySelector('.menu__button').style.display = "block";
+        document.querySelector('.header__logo').style.display = "block";
 
         let plane = new Howl({
             src:  '/endStory/plane.mp3',
