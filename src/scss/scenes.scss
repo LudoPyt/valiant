@@ -40,19 +40,24 @@ img {
 
 .bear {
     position: absolute;
-    top: 67%;
+    top: 66%;
     left: 25%;
     width: 180px;
     height: 128px;
-    background-image: url('../assets/bear-sprite.png');
+    transform: scale(1.2);
+    background-image: url('../assets/bear-walk-sprite.png');
     background-position: left center;
     background-size: cover;
-    animation: 2s walkBear steps(6) 4, 10s goForward 1;
+    animation: 8s walkBear steps(18), 8s goForward 1;
+    &.back {
+        background-image: url('../assets/bear-back-sprite.png');
+        animation: 10s backBear steps(28), 10s goBack 1;
+    }
 }
 
 @keyframes walkBear {
     100% {
-        background-position: -1080px -0;
+        background-position: -3240px -0;
     }
 }
 
@@ -62,5 +67,20 @@ img {
     }
     100% {
         left: 25%;
+    }
+}
+
+@keyframes backBear {
+    100% {
+        background-position: -5040px -0;
+    }
+}
+
+@keyframes goBack {
+    0% {
+        left: 25%;
+    }
+    100% {
+        left: -15%;
     }
 }

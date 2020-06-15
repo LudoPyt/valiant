@@ -241,6 +241,7 @@ class BearScene {
         this.explosionSound = new Howl({
             src: this.pathToAssets + 'explosion.mp3',
             volume: 1,
+            onplay: () => document.querySelector('.bear').classList.add('back'),
             onend: () => {
                 this.endVoice.play();
                 this.bearSound.pause();
