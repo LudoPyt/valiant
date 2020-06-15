@@ -79,7 +79,7 @@ const Chp3People = () => {
 
         let timeInView = setTimeout(() => {
             document.querySelector('.allPeople').classList.add('isInView');
-        }, 3000)
+        }, 2000)
             document.querySelector('.granny').addEventListener('click', () => { 
                 if (!isRead){
                     isRead = true
