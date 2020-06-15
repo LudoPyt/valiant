@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { DragControls } from '../lib/DragControls';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 
 
 class TakeOffAndLandingDrag {
-    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX) {
+    constructor(history, canvas, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX, voiceOff) {
         this.history = history;
         this.canvas = canvas;
         this.bezierCurvePoints = bezierCurvePoints;
@@ -12,6 +12,7 @@ class TakeOffAndLandingDrag {
         this.nextPage = pathToNextPage;
         this.fixPathStartUX = fixPathStartUX;
         this.fixPathEndUX = fixPathEndUX;
+        this.voiceOff = voiceOff;
 
         this._init();
     }
@@ -31,11 +32,14 @@ class TakeOffAndLandingDrag {
         this._addBackground();
         this._addPath();
         this._addBeaver();
-        this._addUXElements();
-        this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
         this._addSound();
-        this._setupEventListerner();
         this._render();
+    }
+
+    _userCanInteract() {
+        this.dragControls = new DragControls(this.dragArray, this.camera, this.renderer.domElement);
+        this._setupEventListerner();
+        this._addUXElements();
     }
 
     _setupEventListerner() {
@@ -58,7 +62,7 @@ class TakeOffAndLandingDrag {
                 this.beaver.position.x = this.endPoint.x;
                 this.beaver.position.y = this.endPoint.y;
                 this.history.push(this.nextPage);
-                this.takeoffSound.stop()
+                this.planeSound.stop()
             } else if (percentOfCurve < 1) {
                 this.beaver.position.x = this.startPoint.x;
                 this.beaver.position.y = this.startPoint.y;
@@ -95,12 +99,28 @@ class TakeOffAndLandingDrag {
     };
 
     _addSound() {
-        this.takeoffSound = new Howl({
+        this.planeSound = new Howl({
             src: '/before-take-off/takeoff.mp3',
             autoplay: true,
             loop: true,
             volume: 0.5
         });
+
+        this.voice = new Howl({
+            src: this.voiceOff,
+            onplay: () => {
+                Howler.volume(0.7)
+                this.voice.volume(1)
+            },
+            onend: () => {
+                Howler.volume(1);
+                this._userCanInteract();
+            }
+        });
+
+        this.timeoutPlayVoice = setTimeout(() => {
+            this.voice.play();
+        }, 2000)
     }
 
     _addPath() {
@@ -218,6 +238,7 @@ class TakeOffAndLandingDrag {
     }
 
     destroyRaf() {
+        clearTimeout(this.timeoutPlayVoice)
         this.needDestroy = true;
         window.cancelAnimationFrame(this.raf)
     }

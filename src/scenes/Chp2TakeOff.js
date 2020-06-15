@@ -3,25 +3,13 @@ import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import * as THREE from 'three';
 import TakeOffAndLandingDrag from '../components/TakeOffAndLandingDrag';
-import { Howl, Howler } from 'howler';
-
 
 const Chp2TakeOff = () => {
 
     const history = useHistory();
-    const canvas = useRef(null);
-    const bezierCurvePoints = {
-        start: {x: -4, y: -2},
-        firstControl: {x: 0, y: -2},
-        secondControl: {x: 0, y: 2},
-        end:{x: 4, y: 2}
-    };
-    const pathToAssets = '/takeoff/';
-    const pathToNextPage = '/flight-feelings';
-    const fixPathStartUX = new THREE.Vector2(0.15, 0.08);
-    const fixPathEndUX = new THREE.Vector2(0.15, 0.05);
-
     const context = React.useContext(Context);
+
+    const canvas = useRef(null);
 
     const scene = 4;
     const instruction = "Faire glisser l'avion pour décoller";
@@ -36,31 +24,24 @@ const Chp2TakeOff = () => {
 
     useEffect(() => {
         document.querySelector('.menu__button').style.display = "none";
-        const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX);
+
+        const bezierCurvePoints = {
+            start: {x: -4, y: -2},
+            firstControl: {x: 0, y: -2},
+            secondControl: {x: 0, y: 2},
+            end:{x: 4, y: 2}
+        };
+        const pathToAssets = '/takeoff/';
+        const pathToNextPage = '/flight-feelings';
+        const fixPathStartUX = new THREE.Vector2(0.15, 0.08);
+        const fixPathEndUX = new THREE.Vector2(0.15, 0.05);
+        const voiceOff = '/before-take-off/voice.mp3';
+        const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX, voiceOff);
 
         return () => {
             threeScene.destroyRaf();
         }
-    }, [history, bezierCurvePoints, fixPathStartUX, fixPathEndUX])
-
-    useEffect(() => {
-        let voice = new Howl({
-            src: '/before-take-off/voice.mp3',
-            onplay: () => {
-                Howler.volume(0.5)
-                voice.volume(1)
-            },
-        });
-
-        let timeoutPlayVoice = setTimeout(() => {
-            voice.play();
-        }, 3000)
-
-        return() => {
-            clearTimeout(timeoutPlayVoice)
-        }
-    }, [])
-
+    }, [history])
 
     return (
         <>
