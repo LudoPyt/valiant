@@ -30,7 +30,7 @@ let sound4 = new Howl({
 export const Reducer = (state, action) => {
     switch (action.type) {
         case 'setCurrentChap' :
-            document.querySelectorAll('.item p').forEach(item => item.classList.remove('active'))
+            document.querySelectorAll('.timeline__item p').forEach(item => item.classList.remove('active'))
             document.getElementById(action.chap).classList.add('active')
             break;
         case 'setCurrentScene' :
