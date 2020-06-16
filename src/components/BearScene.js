@@ -15,6 +15,8 @@ class BearScene {
         this.fixPathStartUX = fixPathStartUX;
         this.fixPathEndUX = fixPathEndUX;
 
+        this._clickOnLighter = this._clickOnLighter.bind(this)
+
         this._init();
     }
 
@@ -264,7 +266,7 @@ class BearScene {
     }
 
     _setupClickEventListerner() {
-        document.addEventListener('click', (event) => this._clickOnLighter(event));
+        document.addEventListener('click', this._clickOnLighter, false);
     }
 
     _userCanInteract() {
@@ -273,6 +275,7 @@ class BearScene {
     }
 
     _clickOnLighter(event) {
+        console.log('trigger')
         this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
         this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -400,10 +403,10 @@ class BearScene {
     }
 
     destroyRaf() {
+        document.removeEventListener('click', this._clickOnLighter, false);
         clearTimeout(this.timeoutLighterClicked);
         clearTimeout(this.timeoutStopExplosion);
         clearInterval(this.interval);
-        document.removeEventListener('click', (event) => this._clickOnLighter(event));
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }

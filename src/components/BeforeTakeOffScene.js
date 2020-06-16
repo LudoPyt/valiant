@@ -8,6 +8,8 @@ class BeforeTakeOffScene {
         this.history = history;
         this.canvas = canvas;
 
+        this._pressingDown = this._pressingDown.bind(this)
+
         this._init();
     }
 
@@ -105,6 +107,7 @@ class BeforeTakeOffScene {
     }
 
     _pressingDown(event) {
+        console.log('pressing down', event)
         this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
         this.raycaster.setFromCamera(this.mouse, this.camera);
@@ -157,7 +160,7 @@ class BeforeTakeOffScene {
     }
 
     _setupEventListerner() {
-        document.addEventListener('click', (event) => this._pressingDown(event), false);
+        document.addEventListener('click', this._pressingDown, false);
     }
 
     _addBackground() {
@@ -375,7 +378,7 @@ class BeforeTakeOffScene {
         clearInterval(this.repeatUXAnim)
         clearInterval(this.blinkInterval)
         clearInterval(this.objectInterval)
-        document.removeEventListener('click', (event) => this._pressingDown(event), false);
+        document.removeEventListener('click', this._pressingDown, false);
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }
