@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
+import { Howl } from 'howler';
 
 const Chp1Context = () => {
 
@@ -26,6 +27,10 @@ const Chp1Context = () => {
     }, [context]);
 
     useEffect(() => {
+        const sound = new Howl({
+            src: '/assets/context/context.mp3',
+        });
+        sound.play();
         contextVideo.current.addEventListener("ended", () => {history.push('/lakehood');});
     }, [history])
 

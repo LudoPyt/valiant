@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
+import { Howl } from 'howler';
 
 const Chp3Tenakee = () => {
 
@@ -26,6 +27,10 @@ const Chp3Tenakee = () => {
     }, [context]);
 
     useEffect(() => {
+        const sound = new Howl({
+            src: '/assets/tenakee/tenakee.mp3',
+        });
+        sound.play();
         videoTenakee.current.addEventListener("ended", () => {history.push('/bear');});
     }, [history])
 
