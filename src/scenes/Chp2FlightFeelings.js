@@ -30,12 +30,12 @@ const Chp2FlightFeelings = () => {
     }, [history])
 
     return (
-        <>
+        <div className="container">
             <video ref={videoFlight} id="flight" className="flight" autoPlay width="250">
                 <source src="/assets/flightFeelings/flight.mp4" type="video/mp4" />
                 Sorry, your browser doesn't support embedded videos.
             </video>
-        </>
+        </div>
     )
 }
 

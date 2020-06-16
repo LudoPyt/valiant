@@ -29,7 +29,13 @@ const Home = () => {
                 <img className="home__logo" src="/assets/logo.png" alt=""></img>
                 <h1 className="home__heading">Le dernier lien vers l'inconnu</h1>
                 <Link to="/story">
-                    <button className="home__button">Découvrir</button>
+                    <button className="button home__button">
+                        <span className="button__text">Découvrir</span>
+                        <span className="line button__line-right"></span>
+                        <span className="line button__line-top"></span>
+                        <span className="line button__line-left"></span>
+                        <span className="line button__line-bottom"></span>
+                    </button>
                 </Link>
             </div>
         </main>

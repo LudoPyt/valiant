@@ -69,12 +69,12 @@ const Chp1LakeHood = () => {
     }, [history, canInteract, isRead]);
 
     return (
-        <>
+        <div className="container">
             <div ref={Beaver} className="lakehood-beaver"></div>
             <div ref={Mike} className="lakehood-mike"></div>
             <div ref={Green} className="lakehood-green"></div>
-            <img src="/assets/lakehood/lakehood.png" alt="" />
-        </>
+            <img className="lakehood__image" src="/assets/lakehood/lakehood.png" alt="" />
+        </div>
     )
 }
 

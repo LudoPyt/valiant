@@ -28,7 +28,13 @@ const NotAvailable = () => {
             <div className="not-available">
                 <p className="not-available__heading">Cette histoire n'est pas disponible pour le moment.</p>
                 <Link to="/">
-                    <button className="not-available__button">Revenir à la page d'accueil</button>
+                    <button className="button not-available__button">
+                        <span className="button__text">Revenir à l'accueil</span>
+                        <span className="line button__line-right"></span>
+                        <span className="line button__line-top"></span>
+                        <span className="line button__line-left"></span>
+                        <span className="line button__line-bottom"></span>
+                    </button>
                 </Link>
             </div>
         </main>

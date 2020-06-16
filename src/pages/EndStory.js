@@ -35,7 +35,13 @@ const EndStory = () => {
                     }
                     </div>
                     <Link to="/">
-                        <button className="end__over-btn">Revenir à l'accueil</button>
+                        <button className="button end__over-btn">
+                            <span className="button__text">Revenir à l'accueil</span>
+                            <span className="line button__line-right"></span>
+                            <span className="line button__line-top"></span>
+                            <span className="line button__line-left"></span>
+                            <span className="line button__line-bottom"></span>
+                        </button>
                     </Link>
                 </div>
                 <div className="end__under">

@@ -30,12 +30,12 @@ const Chp3Tenakee = () => {
     }, [history])
 
     return (
-        <>
+        <div className="container">
             <video ref={videoTenakee} id="tenakee" className="tenakee" autoPlay width="250">
                 <source src="/assets/tenakee/tenakee.mp4" type="video/mp4" />
                 Sorry, your browser doesn't support embedded videos.
             </video>
-        </>
+        </div>
     )
 }
 

@@ -33,6 +33,7 @@ import NoMatch from './404';
 // import Nuages from '../components/Nuages';
 
 import '../scss/basic.scss';
+import '../scss/layout/button.scss';
 
 const App = () => {
 
