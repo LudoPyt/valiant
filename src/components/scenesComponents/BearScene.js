@@ -42,7 +42,7 @@ class BearScene {
         this.showPathUX = true;
 
         this._setScene();
-        // this._addBackground();
+        this._addBackground();
         this._addPath();
         this._addLighter();
         this._addFirecracker();
@@ -53,10 +53,10 @@ class BearScene {
         this._render();
     }
 
-    // _addBackground() {
-    //     let background = new THREE.TextureLoader().load(this.pathToAssets + 'background.png');
-    //     this.scene.background = background;
-    // }
+    _addBackground() {
+        let background = new THREE.TextureLoader().load(this.pathToAssets + 'background.png');
+        this.scene.background = background;
+    }
 
     _toScreenPosition(obj, camera) {
         let vector = new THREE.Vector3();

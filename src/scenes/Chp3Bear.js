@@ -49,9 +49,8 @@ const Chp3Bear = () => {
     return (
         <>
             <canvas style={{zIndex: 3}} ref={canvas}></canvas>
-            <img style={{zIndex: 2}} className="plants" src="/assets/bear/plants.png" alt="plants"></img>
-            <div style={{zIndex: 2}} className="bear"></div>
-            <img style={{zIndex: 1}} className="background" src="/assets/bear/background.png" alt="background"></img>
+            <img style={{zIndex: 4}} className="plants" src="/assets/bear/plants.png" alt="plants"></img>
+            <div style={{zIndex: 4}} className="bear"></div>
         </>
     )
 }

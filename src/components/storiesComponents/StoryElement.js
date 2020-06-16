@@ -9,7 +9,6 @@ const StoryElement = (props) => (
                 <div className="storyPlayer__container"><div className="storyPlayer"></div></div>
             </Link>
             <h2 className="story__element-content-title">{ props.data.title }</h2>
-            <p className="story__element-duration">{ props.data.duration } min</p>
         </div>
         <p className="story__element-subtitle">{ props.data.subtitle }</p>
     </section>

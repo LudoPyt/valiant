@@ -1,16 +1,10 @@
-.background {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
 .bear {
     position: absolute;
-    top: 66%;
+    bottom: 18%;
     left: 25%;
     width: 180px;
     height: 128px;
-    transform: scale(1.1);
+    transform: scale(.7);
     background-image: url('/assets/bear/bear-sprite.png');
     background-position: left center;
     background-size: cover;

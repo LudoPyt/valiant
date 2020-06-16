@@ -32,7 +32,7 @@ const Story = () => {
           ))
         }
         <div className="scroll-down">
-          <p className="scroll-down__text">Scroll down</p>
+          <p className="scroll-down__text">Faire défiler</p>
         </div>
       </section>
     </main>
