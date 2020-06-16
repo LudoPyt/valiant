@@ -1,5 +1,6 @@
 import React from 'react';
 import { Context } from '../Provider';
+import SoundBtn from './SoundBtn';
 
 import '../../scss/layout/timeline.scss';
 
@@ -9,7 +10,7 @@ const Timeline = () => (
             <footer>
                 <h2 id="instruction" className="instruction">{ state.instruction }</h2>
                 <div className="timeline">
-                    <span className="timelien__fill" style={{width: state.currentScene * 11 + '%'}} />
+                    <span className="timeline__fill" style={{width: state.currentScene * 11 + '%'}} />
                     <div className="timeline__container">
                         <div className="timeline__item">
                             <p id="1">chapitre 1</p>
@@ -25,6 +26,7 @@ const Timeline = () => (
                         </div>
                     </div>
                 </div>
+                <SoundBtn />
             </footer>
         )}
     </Context.Consumer>

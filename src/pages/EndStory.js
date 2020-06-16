@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import RecoElement from '../components/storiesComponents/RecoElement';
 import { data } from "../datas/datasStories";
 import { Howl } from 'howler';
+import SoundBtn from '../components/layoutComponents/SoundBtn';
 
 import '../scss/pages/end.scss';
 
@@ -51,6 +52,7 @@ const EndStory = () => {
                     </video>
                 </div>
             </div>
+            <SoundBtn />
         </main>
     )
 }

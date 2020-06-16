@@ -1,0 +1,21 @@
+.sound-btn {
+    position: absolute;
+    bottom: 30px;
+    right: 50px;
+    z-index: 15;
+    &.muted {
+        &::before {
+            content: "";
+            width: 140%;
+            height: 1px;
+            background-color: white;
+            position: absolute;
+            top: 47%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+    img {
+        width: 100%;
+    }
+}
