@@ -9,18 +9,18 @@ const Timeline = () => (
             <footer>
                 <h2 id="instruction" className="instruction">{ state.instruction }</h2>
                 <div className="timeline">
-                    <span className="fill" style={{width: state.currentScene * 11 + '%'}} />
-                    <div className="container">
-                        <div className="item">
+                    <span className="timelien__fill" style={{width: state.currentScene * 11 + '%'}} />
+                    <div className="timeline__container">
+                        <div className="timeline__item">
                             <p id="1">chapitre 1</p>
                         </div>
-                        <div className="item">
+                        <div className="timeline__item">
                             <p id="2">chapitre 2</p>
                         </div>
-                        <div className="item">
+                        <div className="timeline__item">
                             <p id="3">chapitre 3</p>
                         </div>
-                        <div className="item">
+                        <div className="timeline__item">
                             <p>fin</p>
                         </div>
                     </div>
