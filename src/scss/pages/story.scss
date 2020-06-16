@@ -61,6 +61,29 @@
             text-align: center;
         }
     }
+    .scroll-down {
+        position: absolute;
+        top: 50%;
+        right: 2%;
+        transform: translateY(-50%) rotate(90deg);
+        .scroll-down__text {
+            position: relative;
+            text-transform: uppercase;
+            font-weight: 300;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.64);
+            &::before {
+                content: "";
+                position: absolute;
+                width: 50%;
+                height: 1px;
+                top: 50%;
+                left: 110%;
+                transform: translateY(-50%);
+                background-color: rgba(255, 255, 255, 0.64);
+            }
+        }
+    }
 }
 
 

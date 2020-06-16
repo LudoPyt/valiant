@@ -31,6 +31,9 @@ const Story = () => {
             <StoryElement key={elem.title} data={elem} />
           ))
         }
+        <div className="scroll-down">
+          <p className="scroll-down__text">Scroll down</p>
+        </div>
       </section>
     </main>
   )
