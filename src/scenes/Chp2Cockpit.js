@@ -30,6 +30,7 @@ const Chp2Cockpit = () => {
         document.querySelector('.header__logo').style.display = "block";
     }, [context]);
 
+    // Add cockpit scene three.js
     useEffect(() => {
         const threeScene = new CockpitScene(history, canvas.current, seaVideo.current, skyVideo.current);
 

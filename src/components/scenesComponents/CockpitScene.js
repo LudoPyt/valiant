@@ -3,9 +3,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import lerp from '../../utils/lerp';
 
 import AssetsLoader from '../loaderComponents/AssetsLoader';
-
-import ArrowMove from '../animationComponents/arrowMove';
 import { Howl } from 'howler';
+import ArrowMove from '../animationComponents/arrowMove';
 
 class CockpitScene {
     constructor(history, canvas, seaVideo, skyVideo){
@@ -57,6 +56,7 @@ class CockpitScene {
         this._render();
     }
 
+    // Add three.js scene, camera and light
     _setScene() {
         this.renderer = new THREE.WebGLRenderer({
             canvas: this.canvas,
@@ -82,6 +82,7 @@ class CockpitScene {
         this.scene.add(lightPoint)
     }
 
+    // Add sounds with Howler.js
     _addSound(){
         this.voiceRight = new Howl({
             src: '/assets/duringFlight/voiceRight.mp3'
@@ -107,6 +108,7 @@ class CockpitScene {
 
     }
 
+    // Add sea and sky with video texture
     _setVideoSea() {
         let video = AssetsLoader.getVideos('tex_eau');
         this.seaVideo = video[0].content;
@@ -127,6 +129,7 @@ class CockpitScene {
         this.scene.add(this.sea);
     }
 
+    // Add sky with video texture
     _setVideoSky() {
         let video = AssetsLoader.getVideos('tex_ciel');
         this.skyVideo = video[0].content;
@@ -150,6 +153,7 @@ class CockpitScene {
         this.skyVideo.play()
     }
 
+    // Add model 3D Cockpit and traverse its children
     _addCockpit(){
         let object = AssetsLoader.getModels('hydravion')
         this.gltf = object[0].content.scene.clone()
@@ -181,6 +185,7 @@ class CockpitScene {
         })
     }
 
+    // Add model 3D forest
     _addForest(){
         let object = AssetsLoader.getModels('forest')
         this.forest = object[0].content.scene
@@ -189,18 +194,22 @@ class CockpitScene {
         this.scene.add(this.forest)
     }
 
+    // Add pivot for the camera on axis y
     _addCameraPivotY(){
         this.pivotY = new THREE.Object3D()
         this.pivotY.add(this.camera)
         this.scene.add(this.pivotY)
     }
 
+    // Add pivot for the camera on axis x
     _addCameraPivotX(){
         this.pivotX = new THREE.Object3D()
         this.pivotX.add(this.pivotY)
         this.scene.add(this.pivotX)
     }
 
+
+    // Add left movement camera when left arrow is pressed
     _moveLeft() {
         if (this.arrow.directions.left && this.stick.rotation.z < this.maxRotation) {
             this._leftCameraPivot()
@@ -215,6 +224,7 @@ class CockpitScene {
         }
     }
 
+    // Add right movement camera when right arrow is pressed
     _moveRight() {
         if (this.arrow.directions.right && this.stick.rotation.z > -this.maxRotation) {
             this._rightCameraPivot()
@@ -229,6 +239,7 @@ class CockpitScene {
         }
     }
 
+    // Left Camera Movement
     _leftCameraPivot() {
         let pivotYPosX = lerp(this.pivotY.position.x, -30 , this.lerpEasing )
         let pivotYRotY = lerp( this.pivotY.rotation.y , .55 , this.lerpEasing )
@@ -240,6 +251,7 @@ class CockpitScene {
 
     }
 
+    // Right Camera Movement
     _rightCameraPivot() {
         let pivotPosX = lerp(this.pivotY.position.x, 30 , this.lerpEasing )
         let pivotRotY = lerp( this.pivotY.rotation.y , -0.55 , this.lerpEasing )
@@ -252,20 +264,24 @@ class CockpitScene {
     }
 
     _render() {
+        // Add Helice Rotation
         if (this.helices){
             this.helices.rotation.z += 7 * this.delta
         }
 
+        // Play video and sound when we look on left
         if  (this.pivotY.rotation.y >= 0.3 && !this.soundRead) {
             this.seaVideo.play()
             this.soundRead = true;
         }
 
+        // Play video and sound when we look on right
         if  (this.pivotY.rotation.y <= -0.3 && !this.soundRead) {
             this.seaVideo.play()
             this.soundRead = true;
         }
 
+        // Stop video and sound when the camera is in the middle 
         if (this.pivotY.rotation.y >= -0.3 && this.pivotY.rotation.y <= 0.3) {
             this.soundRead = false;
             if (this.whale && this.voiceLeft && this.voiceRight){
@@ -277,6 +293,7 @@ class CockpitScene {
             this.seaVideo.currentTime = 0;
         }
 
+        // Add down movement camera and go next chapter
         if (this.arrow.directions.backward && this.left) {
             this.cockpit.rotation.x += -0.2 * this.delta;
             this.camera.rotation.x += -0.2 * this.delta;
@@ -285,6 +302,13 @@ class CockpitScene {
             }
         }
 
+        this._moveRight()
+
+        if (this.right) {
+            this._moveLeft()
+        }
+
+        // Auto Return on center with camera
         if (this.pivotY.position.x > -10 && this.pivotY.position.x < 10 && this.stick) {
             let pivotYPosX = lerp(this.pivotY.position.x, 0 , this.lerpEasing )
             let pivotYRotY = lerp( this.pivotY.rotation.y , 0 , this.lerpEasing )
@@ -314,24 +338,20 @@ class CockpitScene {
             }
         }
 
-        this._moveRight()
-
-        if (this.right) {
-            this._moveLeft()
-        }
-
-        if (!this.needDestroy) {
-            this.raf = requestAnimationFrame(this._render.bind(this));
+        //Add forest movement
+        if (this.forest){
+            this.forest.position.z += 5 * this.delta
         }
 
         this.renderer.render(this.scene, this.camera);
         this.delta = this.clock.getDelta();
 
-        if (this.forest){
-            this.forest.position.z += 5 * this.delta
+        if (!this.needDestroy) {
+            this.raf = requestAnimationFrame(this._render.bind(this));
         }
     }
 
+    //remove requestAnimationFrame, clear interval and timeout
     destroyRaf() {
         clearInterval(this.interval);
         clearTimeout(this.timeoutVoiceDown);
