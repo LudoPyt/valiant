@@ -1,5 +1,5 @@
 import React from 'react';
-import { Context } from './Provider';
+import { Context } from '../Provider';
 
 const Timeline = () => (
     <Context.Consumer>

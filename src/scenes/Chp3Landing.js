@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import * as THREE from 'three';
-import TakeOffAndLandingDrag from '../components/TakeOffAndLandingDrag';
+import TakeOffAndLandingDrag from '../components/scenesComponents/TakeOffAndLandingDrag';
 
 const Chp3Landing = () => {
 

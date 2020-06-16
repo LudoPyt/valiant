@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { isMobile, isChrome } from 'react-device-detect';
 
-import AssetsLoader from '../components/AssetsLoader';
-import Emitter from '../components/Emitter';
+import AssetsLoader from '../components/loaderComponents/AssetsLoader';
+import Emitter from '../components/loaderComponents/Emitter';
 
-import Header from '../components/Header';
-import Timeline from '../components/Timeline';
+import Header from '../components/layoutComponents/Header';
+import Timeline from '../components/layoutComponents/Timeline';
 
 import Home from './Home';
 import About from './About';
@@ -29,7 +29,7 @@ import Chp3Tenakee from '../scenes/Chp3Tenakee';
 import Chp3Bear from '../scenes/Chp3Bear';
 import Chp3People from '../scenes/Chp3People';
 
-// import NoMatch from './404';
+import NoMatch from './404';
 // import Nuages from '../components/Nuages';
 
 import '../scss/basic.scss';
@@ -99,7 +99,7 @@ const App = () => {
                       <Route exact path="/bear" component={Chp3Bear} />
                       <Route exact path="/people" component={Chp3People} />
 
-                      {/* <Route path="/*" component={NoMatch} /> */}
+                      <Route path="/*" component={NoMatch} />
                       {/* <Route path="/nuages" component={Nuages} /> */}
                     </Switch>
                     <Timeline />

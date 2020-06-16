@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { DragControls } from '../lib/DragControls';
+import { DragControls } from '../../lib/DragControls';
 import { Howl, Howler } from 'howler';
 
 

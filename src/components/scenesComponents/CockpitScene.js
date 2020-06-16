@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-import lerp from '../utils/lerp';
+import lerp from '../../utils/lerp';
 
-import AssetsLoader from '../components/AssetsLoader';
+import AssetsLoader from '../loaderComponents/AssetsLoader';
 
-import ArrowMove from './animationComponents/arrowMove';
+import ArrowMove from '../animationComponents/arrowMove';
 import { Howl } from 'howler';
 
 class CockpitScene {

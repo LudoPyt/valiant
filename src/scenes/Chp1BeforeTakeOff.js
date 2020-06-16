@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
-import BeforeTakeOffScene from '../components/BeforeTakeOffScene';
+import BeforeTakeOffScene from '../components/scenesComponents/BeforeTakeOffScene';
 
 const Chp1BeforeTakeOff = () => {
 

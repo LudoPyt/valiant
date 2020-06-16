@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import * as THREE from 'three';
-import BearScene from '../components/BearScene';
+import BearScene from '../components/scenesComponents/BearScene';
 
 const Chp3Bear = () => {
 

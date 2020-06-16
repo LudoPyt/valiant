@@ -1,4 +1,4 @@
-import { models, videos, images } from '../data/assets';
+import { models, videos, images } from '../../datas/assetsToLoad';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import Emitter from './Emitter';
 

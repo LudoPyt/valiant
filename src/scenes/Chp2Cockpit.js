@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
-import CockpitScene from '../components/CockpitScene';
+import CockpitScene from '../components/scenesComponents/CockpitScene';
 
 import '../scss/cockpit/cockpit.scss';
 

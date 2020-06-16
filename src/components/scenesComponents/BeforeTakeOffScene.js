@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { Howl } from 'howler';
-import AssetsLoader from '../components/AssetsLoader';
+import AssetsLoader from '../loaderComponents/AssetsLoader';
 
 class BeforeTakeOffScene {
     constructor(history, canvas){

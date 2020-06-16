@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
-import menuImageAnimation from '../components/animationComponents/menuImageAnimation';
+import menuImageAnimation from '../animationComponents/menuImageAnimation';
 
-import '../scss/layout/header.scss';
+import '../../scss/layout/header.scss';
 
 const Header = () => {
 
