@@ -107,7 +107,6 @@ class BeforeTakeOffScene {
     }
 
     _pressingDown(event) {
-        console.log('pressing down', event)
         this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
         this.raycaster.setFromCamera(this.mouse, this.camera);
