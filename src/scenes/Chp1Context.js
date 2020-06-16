@@ -9,12 +9,14 @@ const Chp1Context = () => {
 
     const contextVideo = useRef();
 
+    const chap = 1;
     const scene = 1;
     const instruction = "";
     const ambiantSound = 0;
 
     useEffect(() => {
         if (context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});

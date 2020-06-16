@@ -13,12 +13,14 @@ const Chp3Bear = () => {
 
     const canvas = useRef(null);
 
+    const chap = 3;
     const scene = 8;
     const instruction = "Cliquer sur le briquet pour l'allumer";
     const ambiantSound = 4;
 
     useEffect(() => {
         if (context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});

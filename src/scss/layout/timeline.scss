@@ -48,9 +48,12 @@ footer {
                 p {
                     position: absolute;
                     transform: translateX(-50%);
-                    width: 80px;
+                    width: 90px;
                     text-align: center;
                     margin-top: 10px;
+                    &.active {
+                        font-weight: 900;
+                    }
                 }
             }
         }

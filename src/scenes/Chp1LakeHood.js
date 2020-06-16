@@ -10,12 +10,14 @@ const Chp1LakeHood = () => {
     const context = React.useContext(Context);
     const history = useHistory();
 
+    const chap = 1;
     const scene = 2;
     const instruction = "Cliquer sur le bon hydravion";
     const ambiantSound = 1;
 
     useEffect(() => {
         if (context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});

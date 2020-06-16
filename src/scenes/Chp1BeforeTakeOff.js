@@ -10,12 +10,14 @@ const Chp1BeforeTakeOff = () => {
 
     const canvas = useRef(null);
 
+    const chap = 1;
     const scene = 3;
     const instruction = "Reproduiser l'enchaînement en cliquant sur les boutons du tableau de bord";
     const ambiantSound = 2;
 
     useEffect(() => {
         if (context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});

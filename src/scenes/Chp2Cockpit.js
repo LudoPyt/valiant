@@ -14,12 +14,14 @@ const Chp2Cockpit = () => {
     const seaVideo = useRef(null);
     const skyVideo = useRef(null);
 
+    const chap = 2;
     const scene = 6;
     const instruction = "Regarder vers la droite";
     const ambiantSound = 3;
 
     useEffect(() => {
         if (context.state.currentScene !== scene) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});

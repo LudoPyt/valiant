@@ -12,13 +12,13 @@ const Timeline = () => (
                     <span className="fill" style={{width: state.currentScene * 11 + '%'}} />
                     <div className="container">
                         <div className="item">
-                            <p>chapitre 1</p>
+                            <p id="1">chapitre 1</p>
                         </div>
                         <div className="item">
-                            <p>chapitre 2</p>
+                            <p id="2">chapitre 2</p>
                         </div>
                         <div className="item">
-                            <p>chapitre 3</p>
+                            <p id="3">chapitre 3</p>
                         </div>
                         <div className="item">
                             <p>fin</p>
