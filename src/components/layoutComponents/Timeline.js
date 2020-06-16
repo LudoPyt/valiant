@@ -1,6 +1,8 @@
 import React from 'react';
 import { Context } from '../Provider';
 
+import '../../scss/layout/timeline.scss';
+
 const Timeline = () => (
     <Context.Consumer>
         {({ state }) => (

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
-import '../scss/home/home.scss';
+import '../scss/pages/home.scss';
 
 import { Context } from '../components/Provider';
 

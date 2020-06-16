@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import '../scss/layout/about.scss';
+import '../scss/pages/about.scss';
 
 const About = () => {
 

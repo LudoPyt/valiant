@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import StoryElement from '../components/storiesComponents/StoryElement';
 import { data } from "../datas/datasStories";
-import '../scss/layout/story.scss';
+import '../scss/pages/story.scss';
 
 import { Context } from '../components/Provider';
 

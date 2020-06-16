@@ -1,10 +1,10 @@
-.allPeople{
+.allPeople {
     width: 100vw;
     height: 100vh;
 
     position: relative;
 }
-.backgroundPeople{
+.backgroundPeople {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -32,7 +32,7 @@
     &.isActive{
         filter: contrast(100%);
     }
-   
+
 }
 
 .daddy {
@@ -54,9 +54,8 @@
     transition: transform 1s ease-in-out, filter 1s ease-in-out;;
     height: 50%;
     left: 0;
-    
+
     filter: contrast(70%);
-  
 
     &.isActive{
         filter: contrast(100%);
@@ -84,15 +83,15 @@
 
     transform: translateX(100%);
     transition: transform 1s ease-in-out, filter 1s ease-in-out;
-    
+
     filter: contrast(70%);
-    
+
     &.isActive{
         filter: contrast(100%);
     }
 }
 
-.allPeople{
+.allPeople {
     &.isInView{
         .granny {
             transform: translateX(13%);

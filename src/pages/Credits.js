@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import '../scss/layout/credits.scss';
+import '../scss/pages/credits.scss';
 
 const Credits = () => {
 

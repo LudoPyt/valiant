@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import CockpitScene from '../components/scenesComponents/CockpitScene';
 
-import '../scss/cockpit/cockpit.scss';
+import '../scss/scenes/cockpit.scss';
 
 const Chp2Cockpit = () => {
 

@@ -44,11 +44,11 @@
     bottom: 0;
     margin: auto;
 
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    
+
     border-top: 12px solid white;
 }
 .arrow-right {
@@ -59,14 +59,14 @@
     bottom: 0;
     margin: auto;
 
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
 
     border-left: 12px solid white;
 }
-  
+
 .arrow-left {
     position: absolute;
     left: 0;
@@ -75,10 +75,10 @@
     bottom: 0;
     margin: auto;
 
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-top: 10px solid transparent;
-    border-bottom: 10px solid transparent; 
+    border-bottom: 10px solid transparent;
 
-    border-right:12px solid white; 
+    border-right:12px solid white;
 }

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Link } from "react-router-dom";
 
-import '../scss/layout/not-available.scss';
+import '../scss/pages/not-available.scss';
 
 import { Context } from '../components/Provider';
 

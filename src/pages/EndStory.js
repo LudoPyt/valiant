@@ -2,8 +2,9 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import RecoElement from '../components/storiesComponents/RecoElement';
 import { data } from "../datas/datasStories";
-import '../scss/layout/end.scss';
 import { Howl } from 'howler';
+
+import '../scss/pages/end.scss';
 
 const EndStory = () => {
 

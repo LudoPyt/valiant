@@ -4,6 +4,8 @@ import { Context } from '../components/Provider';
 import * as THREE from 'three';
 import BearScene from '../components/scenesComponents/BearScene';
 
+import '../scss/scenes/bear.scss';
+
 const Chp3Bear = () => {
 
     const context = React.useContext(Context);

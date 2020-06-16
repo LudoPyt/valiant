@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import { Howl } from 'howler';
 
-import '../scss/peopleScene/people.scss';
+import '../scss/scenes/people.scss';
 
 const Chp3People = () => {
 
