@@ -48,7 +48,7 @@ img {
     background-image: url('/assets/bear/bear-sprite.png');
     background-position: left center;
     background-size: cover;
-    animation: 5s walkBear steps(19) 2s, 5s goForward 1 2s;
+    animation: 7s walkBear steps(19), 7s goForward 1;
     &.back {
         animation: 10s backBear steps(27), 10s goBack 1;
     }

@@ -264,7 +264,7 @@ class BearScene {
     }
 
     _setupClickEventListerner() {
-        document.addEventListener("click", (event) => this._clickOnLighter(event));
+        document.addEventListener('click', (event) => this._clickOnLighter(event));
     }
 
     _userCanInteract() {
@@ -403,7 +403,7 @@ class BearScene {
         clearTimeout(this.timeoutLighterClicked);
         clearTimeout(this.timeoutStopExplosion);
         clearInterval(this.interval);
-        document.removeEventListener("click", (event) => this._clickOnLighter(event));
+        document.removeEventListener('click', (event) => this._clickOnLighter(event));
         this.needDestroy = true
         window.cancelAnimationFrame(this.raf)
     }
