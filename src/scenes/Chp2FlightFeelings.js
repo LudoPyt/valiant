@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
+import { Howl } from 'howler';
 
 const Chp2FlightFeelings = () => {
 
@@ -26,6 +27,10 @@ const Chp2FlightFeelings = () => {
     }, [context]);
 
     useEffect(() => {
+        const sound = new Howl({
+            src: '/assets/flightFeelings/flight.mp3',
+        });
+        sound.play();
         videoFlight.current.addEventListener("ended", () => {history.push('/cockpit');});
     }, [history])
 
