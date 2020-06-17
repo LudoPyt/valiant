@@ -72,6 +72,7 @@ const Chp3People = () => {
 
         let teenager = new Howl({
             src: '/assets/people/teenager.mp3',
+            volume: 0.7,
             onplay: () => {
                 Teenager.current.classList.add('isActive')
             },

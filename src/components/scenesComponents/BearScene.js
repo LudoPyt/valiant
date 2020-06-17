@@ -234,6 +234,7 @@ class BearScene {
 
         this.sparklesSound = new Howl({
             src: this.pathToAssets + 'sparkles.mp3',
+            volume: 0.7,
             onend: () => {
                 this.showSparkles = false;
                 this.throwFirecracker = false
