@@ -25,8 +25,6 @@ class BeforeTakeOffScene {
         this.isOkey = [];
 
         this.UXObjects = [];
-        this.blinkInterval = null;
-        this.objectInterval = null;
 
         this.intersect = [];
         this.btnTab = [];
@@ -82,6 +80,10 @@ class BeforeTakeOffScene {
         })
         clearInterval(this.blinkInterval)
         clearInterval(this.objectInterval)
+        clearInterval(this.repeatUXAnim)
+        this.UXObjects.map(item => this.scene.remove(item))
+        this.UXObjects = [];
+        this._addUXElements()
         this._animUXElements()
     }
 
@@ -95,6 +97,7 @@ class BeforeTakeOffScene {
         }
 
         if (this.isOkey.every(value => value === true)) {
+            this.UXObjects.map(item => this.scene.remove(item))
             this.timeoutGameFinished = setTimeout(() => {
                 this.helSound.stop();
                 clearInterval(this.blinkInterval)
@@ -153,9 +156,6 @@ class BeforeTakeOffScene {
         this._setupEventListerner();
         this._addUXElements();
         this._animUXElements();
-        this.repeatUXAnim = setInterval(() => {
-            this._animUXElements();
-        }, 18000)
     }
 
     _setupEventListerner() {
@@ -265,6 +265,10 @@ class BeforeTakeOffScene {
             }
             i += 1;
         }, 3000)
+
+        this.repeatUXAnim = setInterval(() => {
+            this._animUXElements();
+        }, 18000)
     }
 
     _addSound(){
