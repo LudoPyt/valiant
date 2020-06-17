@@ -31,42 +31,47 @@ const Chp1LakeHood = () => {
     const Mike = useRef();
     const Green = useRef();
     const [canInteract, setCanInteract] = useState(false)
-    const [isRead, setIsRead] = useState(false)
-
-
+    
+    
     useEffect(() => {
+        let isRead = false
+
         const voice = new Howl({
             src: '/assets/lakehood/voice.mp3',
             onend: () => {
-                setIsRead(false)
+                isRead = false
                 setCanInteract(true)
             }
         });
         const wrong = new Howl({
             src:  '/assets/lakehood/wrong.mp3',
-            onend: () => setIsRead(false)
+            onend: () => isRead = false
         });
         const mike = new Howl({
             src: '/assets/lakehood/mike.mp3',
-            onend: () => setIsRead(false)
+            onend: () => isRead = false
         });
 
         if (!canInteract) voice.play()
 
-        if (canInteract && !isRead) {
+        if (canInteract) {
             Beaver.current.addEventListener('click', () => {history.push('/before-take-off');});
 
             Mike.current.addEventListener('click', () => {
-                setIsRead(true)
-                mike.play()
+                if (!isRead){
+                    isRead = true
+                    mike.play()
+                }
             });
 
             Green.current.addEventListener('click', () => {
-                setIsRead(true)
-                wrong.play()
+                if (!isRead){
+                    isRead = true
+                    wrong.play()
+                }
             });
         }
-    }, [history, canInteract, isRead]);
+    }, [history, canInteract]);
 
     return (
         <div className="container">
