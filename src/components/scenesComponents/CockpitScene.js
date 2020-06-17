@@ -216,8 +216,9 @@ class CockpitScene {
             this.stick.rotateZ(this.speedRot * this.delta);
             if (this.stick.rotation.z >= this.maxRotation){
                 document.querySelector('.adviceLeft').classList.remove('isActive')
-                document.querySelector('.adviceDown').classList.add('isActive')
-                this.left = true
+                document.querySelector('.adviceRight').classList.remove('isUnActive')
+                console.log(document.querySelector('.adviceRight'))
+                this.left = true;
                 this.voiceLeft.play();
                 document.getElementById('instruction').innerHTML = "Regarder au centre"
             }
@@ -321,8 +322,11 @@ class CockpitScene {
             let stickRotZ = lerp( this.stick.rotation.z , 0 , this.lerpEasing )
             this.stick.rotation.z = stickRotZ
 
+            //Add arrow down instruction
             if (this.right && this.left){
-                document.getElementById('instruction').innerHTML = "Commencer la descente sur Tenakee Springs"
+                document.querySelector('.adviceDown').classList.add('isActive');
+                document.querySelector('.adviceRight').classList.add('isUnActive')
+                document.getElementById('instruction').innerHTML = "Commencer la descente sur Tenakee Springs";
             }
         }
 
@@ -357,6 +361,7 @@ class CockpitScene {
 
     //remove requestAnimationFrame, clear interval and timeout
     destroyRaf() {
+        this.right = false
         clearInterval(this.interval);
         clearTimeout(this.timeoutVoiceDown);
         this.needDestroy = true;
