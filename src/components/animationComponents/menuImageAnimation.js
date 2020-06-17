@@ -46,6 +46,7 @@ class menuImageAnimation {
 
     }
 
+    
     _mouseEnterFunction(index) {
         TweenMax.to(this._ui.imageAnimationContainer, .5, { autoAlpha: .7, ease: Power1.easeInOut });
         if (this._ui.currentImage.src === "") {
@@ -55,7 +56,7 @@ class menuImageAnimation {
         }
     }
 
-
+    // Animation on first enter in list-item menu
     _firstImageAnimation(index) {
         this._ui.currentImage.style.opacity = 0;
         this._ui.nextImage.src = this._ui.listItemMenu[index].dataset.image;
@@ -64,6 +65,7 @@ class menuImageAnimation {
 
         this.tl.play();
     }
+
 
     _leaveContainer() {
         TweenMax.to(this._ui.imageAnimationContainer, .5,
@@ -94,6 +96,7 @@ class menuImageAnimation {
 
     }
 
+    // Mouse follow function 
     _mouseFollow(event) {
         let imageAnimationContainerBounds = this._ui.imageAnimationContainer.getBoundingClientRect();
 

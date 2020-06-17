@@ -219,7 +219,7 @@ class CockpitScene {
                 document.querySelector('.adviceDown').classList.add('isActive')
                 this.left = true
                 this.voiceLeft.play();
-                document.getElementById('instruction').innerHTML = "Commencer la descente sur Tenakee Springs"
+                document.getElementById('instruction').innerHTML = "Regarder au centre"
             }
         }
     }
@@ -320,6 +320,10 @@ class CockpitScene {
 
             let stickRotZ = lerp( this.stick.rotation.z , 0 , this.lerpEasing )
             this.stick.rotation.z = stickRotZ
+
+            if (this.right && this.left){
+                document.getElementById('instruction').innerHTML = "Commencer la descente sur Tenakee Springs"
+            }
         }
 
         // animate needles on dashboard
