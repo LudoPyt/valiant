@@ -3,26 +3,27 @@ import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import { Howl } from 'howler';
 
-
-import '../scss/lakehood/lakehood.scss';
-
+import '../scss/scenes/lakehood.scss';
 
 const Chp1LakeHood = () => {
 
     const context = React.useContext(Context);
     const history = useHistory();
 
+    const chap = 1;
     const scene = 2;
     const instruction = "Cliquer sur le bon hydravion";
     const ambiantSound = 1;
 
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
+        if (context.state.currentChap !== chap || context.state.currentScene !== scene || context.state.instruction !== instruction || context.state.ambiantSound !== ambiantSound) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
         document.querySelector('.menu__button').style.display = "none";
+        document.querySelector('.header__logo').style.display = "block";
     }, [context]);
 
 
@@ -35,25 +36,25 @@ const Chp1LakeHood = () => {
 
     useEffect(() => {
         const voice = new Howl({
-            src: '/lakehood/voice.mp3',
+            src: '/assets/lakehood/voice.mp3',
             onend: () => {
                 setIsRead(false)
                 setCanInteract(true)
             }
         });
         const wrong = new Howl({
-            src:  '/lakehood/wrong.mp3',
+            src:  '/assets/lakehood/wrong.mp3',
             onend: () => setIsRead(false)
         });
         const mike = new Howl({
-            src: '/lakehood/mike.mp3',
+            src: '/assets/lakehood/mike.mp3',
             onend: () => setIsRead(false)
         });
 
         if (!canInteract) voice.play()
 
         if (canInteract && !isRead) {
-            Beaver.current.addEventListener('click', () => {history.push('/simon');});
+            Beaver.current.addEventListener('click', () => {history.push('/before-take-off');});
 
             Mike.current.addEventListener('click', () => {
                 setIsRead(true)
@@ -68,12 +69,12 @@ const Chp1LakeHood = () => {
     }, [history, canInteract, isRead]);
 
     return (
-        <>
+        <div className="container">
             <div ref={Beaver} className="lakehood-beaver"></div>
             <div ref={Mike} className="lakehood-mike"></div>
             <div ref={Green} className="lakehood-green"></div>
-            <img src="/lakehood/lakehood.png" alt="" />
-        </>
+            <img className="lakehood__image" src="/assets/lakehood/lakehood.png" alt="" />
+        </div>
     )
 }
 

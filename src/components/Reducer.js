@@ -1,6 +1,7 @@
 import { Howl } from 'howler';
 
 export const initialState = {
+    currentChap: 1,
     currentScene: 0,
     instruction: "",
     ambiantSound: "",
@@ -8,27 +9,31 @@ export const initialState = {
 
 
 let sound1 = new Howl({
-    src: '/ambiantSound/ambiance_1.mp3',
+    src: '/assets/ambiantSound/ambiance_1.mp3',
     volume: 0.7,
 });
 
 let sound2 = new Howl({
-    src: '/ambiantSound/ambiance_2.mp3',
+    src: '/assets/ambiantSound/ambiance_2.mp3',
     volume: 0.7,
 });
 
 let sound3 = new Howl({
-    src: '/ambiantSound/ambiance_3.mp3',
+    src: '/assets/ambiantSound/ambiance_3.mp3',
     volume: 0.7,
 });
 
 let sound4 = new Howl({
-    src: '/ambiantSound/ambiance_4.mp3',
+    src: '/assets/ambiantSound/ambiance_4.mp3',
     volume: 0.7,
 });
 
 export const Reducer = (state, action) => {
     switch (action.type) {
+        case 'setCurrentChap' :
+            document.querySelectorAll('.timeline__item p').forEach(item => item.classList.remove('active'))
+            document.getElementById(action.chap).classList.add('active')
+            return {...state, currentChap : action.chap}
         case 'setCurrentScene' :
             return {...state, currentScene : action.scene}
         case 'setInstruction' :

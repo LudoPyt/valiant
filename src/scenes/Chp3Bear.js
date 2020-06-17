@@ -2,7 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import * as THREE from 'three';
-import BearScene from '../components/BearScene';
+import BearScene from '../components/scenesComponents/BearScene';
+
+import '../scss/scenes/bear.scss';
 
 const Chp3Bear = () => {
 
@@ -11,17 +13,20 @@ const Chp3Bear = () => {
 
     const canvas = useRef(null);
 
+    const chap = 3;
     const scene = 8;
     const instruction = "Cliquer sur le briquet pour l'allumer";
     const ambiantSound = 4;
 
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
+        if (context.state.currentChap !== chap || context.state.currentScene !== scene || context.state.instruction !== instruction || context.state.ambiantSound !== ambiantSound) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
         document.querySelector('.menu__button').style.display = "none";
+        document.querySelector('.header__logo').style.display = "block";
     }, [context]);
 
     useEffect(() => {
@@ -31,7 +36,7 @@ const Chp3Bear = () => {
             secondControl: {x: -1.5, y: 2},
             end:{x: -2.5, y: 1}
         };
-        const pathToAssets = '/bear/';
+        const pathToAssets = '/assets/bear/';
         const pathToNextPage = '/people';
         const fixLighterUX = new THREE.Vector2(0.25, 0);
         const fixPathStartUX = new THREE.Vector2(0.02, 0.08);
@@ -46,9 +51,8 @@ const Chp3Bear = () => {
     return (
         <>
             <canvas style={{zIndex: 3}} ref={canvas}></canvas>
-            <img style={{zIndex: 2}} className="plants" src="/bear/plants.png" alt="plants"></img>
-            <div style={{zIndex: 2}} className="bear"></div>
-            <img style={{zIndex: 1}} className="background" src="/bear/background.png" alt="background"></img>
+            <img style={{zIndex: 4}} className="plants" src="/assets/bear/plants.png" alt="plants"></img>
+            <div style={{zIndex: 4}} className="bear"></div>
         </>
     )
 }

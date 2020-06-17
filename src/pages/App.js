@@ -2,11 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { isMobile, isChrome } from 'react-device-detect';
 
-import AssetsLoader from '../components/AssetsLoader';
-import Emitter from '../components/Emitter';
+import AssetsLoader from '../components/loaderComponents/AssetsLoader';
+import Emitter from '../components/loaderComponents/Emitter';
 
-import Header from '../components/Header';
-import Timeline from '../components/Timeline';
+import Header from '../components/layoutComponents/Header';
+import Timeline from '../components/layoutComponents/Timeline';
 
 import Home from './Home';
 import About from './About';
@@ -18,7 +18,7 @@ import Story from './Story';
 
 import Chp1Context from '../scenes/Chp1Context';
 import Chp1LakeHood from '../scenes/Chp1LakeHood';
-import Chp1Simon from '../scenes/Chp1Simon';
+import Chp1BeforeTakeOff from '../scenes/Chp1BeforeTakeOff';
 
 import Chp2TakeOff from '../scenes/Chp2TakeOff';
 import Chp2FlightFeelings from '../scenes/Chp2FlightFeelings';
@@ -29,11 +29,11 @@ import Chp3Tenakee from '../scenes/Chp3Tenakee';
 import Chp3Bear from '../scenes/Chp3Bear';
 import Chp3People from '../scenes/Chp3People';
 
-// import NoMatch from './404';
+import NoMatch from './404';
 // import Nuages from '../components/Nuages';
 
 import '../scss/basic.scss';
-import Logo from '../assets/images/logo.png';
+import '../scss/layout/button.scss';
 
 const App = () => {
 
@@ -59,7 +59,7 @@ const App = () => {
       <Router>
         {isMobile ? (
           <div className="mobile">
-            <img className="mobile__logo" src={Logo} alt="logo"/>
+            <img className="mobile__logo" src="/assets/logo.png" alt="logo"/>
             <p className="mobile__text">
               Votre écran n'est pas adapté pour les expériences interactives de Valiant.
               <br/>
@@ -70,7 +70,7 @@ const App = () => {
         ) : (
           !isChrome ? (
             <div className="not-chrome">
-              <img className="not-chrome__logo" src={Logo} alt="logo"/>
+              <img className="not-chrome__logo" src="/assets/logo.png" alt="logo"/>
               <p className="not-chrome__text">
                 Nous vous conseillons de visiter Valiant sur Chrome.
               </p>
@@ -91,7 +91,7 @@ const App = () => {
                       <Route exact path="/story" component={Story} />
                       <Route exact path="/context" component={Chp1Context} />
                       <Route exact path="/lakehood" component={Chp1LakeHood} />
-                      <Route exact path="/simon" component={Chp1Simon} />
+                      <Route exact path="/before-take-off" component={Chp1BeforeTakeOff} />
                       <Route exact path="/takeoff" component={Chp2TakeOff} />
                       <Route exact path="/flight-feelings" component={Chp2FlightFeelings} />
                       <Route exact path="/cockpit" component={Chp2Cockpit} />
@@ -100,7 +100,7 @@ const App = () => {
                       <Route exact path="/bear" component={Chp3Bear} />
                       <Route exact path="/people" component={Chp3People} />
 
-                      {/* <Route path="/*" component={NoMatch} /> */}
+                      <Route path="/*" component={NoMatch} />
                       {/* <Route path="/nuages" component={Nuages} /> */}
                     </Switch>
                     <Timeline />

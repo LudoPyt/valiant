@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
-import CockpitScene from '../components/CockpitScene';
+import CockpitScene from '../components/scenesComponents/CockpitScene';
 
-import '../scss/cockpit/cockpit.scss';
+import '../scss/scenes/cockpit.scss';
 
 const Chp2Cockpit = () => {
 
@@ -14,19 +14,23 @@ const Chp2Cockpit = () => {
     const seaVideo = useRef(null);
     const skyVideo = useRef(null);
 
+    const chap = 2;
     const scene = 6;
     const instruction = "Regarder vers la droite";
     const ambiantSound = 3;
 
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
+        if (context.state.currentChap !== chap || context.state.currentScene !== scene || context.state.instruction !== instruction || context.state.ambiantSound !== ambiantSound) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
         document.querySelector('.menu__button').style.display = "none";
+        document.querySelector('.header__logo').style.display = "block";
     }, [context]);
 
+    // Add cockpit scene three.js
     useEffect(() => {
         const threeScene = new CockpitScene(history, canvas.current, seaVideo.current, skyVideo.current);
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import StoryElement from '../components/StoryElement';
-import { data } from "../data/data";
-import '../scss/layout/story.scss';
+import StoryElement from '../components/storiesComponents/StoryElement';
+import { data } from "../datas/datasStories";
+import '../scss/pages/story.scss';
 
 import { Context } from '../components/Provider';
 
@@ -20,6 +20,7 @@ const Story = () => {
       document.querySelector('.navbar').classList.remove('isActive');
       document.querySelector('.menu__button').classList.remove('isOpen');
       document.querySelector('.menu__button').style.display = "block";
+      document.querySelector('.header__logo').style.display = "block";
   }, [])
 
   return (
@@ -30,6 +31,9 @@ const Story = () => {
             <StoryElement key={elem.title} data={elem} />
           ))
         }
+        <div className="scroll-down">
+          <p className="scroll-down__text">Faire défiler</p>
+        </div>
       </section>
     </main>
   )

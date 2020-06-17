@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Context } from '../components/Provider';
 import * as THREE from 'three';
-import TakeOffAndLandingDrag from '../components/TakeOffAndLandingDrag';
+import TakeOffAndLandingDrag from '../components/scenesComponents/TakeOffAndLandingDrag';
 
 const Chp2TakeOff = () => {
 
@@ -11,17 +11,20 @@ const Chp2TakeOff = () => {
 
     const canvas = useRef(null);
 
+    const chap = 2;
     const scene = 4;
     const instruction = "Faire glisser l'avion pour décoller";
     const ambiantSound = 1;
 
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
+        if (context.state.currentChap !== chap || context.state.currentScene !== scene || context.state.instruction !== instruction || context.state.ambiantSound !== ambiantSound) {
+            context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
             context.dispatch({type: 'setAmbiantSound', ambiantSound});
         }
         document.querySelector('.menu__button').style.display = "none";
+        document.querySelector('.header__logo').style.display = "block";
     }, [context]);
 
     useEffect(() => {
@@ -31,11 +34,11 @@ const Chp2TakeOff = () => {
             secondControl: {x: 0, y: 2},
             end:{x: 4, y: 2}
         };
-        const pathToAssets = '/takeoff/';
+        const pathToAssets = '/assets/takeOffAndLanding/takeOff/';
         const pathToNextPage = '/flight-feelings';
         const fixPathStartUX = new THREE.Vector2(0.15, 0.08);
         const fixPathEndUX = new THREE.Vector2(0.15, 0.05);
-        const voiceOff = '/before-take-off/voice.mp3';
+        const voiceOff = '/assets/takeOffAndLanding/voiceTakeOff.mp3';
         const threeScene = new TakeOffAndLandingDrag(history, canvas.current, bezierCurvePoints, pathToAssets, pathToNextPage, fixPathStartUX, fixPathEndUX, voiceOff);
 
         return () => {
@@ -46,7 +49,7 @@ const Chp2TakeOff = () => {
     return (
         <>
             <canvas ref={canvas}></canvas>
-            <img className="plants" src="/takeoff/plants.png" alt="plants"></img>
+            <img className="plants" src="/assets/takeOffAndLanding/takeOff/plants.png" alt="plants"></img>
         </>
     )
 }

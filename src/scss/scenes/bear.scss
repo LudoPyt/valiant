@@ -1,0 +1,48 @@
+.bear {
+    position: absolute;
+    bottom: 18%;
+    left: 25%;
+    width: 180px;
+    height: 128px;
+    transform: scale(.7);
+    background-image: url('/assets/bear/bear-sprite.png');
+    background-position: left center;
+    background-size: cover;
+    animation: 7s walkBear steps(19), 7s goForward 1;
+    &.back {
+        animation: 10s backBear steps(27), 10s goBack 1;
+    }
+}
+
+@keyframes walkBear {
+    100% {
+        background-position: -3420px -0;
+    }
+}
+
+@keyframes goForward {
+    0% {
+        left: -15%;
+    }
+    100% {
+        left: 25%;
+    }
+}
+
+@keyframes backBear {
+    0% {
+        background-position: -3420px -0;
+    }
+    100% {
+        background-position: -8280px -0;
+    }
+}
+
+@keyframes goBack {
+    0% {
+        left: 25%;
+    }
+    100% {
+        left: -15%;
+    }
+}
