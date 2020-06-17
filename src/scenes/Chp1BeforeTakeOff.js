@@ -16,7 +16,7 @@ const Chp1BeforeTakeOff = () => {
     const ambiantSound = 2;
 
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
+        if (context.state.currentChap !== chap || context.state.currentScene !== scene || context.state.instruction !== instruction || context.state.ambiantSound !== ambiantSound) {
             context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});

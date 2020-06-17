@@ -17,7 +17,7 @@ const Chp3People = () => {
     const instruction = "Cliquer sur les habitants pour les écouter";
 
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
+        if (context.state.currentChap !== chap || context.state.currentScene !== scene || context.state.instruction !== instruction) {
             context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});

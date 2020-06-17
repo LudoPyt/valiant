@@ -1,6 +1,7 @@
 import { Howl } from 'howler';
 
 export const initialState = {
+    currentChap: 1,
     currentScene: 0,
     instruction: "",
     ambiantSound: "",
@@ -32,7 +33,7 @@ export const Reducer = (state, action) => {
         case 'setCurrentChap' :
             document.querySelectorAll('.timeline__item p').forEach(item => item.classList.remove('active'))
             document.getElementById(action.chap).classList.add('active')
-            break;
+            return {...state, currentChap : action.chap}
         case 'setCurrentScene' :
             return {...state, currentScene : action.scene}
         case 'setInstruction' :

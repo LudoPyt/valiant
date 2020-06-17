@@ -20,7 +20,7 @@ const Chp2Cockpit = () => {
     const ambiantSound = 3;
 
     useEffect(() => {
-        if (context.state.currentScene !== scene) {
+        if (context.state.currentChap !== chap || context.state.currentScene !== scene || context.state.instruction !== instruction || context.state.ambiantSound !== ambiantSound) {
             context.dispatch({type: 'setCurrentChap', chap});
             context.dispatch({type: 'setCurrentScene', scene});
             context.dispatch({type: 'setInstruction', instruction});
